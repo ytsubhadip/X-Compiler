@@ -76,16 +76,34 @@
                             <div class="input-wrapper">
                                 <i class="bi bi-card-list input-icon"></i>
                                 <input class="input-control" type="text" id="signupStudentId" required
-                                    placeholder="28940524021">
+                                    placeholder="university rollnumber">
                             </div>
                         </div>
-                        <div class="form-group form-group-dynamic" id="groupTeacherId">
-                            <label for="signupTeacherId">Teacher Dept Code</label>
-                            <div class="input-wrapper">
-                                <i class="bi bi-briefcase-fill input-icon"></i>
-                                <input class="input-control" type="text" id="signupTeacherId" placeholder="405">
+                        <div class="form-group form-group-dynamic active" id="groupStudentDept">
+                            <div class="row gx-3">
+                                <div class="col-6">
+                                    <label for="signupStudentDept">Department</label>
+                                    <div class="input-wrapper select-wrapper">
+                                        <i class="bi bi-mortarboard-fill input-icon"></i>
+                                        <select class="input-control" id="signupStudentDept" required>
+                                            <option value="" disabled selected>Select Dept</option>
+                                            <option value="data-science">Bsc Data Science</option>
+                                            <option value="cyber-security">Bsc Cyber Security</option>
+                                            <option value="bca">BCA</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label for="signupStudentSem">Semester</label>
+                                    <div class="input-wrapper">
+                                        <i class="bi bi-calendar3 input-icon"></i>
+                                        <input class="input-control" type="number" id="signupStudentSem" required
+                                            placeholder="Current sem" min="1" max="8">
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
 
                         <div class="form-group">
                             <label for="signupPassword">Password</label>
@@ -128,8 +146,11 @@
         const btnTabTeacher = document.getElementById('btnTabTeacher');
         const personaSelectorContainer = document.getElementById('personaSelectorContainer');
         const groupStudentId = document.getElementById('groupStudentId');
+        const groupStudentDept = document.getElementById('groupStudentDept');
         const groupTeacherId = document.getElementById('groupTeacherId');
         const signupStudentId = document.getElementById('signupStudentId');
+        const signupStudentDept = document.getElementById('signupStudentDept');
+        const signupStudentSem = document.getElementById('signupStudentSem');
         const signupTeacherId = document.getElementById('signupTeacherId');
         const btnSubmitSignup = document.getElementById('btnSubmitSignup');
         const authSubtitle = document.getElementById('authSubtitle');
@@ -141,8 +162,11 @@
             btnTabTeacher.classList.remove('active');
             personaSelectorContainer.classList.remove('teacher-active');
             groupStudentId.classList.add('active');
+            groupStudentDept.classList.add('active');
             groupTeacherId.classList.remove('active');
             signupStudentId.required = true;
+            signupStudentDept.required = true;
+            signupStudentSem.required = true;
             signupTeacherId.required = false;
             btnSubmitSignup.className = "btn-auth-submit btn-signup-submit";
             btnSubmitSignup.removeAttribute('style');
@@ -155,8 +179,11 @@
             btnTabTeacher.classList.add('active');
             personaSelectorContainer.classList.add('teacher-active');
             groupStudentId.classList.remove('active');
+            groupStudentDept.classList.remove('active');
             groupTeacherId.classList.add('active');
             signupStudentId.required = false;
+            signupStudentDept.required = false;
+            signupStudentSem.required = false;
             signupTeacherId.required = true;
             btnSubmitSignup.style.backgroundColor = "#ffffff";
             btnSubmitSignup.style.borderColor = "#3b82f6";

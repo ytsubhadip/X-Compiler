@@ -480,4 +480,53 @@ input.input-control:-webkit-autofill::first-line {
     color: #60a5fa !important;
 }
 
+/* =========================================================================
+   PREMIUM CUSTOM GLASSMORPHIC SELECT DROPDOWNS & ROW ADJUSTMENTS
+   ========================================================================= */
+select.input-control {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent !important;
+    cursor: pointer;
+    padding-right: 28px !important; /* Leave room for custom chevron */
+}
+
+/* Styled option list container for modern dark mode appearance */
+select.input-control option {
+    background-color: #14161c !important; /* Matches var(--bg-card) */
+    color: var(--text-primary) !important;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    padding: 12px;
+}
+
+/* Custom dropdown chevron arrow placed inside the input-wrapper for selects */
+.input-wrapper.select-wrapper::after {
+    content: "\F2E0"; /* Bootstrap icon chevron-down unicode */
+    font-family: "bootstrap-icons" !important;
+    position: absolute;
+    right: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem;
+    pointer-events: none;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
+}
+
+.input-wrapper.select-wrapper:focus-within::after {
+    color: var(--accent-success);
+    transform: rotate(180deg);
+}
+
+/* Focused input color adjust for Teacher mode select wrapper arrow */
+.persona-selector-container.teacher-active ~ .auth-form-wrapper .input-wrapper.select-wrapper:focus-within::after {
+    color: #3b82f6 !important;
+}
+
+/* Adjust layout height for dual department/sem inputs dynamic slide */
+#groupStudentDept.form-group-dynamic.active {
+    max-height: 90px; /* Extra breathing space for labels and borders */
+}
+
+
 

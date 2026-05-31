@@ -27,16 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
         signupForm.addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            /** @type {HTMLInputElement|null} */
             const nameInput = document.getElementById("signupName");
-            
-            /** @type {HTMLInputElement|null} */
             const emailInput = document.getElementById("signupEmail");
-            
-            /** @type {HTMLInputElement|null} */
             const passwordInput = document.getElementById("signupPassword");
-            
-            /** @type {HTMLInputElement|null} */
             const confirmPasswordInput = document.getElementById("signupConfirmPassword");
 
             if (!nameInput || !emailInput || !passwordInput || !confirmPasswordInput) return;
@@ -67,6 +60,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 role: currentRole,
                 roleIdentifier: roleIdentifierField ? roleIdentifierField.value.trim() : "N/A"
             };
+
+            // Collect student-specific department and semester contexts if active
+            if (currentRole === 'student') {
+                const deptSelect = document.getElementById("signupStudentDept");
+                const semInput = document.getElementById("signupStudentSem");
+                payload.department = deptSelect ? deptSelect.value : "";
+                payload.semester = semInput ? parseInt(semInput.value) : null;
+            }
 
             try {
                 // Disable interface triggers and show loading animation text

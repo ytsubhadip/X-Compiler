@@ -6,7 +6,6 @@
  * 
  * Loaded globally on all primary site layouts.
  */
-
 document.addEventListener("DOMContentLoaded", () => {
     
     // =========================================================================
@@ -55,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
             centerLinks += `<li><a href="/ide" class="nav-link ${currentPath === '/ide' ? 'active' : ''}">coding Test</a></li>`;
         }
     } else {
-        centerLinks += `<li><a href="/ide" class="nav-link ${currentPath === '/ide' ? 'active' : ''}">coding Test</a></li>`;
+        // centerLinks += `<li><a href="/ide" class="nav-link ${currentPath === '/ide' ? 'active' : ''}">coding Test</a></li>`;
     }
 
     // Configure right-side session actions (Dropdown vs Sign In controls)

@@ -60,6 +60,9 @@ app.get("/password-formate",(req, res)=>{
 app.get("/create-test", (req, res)=>{
     res.sendFile(path.join(__dirname, "public", "pages", "create_test", "create_test.html"))
 })
+app.get("/profile", (req, res)=>{
+    res.sendFile(path.join(__dirname, "public","pages","user_profile", "profile.html" ))
+})
 
 app.get
 app.get("/status", (req, res) => {

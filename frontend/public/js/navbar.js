@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (role === "teacher") {
             centerLinks += `<li><a href="/create-test" class="nav-link ${currentPath === '/create-test' ? 'active' : ''}">Create Test</a></li>`;
         } else {
-            centerLinks += `<li><a href="/ide" class="nav-link ${currentPath === '/ide' ? 'active' : ''}">coding Test</a></li>`;
+            centerLinks += `<li><a href="/dashbord" class="nav-link ${currentPath === '/dashbord' ? 'active' : ''}">coding Test</a></li>`;
         }
     } else {
         // centerLinks += `<li><a href="/ide" class="nav-link ${currentPath === '/ide' ? 'active' : ''}">coding Test</a></li>`;

@@ -70,6 +70,9 @@ app.get("/test-form",(req, res)=>{
 app.get("/test-history",(req, res)=>{
     res.sendFile(path.join(__dirname, "public", "pages","create_test", "test_history.html"))
 })
+app.get("/dashbord",(req, res)=>{
+    res.sendFile(path.join(__dirname, "public", "pages","student-dash", "student-dash.html"))
+})
 app.get("/status", (req, res) => {
     res.json({ status: "ok", uptime: process.uptime() });
 });

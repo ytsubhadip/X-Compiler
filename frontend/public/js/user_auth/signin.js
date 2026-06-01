@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 // Navigate users based on permission levels (Teachers are sent to test configuration dashboards, students to compiler labs)
                 const roleAfter = (data.role || currentRole || '').toString().toLowerCase();
-                const dest = roleAfter === 'teacher' ? '/create-test' : '/ide';
+                const dest = roleAfter === 'teacher' ? '/create-test' : '/dashbord';
                 
                 setTimeout(() => window.location.href = dest, 600);
 

@@ -64,10 +64,12 @@ app.get("/profile", (req, res)=>{
     res.sendFile(path.join(__dirname, "public","pages","user_profile", "profile.html" ))
 })
 
-// app.get("/test-form",(req, res)=>{
-//     res.sendFile(path.join(__dirname, "public", "pages", "create_test", "")
-// })
-app.get
+app.get("/test-form",(req, res)=>{
+    res.sendFile(path.join(__dirname, "public", "pages", "create_test", "create_test_form.html"))
+})
+app.get("/test-history",(req, res)=>{
+    res.sendFile(path.join(__dirname, "public", "pages","create_test", "test_history.html"))
+})
 app.get("/status", (req, res) => {
     res.json({ status: "ok", uptime: process.uptime() });
 });

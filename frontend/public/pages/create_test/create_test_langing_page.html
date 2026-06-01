@@ -45,7 +45,7 @@
     <h2>Ready to create test?</h2>
     <p>Step 2: Generate a question paper and distribute it for testing to evaluate its efficiency, usability, and accessibility.
 </p>
-    <div class="button-broup">
+    <div class="button-broup" id="createTestBtn">
       <button class="continue-application">
         <div>
           <div class="pencil"></div>
@@ -63,7 +63,7 @@
         CREATE TEST
       </button>
 
-      <button class="animated-button">
+      <button class="animated-button" id="historyBtn">
         <svg viewBox="0 0 24 24" class="arr-2" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z">
@@ -77,14 +77,8 @@
           </path>
         </svg>
       </button>
-
     </div>
-
-
   </section>
-
-
-
   <!-- main -->
 
 </body>
@@ -102,6 +96,24 @@
       });
     }
   });
+
+  // create test button by subhadip fhaaaaa 🤣🤣
+  const createBtn = document.querySelector(".continue-application")
+  if (createBtn) {
+    createBtn.addEventListener('click', function(e) {
+      window.location.href = "/test-form"
+    })
+  }
+
+  // history button
+  const historyBtn = document.getElementById("historyBtn")
+  if (historyBtn) {
+    historyBtn.addEventListener('click', function(e) {
+      e.stopPropagation()
+      window.location.href = "/test-history"
+    })
+  }
+
 </script>
 <script src="/js/navbar.js"></script>
 

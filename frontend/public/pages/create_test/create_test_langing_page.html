@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Test</title>
+  <link rel="icon" type="image/png" href="/asset/magento-brands-solid-full.svg">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/create_test/create_test_landing_page.css">
+  <link rel="stylesheet" href="/css/animated-Element/history_btn.css">
+  <link rel="stylesheet" href="/css/animated-Element/create_button.css">
+</head>
+
+<body style="height: 100vh; overflow: hidden;">
+  <!-- navbar start -->
+  <nav class="custom-navbar"></nav>
+  <!-- navbar end -->
+
+  <div class="starry-background-canvas">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>
+  </div>
+
+  <!-- main -->
+  <section class="container">
+    <i class="fa-solid fa-file-circle-plus fa-bounce" style="color: rgb(254, 254, 254);"></i>
+    <h2>Ready to create test?</h2>
+    <p>Step 2: Generate a question paper and distribute it for testing to evaluate its efficiency, usability, and accessibility.
+</p>
+    <div class="button-broup">
+      <button class="continue-application">
+        <div>
+          <div class="pencil"></div>
+          <div class="folder">
+            <div class="top">
+              <svg viewBox="0 0 24 27">
+                <path
+                  d="M1,0 L23,0 C23.5522847,-1.01453063e-16 24,0.44771525 24,1 L24,8.17157288 C24,8.70200585 23.7892863,9.21071368 23.4142136,9.58578644 L20.5857864,12.4142136 C20.2107137,12.7892863 20,13.2979941 20,13.8284271 L20,26 C20,26.5522847 19.5522847,27 19,27 L1,27 C0.44771525,27 6.76353751e-17,26.5522847 0,26 L0,1 C-6.76353751e-17,0.44771525 0.44771525,1.01453063e-16 1,0 Z">
+                </path>
+              </svg>
+            </div>
+            <div class="paper"></div>
+          </div>
+        </div>
+        CREATE TEST
+      </button>
+
+      <button class="animated-button">
+        <svg viewBox="0 0 24 24" class="arr-2" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z">
+          </path>
+        </svg>
+        <span class="text">View &nbsp;History</span>
+        <span class="circle"></span>
+        <svg viewBox="0 0 24 24" class="arr-1" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z">
+          </path>
+        </svg>
+      </button>
+
+    </div>
+
+
+  </section>
+
+
+
+  <!-- main -->
+
+</body>
+<script>
+
+  // navbar toggle button for mobile device
+  document.addEventListener('DOMContentLoaded', function () {
+    const navToggle = document.getElementById('navToggle');
+    const navMenuWrapper = document.getElementById('navMenuWrapper');
+
+    if (navToggle && navMenuWrapper) {
+      navToggle.addEventListener('click', function () {
+        navToggle.classList.toggle('active');
+        navMenuWrapper.classList.toggle('active');
+      });
+    }
+  });
+</script>
+<script src="/js/navbar.js"></script>
+
+</html>

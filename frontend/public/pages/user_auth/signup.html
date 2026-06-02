@@ -147,11 +147,9 @@
         const personaSelectorContainer = document.getElementById('personaSelectorContainer');
         const groupStudentId = document.getElementById('groupStudentId');
         const groupStudentDept = document.getElementById('groupStudentDept');
-        const groupTeacherId = document.getElementById('groupTeacherId');
         const signupStudentId = document.getElementById('signupStudentId');
         const signupStudentDept = document.getElementById('signupStudentDept');
         const signupStudentSem = document.getElementById('signupStudentSem');
-        const signupTeacherId = document.getElementById('signupTeacherId');
         const btnSubmitSignup = document.getElementById('btnSubmitSignup');
         const authSubtitle = document.getElementById('authSubtitle');
 
@@ -163,11 +161,9 @@
             personaSelectorContainer.classList.remove('teacher-active');
             groupStudentId.classList.add('active');
             groupStudentDept.classList.add('active');
-            groupTeacherId.classList.remove('active');
             signupStudentId.required = true;
             signupStudentDept.required = true;
             signupStudentSem.required = true;
-            signupTeacherId.required = false;
             btnSubmitSignup.className = "btn-auth-submit btn-signup-submit";
             btnSubmitSignup.removeAttribute('style');
             activeRole = 'student';
@@ -180,11 +176,9 @@
             personaSelectorContainer.classList.add('teacher-active');
             groupStudentId.classList.remove('active');
             groupStudentDept.classList.remove('active');
-            groupTeacherId.classList.add('active');
             signupStudentId.required = false;
             signupStudentDept.required = false;
             signupStudentSem.required = false;
-            signupTeacherId.required = true;
             btnSubmitSignup.style.backgroundColor = "#ffffff";
             btnSubmitSignup.style.borderColor = "#3b82f6";
             btnSubmitSignup.style.color = "#0d0f12";

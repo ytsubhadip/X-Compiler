@@ -23,24 +23,80 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/create_test/create_test_form.css">
 </head>
 
-<body style="height: 100vh;">
+<body style="min-height: 100vh; overflow-y: auto;">
     <!-- navbar start -->
     <nav class="custom-navbar"></nav>
     <!-- navbar end -->
-     <!-- main -->
-      <h1>Create Test</h1>
-      <p>Design a new technical assessment for your students.</p>
 
-     <!-- main -->
-<div class="from-container">
-    <form action="">
+    <div class="starry-background-canvas">
+        <div id="stars"></div>
+        <div id="stars2"></div>
+        <div id="stars3"></div>
+    </div>
 
+    <!-- main -->
+    <h1>Create Test</h1>
+    <p>Design a new technical assessment for your students.</p>
 
-        
-    </form>
-</div>
+    <!-- main -->
+    <div class="from-container">
+        <form action="">
+            <div class="input-group">
+                <label for="">Test Name</label>
+                <input type="text" name="" id="" placeholder="e.g. Data Structure">
+
+            </div>
+
+            <div class="input-group">
+                <div class="child-div">
+                    <label for="">Department</label>
+                    <select name="" id="">
+                        <option value="">Bsc Data Scinence</option>
+                        <option value="">Bsc Cyber Security </option>
+                        <option value="">BCA</option>
+                    </select>
+
+                </div>
+                <div class="child-div">
+                    <label for="">Semester</label>
+                    <select name="" id="">
+                        <option value="">1</option>
+                        <option value="">2</option>
+                        <option value="">3</option>
+                        <option value="">4</option>
+                        <option value="">5</option>
+                        <option value="">6</option>
+                        <option value="">7</option>
+                        <option value="">8</option>
+                    </select>
+
+                </div>
+
+            </div>
+            <div class="input-group">
+                <label for="">Duration</label>
+                <input type="time" name="" id="">
+            </div>
+
+            <div class="question-group">
+                <div class="question-header">
+                    <h3>Questions</h3>
+                    <span>0 Selected</span>
+                </div>
+                
+                    <div class="question-add">
+                        <button>Add Question</button>
+                    </div>
+                
+            </div>
+
+            <button>create Test</button>
+
+        </form>
+    </div>
 </body>
 <script>
     // navbar toggle button for mobile device

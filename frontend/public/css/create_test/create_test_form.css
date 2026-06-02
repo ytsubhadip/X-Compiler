@@ -1,0 +1,250 @@
+/**
+ * create_test_form.css
+ * 
+ * Styled specifically for the teacher "Create Test Form" dashboard.
+ * Features a modern glassmorphic card design, custom styled inputs/selects,
+ * dark-mode native time controls, and interactive question lists.
+ */
+
+/* =========================================================================
+   1. PAGE HEADER STYLING
+   ========================================================================= */
+h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    font-family: var(--font-sans);
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+    background: linear-gradient(to right, #ffffff, #e2e8f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+body > p {
+    font-size: 1.02rem;
+    color: var(--text-muted);
+    font-family: var(--font-sans);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* =========================================================================
+   2. GLASSMORPHIC FORM CONTAINER
+   ========================================================================= */
+.from-container {
+    width: 100%;
+    max-width: 540px;
+    margin: 0 auto 60px auto;
+    padding: 32px 28px;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.4), 
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    box-sizing: border-box;
+    position: relative;
+    z-index: 10;
+}
+
+/* =========================================================================
+   3. INPUT & FORM CONTROLS
+   ========================================================================= */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 22px;
+}
+
+.input-group label,
+.child-div label {
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* Base text inputs and native time pickers */
+.input-group input[type="text"],
+.input-group input[type="time"] {
+    width: 100%;
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1.5px solid rgba(255, 255, 255, 0.25) !important;
+    color: var(--text-primary) !important;
+    border-radius: 0 !important;
+    padding: 8px 4px !important;
+    font-size: 0.95rem !important;
+    font-family: var(--font-sans);
+    transition: all 0.3s ease !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* Dark mode compatibility override for native clock picker popups */
+.input-group input[type="time"] {
+    color-scheme: dark;
+}
+
+.input-group input[type="text"]::placeholder {
+    color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Focus and active styles using Teacher Blue theme accent */
+.input-group input[type="text"]:focus,
+.input-group input[type="time"]:focus,
+.child-div select:focus {
+    border-bottom-color: #3b82f6 !important;
+    box-shadow: 0 2px 0 rgba(59, 130, 246, 0.35) !important;
+}
+
+/* Side-by-side select elements layout */
+.input-group:has(.child-div) {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.child-div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Dynamic dropdown select elements styling */
+.child-div select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px solid rgba(255, 255, 255, 0.25);
+    border-radius: 0;
+    color: var(--text-primary);
+    padding: 8px 28px 8px 4px;
+    font-size: 0.95rem;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    width: 100%;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.child-div select option {
+    background-color: #14161c !important; /* matches var(--bg-card) */
+    color: var(--text-primary) !important;
+    font-size: 0.9rem;
+    padding: 10px;
+}
+
+/* Custom chevron arrow for select dropdowns built via pseudo-elements */
+.child-div::after {
+    content: "\F2E0"; /* Bootstrap icon chevron-down unicode */
+    font-family: "bootstrap-icons" !important;
+    position: absolute;
+    right: 4px;
+    bottom: 10px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8rem;
+    pointer-events: none;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.child-div:focus-within::after {
+    color: #3b82f6;
+    transform: rotate(180deg);
+}
+
+/* =========================================================================
+   4. QUESTION BUILDER SECTION
+   ========================================================================= */
+.question-group {
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 12px;
+    padding: 18px;
+    margin-top: 8px;
+    margin-bottom: 28px;
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.question-header h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    font-family: var(--font-sans);
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.question-header span {
+    font-size: 0.78rem;
+    font-weight: 600;
+    font-family: var(--font-sans);
+    color: #3b82f6;
+    background: rgba(59, 130, 246, 0.12);
+    border: 1px solid rgba(59, 130, 246, 0.25);
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+/* Dashed Add Question button */
+.question-add button {
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    border: 1px dashed rgba(255, 255, 255, 0.18);
+    color: var(--text-muted);
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.question-add button:hover {
+    border-color: #3b82f6;
+    color: #3b82f6;
+    background: rgba(59, 130, 246, 0.05);
+}
+
+/* =========================================================================
+   5. ACTION SUBMIT BUTTON
+   ========================================================================= */
+form > button {
+    width: 100%;
+    padding: 12px;
+    background-color: #3b82f6;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: var(--font-sans);
+    text-transform: capitalize;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+form > button:hover {
+    background-color: #2563eb;
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+    transform: translateY(-1px);
+}
+
+form > button:active {
+    transform: translateY(0);
+}

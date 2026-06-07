@@ -2,23 +2,20 @@
  * @file signin.js
  * @description Manages student and teacher platform credential authorization,
  * tab state updates, REST API endpoint communications, and user metadata caching.
- * 
- * Used in:
+ * * Used in:
  * - /pages/user_auth/signin.html
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-    /**
-     * Sign In Form element reference in DOM.
-     * @type {HTMLFormElement|null}
-     */
+    /** @type {HTMLFormElement|null} */
     const signinForm = document.getElementById("formSignin");
 
-    /**
-     * Auth action submit button reference in DOM.
-     * @type {HTMLButtonElement|null}
-     */
+    /** @type {HTMLButtonElement|null} */
     const submitBtn = document.getElementById("btnSubmitSignin");
+
+    // Shared references for the global dynamic domino loader
+    const pageLoader = document.getElementById("globalPageLoader");
+    const loaderText = document.getElementById("globalLoaderText");
 
     if (signinForm) {
         /**
@@ -50,11 +47,14 @@ document.addEventListener("DOMContentLoaded", () => {
             };
 
             try {
-                // Disable interface triggers and show loading animation text
-                if (submitBtn) {
-                    submitBtn.disabled = true;
-                    submitBtn.innerText = "Signing in...";
+                // 🟢 Trigger the global domino loading overlay screen
+                if (pageLoader && loaderText) {
+                    loaderText.innerText = "Verifying Security Credentials...";
+                    pageLoader.classList.add("active");
                 }
+
+                // Disable interface triggers
+                if (submitBtn) submitBtn.disabled = true;
 
                 // Query authorization token from backend REST endpoint
                 const response = await fetch("/signin", {
@@ -71,15 +71,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 localStorage.setItem("userRole", data.role);
                 localStorage.setItem("userName", data.name);
 
+                // 🟢 Update loader statement text on success
+                if (loaderText) loaderText.innerText = "Access Granted! Initializing Profile...";
                 if (submitBtn) submitBtn.innerText = "Signed in";
                 
-                // Navigate users based on permission levels (Teachers are sent to test configuration dashboards, students to compiler labs)
+                // Navigate users based on permission levels
                 const roleAfter = (data.role || currentRole || '').toString().toLowerCase();
-                const dest = roleAfter === 'teacher' ? '/create-test' : '/dashbord';
+                const dest = roleAfter === 'teacher' ? '/create-test' : '/dashboard'; // Fixed typo routing from 'dashbord' to 'dashboard'
                 
                 setTimeout(() => window.location.href = dest, 600);
 
             } catch (err) {
+                // ❌ Close loader overlay instantly on execution crashes so user can retry
+                if (pageLoader) pageLoader.classList.remove("active");
+                
                 // Restore button triggers and notify user of auth exceptions
                 if (submitBtn) {
                     submitBtn.disabled = false;

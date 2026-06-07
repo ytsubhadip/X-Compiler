@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coding Test Terminal</title>
+  <link rel="icon" type="image/png" href="/asset/magento-brands-solid-full.svg">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link class="rtl" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <link rel="stylesheet" href="/codemirror-5.65.21/lib/codemirror.css">
+  <link rel="stylesheet" href="/codemirror-5.65.21/theme/darcula.css">
+  <link rel="stylesheet" href="/codemirror-5.65.21/theme/night.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/compiler_css/compiler.css">
+
+  <style>
+    /* Absolute overlay positioning for the workspace lock gate */
+    .auth-gate-backdrop {
+      position: absolute;
+      top: 56px; /* Sits perfectly below the core custom navbar element */
+      left: 0;
+      width: 100%;
+      height: calc(100vh - 56px);
+      background: rgba(13, 15, 18, 0.88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 1050;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .auth-gate-box {
+      background: #111418;
+      border: 1px solid #1f242d;
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 480px;
+      width: 92%;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.65);
+    }
+    .workspace-blur-active {
+      filter: blur(5px);
+      pointer-events: none;
+    }
+    .otp-digit-cell {
+      background: #0d0f12 !important; 
+      border: 1px solid #2f3743 !important; 
+      color: #fff !important; 
+      font-size: 1.5rem; 
+      width: 42px; 
+      height: 55px; 
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    .otp-digit-cell:focus {
+      border-color: #2ec866 !important;
+      box-shadow: 0 0 0 2px rgba(46, 200, 102, 0.15) !important;
+    }
+  </style>
+</head>
+
+<body class="landing-page d-flex flex-column" style="height: 100vh; overflow: hidden; position: relative;">
+
+  <nav class="custom-navbar"></nav>
+
+  <div id="authGateBoxOverlay" class="auth-gate-backdrop">
+    <div class="auth-gate-box text-center">
+      <i class="bi bi-shield-lock-fill text-success display-4 d-block mb-3"></i>
+      <h4 class="fw-bold text-white mb-2">Enter Assessment Code</h4>
+      <p class="text-muted small mb-4">Input the 7-character dynamic workspace identifier issued by your evaluator to authorize this compilation session environment.</p>
+      
+      <div class="d-flex justify-content-center align-items-center gap-2 mb-4" id="otpInputBlockMatrixContainer">
+        <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="0">
+        <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="1">
+        <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="2">
+        
+        <span class="text-secondary fw-bold fs-3 px-1 user-select-none">-</span>
+        
+        <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="3">
+        <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="4">
+        <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="5">
+        <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="6">
+      </div>
+      
+      <button type="button" id="btnVerifyRoomCode" class="btn btn-success w-100 py-2 fw-bold" style="background: #2ec866; border-color: #2ec866; color: #0d0f12;">
+        Unlock Test Workspace
+      </button>
+      
+      <div id="portalStatusAlertDisplay" class="text-danger small mt-3 fw-bold" style="display: none;"></div>
+    </div>
+  </div>
+
+  <div id="mainWorkspaceGridMatrix" class="row gx-0 ide-workspace flex-grow-1 workspace-blur-active">
+    
+    <div class="col-12 col-lg-5 left-column h-100 overflow-y-auto">
+      <div class="pane-card left-pane p-4">
+        
+        <div class="problem-header mb-3">
+          <span class="badge bg-success-subtle text-success border border-success-subtle mb-2 px-2 py-1 fw-semibold">Easy</span>
+          <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle mb-2 px-2 py-1 fw-semibold">ML Compiler</span>
+          <h2 id="question" class="problem-title mt-1 fw-bold text-white" style="font-size: 1.5rem;">Loading Assessment Parameters...</h2>
+        </div>
+
+        <div class="problem-section mb-4">
+          <h3 class="problem-section-title fw-semibold mb-2 text-success" style="font-size: 1.1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 6px;">
+            <i class="bi bi-file-text-fill me-2"></i>Description
+          </h3>
+          <p id="description" class="problem-description text-secondary small" style="line-height: 1.6;"></p>
+        </div>
+
+        <div class="problem-section mb-4">
+          <h3 class="problem-section-title fw-semibold mb-2 text-success" style="font-size: 1.1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 6px;">
+            <i class="bi bi-lightbulb-fill me-2"></i>Example
+          </h3>
+          <pre id="exap" class="code-block p-3 rounded-3 font-monospace text-wrap" style="background: var(--bg-pre, #0d0f12); border: 1px solid rgba(255, 255, 255, 0.04); color: #a7b5c9; font-size: 0.9rem;"></pre>
+        </div>
+
+        <div class="problem-section mb-4">
+          <h3 class="problem-section-title fw-semibold mb-2 text-success" style="font-size: 1.1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 6px;">
+            <i class="bi bi-check-circle-fill me-2"></i>Expected Outcomes
+          </h3>
+          <pre id="sample" class="code-block p-3 rounded-3 font-monospace text-wrap" style="background: var(--bg-pre, #0d0f12); border: 1px solid rgba(255, 255, 255, 0.04); color: #a7b5c9; font-size: 0.9rem;"></pre>
+        </div>
+
+        <div class="problem-section mb-4">
+          <h3 class="problem-section-title fw-semibold mb-2 text-success" style="font-size: 1.1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 6px;">
+            <i class="bi bi-shield-lock-fill me-2"></i>Constraints
+          </h3>
+          <ul class="constraints-list ps-3 text-muted small" style="line-height: 1.6;">
+            <li>2 &le; nums.length &le; 10⁴</li>
+            <li>-10⁹ &le; nums[i] &le; 10⁹</li>
+            <li>Standard time and space limitations apply to binary evaluation cycles.</li>
+          </ul>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="col-12 col-lg-7 right-column h-100 d-flex flex-column">
+      <div class="pane-card editor-pane d-flex flex-column flex-grow-1">
+        <div class="editor-header d-flex justify-content-between align-items-center p-2" style="background: #111418; border-bottom: 1px solid #1f242d;">
+          <div class="custom-select-wrapper">
+            <label class="visually-hidden" for="inlineFormSelectPref">Language</label>
+            <select class="form-select custom-select bg-dark text-white border-secondary small py-1" id="inlineFormSelectPref">
+              <option selected value="noL">Choose Language</option>
+              <option value="python">Python</option>
+              <option value="javascript">JavaScript</option>
+              <option value="cpp">C++</option>
+              <option value="c">C</option>
+              <option value="java">Java</option>
+            </select>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-success btn-action px-3 py-1 fw-bold small" id="coderun">
+              <i class="bi bi-play-fill"></i> Run Code
+            </button>
+            <button type="button" class="btn btn-success btn-action px-3 py-1 fw-bold small" id="codesubmit" disabled>
+              <i class="bi bi-cloud-upload"></i> Submit Exam
+            </button>
+          </div>
+        </div>
+
+        <div class="editor-body flex-grow-1 position-relative">
+          <textarea class="form-control" id="editor"></textarea>
+        </div>
+      </div>
+
+      <div class="pane-card console-pane p-3" style="height: 35%; max-height: 40%; background: #0b0d10; border-top: 1px solid #1f242d;">
+        <div class="console-header d-flex justify-content-between align-items-center mb-2">
+          <span class="console-header-title text-white fw-semibold small"><i class="bi bi-terminal-fill me-2 text-success"></i>Console Output</span>
+          <span class="badge bg-dark border border-secondary text-muted px-2 py-1 font-monospace" id="consoleStatus" style="font-size: 0.7rem;">Idle</span>
+        </div>
+        <div class="console-body d-flex flex-column h-100 pb-4">
+          <textarea class="form-control bg-dark text-success font-monospace small flex-grow-1 mb-2 p-2" id="output" readonly placeholder="Output logs will sync following compiler evaluation thread loops..."></textarea>
+          <div class="console-footer d-flex gap-4 text-muted" style="font-size: 0.8rem;">
+            <div class="console-stat">
+              <span>Execution Clock:</span>
+              <span class="console-stat-value text-white font-monospace ms-1"><span id="execTime">-</span> ms</span>
+            </div>
+            <div class="console-stat">
+              <span>Estimated Complexity:</span>
+              <span class="console-stat-value text-white font-monospace ms-1" id="complexity">-</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="/codemirror-5.65.21/lib/codemirror.js"></script>
+  <script src="/codemirror-5.65.21/addon/edit/closebrackets.js"></script>
+  <script src="/codemirror-5.65.21/mode/clike/clike.js"></script>
+  <script src="/codemirror-5.65.21/mode/python/python.js"></script>
+  
+  <script src="/js/navbar.js"></script>
+  <script src="/js/ide_portal_controller.js"></script>
+  <script src="/js/language.js"></script>
+  <script src="/js/loadQuestion.js"></script>
+  <script src="/js/run_compiler/compilerRunner.js"></script>
+</body>
+
+</html>

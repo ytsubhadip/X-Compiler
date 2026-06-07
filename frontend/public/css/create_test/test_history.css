@@ -1,0 +1,251 @@
+/**
+ * @file test_history.css
+ * @description Flat SaaS-style dark interface layout.
+ * Wipes out native table head background styles and hides horizontal scroll tracks.
+ */
+
+/* =========================================================================
+   1. CORE CANVAS LAYOUT
+   ========================================================================= */
+.container {
+    position: relative;
+    z-index: 10;
+    font-family: 'Outfit', 'Rubik', sans-serif;
+    max-width: 95% !important; 
+}
+
+h1 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #ffffff !important;
+    letter-spacing: -0.5px;
+}
+
+p.text-muted {
+    color: #94a3b8 !important; 
+    font-size: 0.95rem;
+}
+
+/* =========================================================================
+   2. CLEAN DATA CANVAS HOLDER (FLAT MATTE CONTAINER)
+   ========================================================================= */
+.history-card {
+    background: #111418 !important; 
+    border: 1px solid #1f242d !important; 
+    border-radius: 12px !important;
+    padding: 24px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4) !important;
+    width: 100% !important;
+}
+
+/* 🟢 REMOVED SCROLLBAR: Completely hides horizontal and vertical scrollbars from the responsive container wrapper */
+.table-responsive {
+    overflow-x: hidden !important; 
+    overflow-y: hidden !important;
+    width: 100% !important;
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/* 🟢 REMOVED SCROLLBAR: Hides the webkit scrollbar track completely for Chrome, Safari, and Edge */
+.table-responsive::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+.custom-table {
+    color: #ffffff !important;
+    vertical-align: middle;
+    width: 100% !important;
+    margin: 0 !important;
+    border-collapse: separate !important;
+    border-spacing: 0 12px !important; 
+}
+
+/* =========================================================================
+   3. HIGH-CONTRAST DATA LAYER GRID 
+   ========================================================================= */
+.custom-table th,
+.custom-table td {
+    padding: 16px 12px !important;
+    white-space: nowrap !important; 
+}
+
+/* Precise column distributions preventing layout content collisions */
+.custom-table th:nth-child(1), .custom-table td:nth-child(1) { width: 18%; } /* Title */
+.custom-table th:nth-child(2), .custom-table td:nth-child(2) { width: 14%; } /* Scope */
+.custom-table th:nth-child(3), .custom-table td:nth-child(3) { width: 8%;  text-align: center; } /* Sem */
+.custom-table th:nth-child(4), .custom-table td:nth-child(4) { width: 12%; } /* Duration */
+.custom-table th:nth-child(5), .custom-table td:nth-child(5) { width: 14%; } /* Problems Canvas */
+.custom-table th:nth-child(6), .custom-table td:nth-child(6) { width: 16%; } /* Timestamp */
+.custom-table th:nth-child(7), .custom-table td:nth-child(7) { width: 6%;  text-align: center; } /* State */
+.custom-table th:nth-child(8), .custom-table td:nth-child(8) { width: 12%; } /* Performance Analytics */
+
+/* 🟢 FIXED WHITE THEME BUG: Forces headers to be completely transparent with zero fallback tint backgrounds */
+.custom-table thead,
+.custom-table tr,
+.custom-table th {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #64748b !important; 
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    border: none !important;
+}
+
+/* Base row pods fill design stays clean */
+.custom-table td {
+    font-size: 0.92rem;
+    background: #161a22 !important; 
+    border-top: 1px solid #1f242d !important;
+    border-bottom: 1px solid #1f242d !important;
+    color: #ffffff !important;
+}
+
+.custom-table td:first-child {
+    border-left: 1px solid #1f242d !important;
+    border-top-left-radius: 8px !important;
+    border-bottom-left-radius: 8px !important;
+    font-weight: 600;
+}
+
+.custom-table td:last-child {
+    border-right: 1px solid #1f242d !important;
+    border-top-right-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+}
+
+.custom-table tbody tr {
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.custom-table tbody tr:hover {
+    transform: translateX(4px);
+}
+
+.custom-table tbody tr:hover td {
+    background: #1c212b !important; 
+    border-color: rgba(46, 200, 102, 0.25) !important; 
+}
+
+/* =========================================================================
+   4. CONTROL CHIPS & ACTIONS SELECTION COMPONENT ACTIONS
+   ========================================================================= */
+.btn-action-panel {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 6px 12px !important;
+    font-size: 0.78rem !important;
+    font-weight: 600 !important;
+    border-radius: 6px !important;
+    text-decoration: none !important;
+    transition: background-color 0.15s ease, border-color 0.15s ease !important;
+    white-space: nowrap !important;
+}
+
+.btn-tasks-explorer {
+    color: #2ec866 !important;
+    background: rgba(46, 200, 102, 0.06) !important;
+    border: 1px solid rgba(46, 200, 102, 0.2) !important;
+}
+
+.btn-tasks-explorer:hover {
+    background: #2ec866 !important;
+    color: #0d0f12 !important;
+    border-color: #2ec866 !important;
+}
+
+.btn-records-audit {
+    color: #cbd5e1 !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.btn-records-audit:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.custom-table .badge.bg-secondary {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #cbd5e1 !important;
+    font-weight: 600;
+    font-size: 0.75rem;
+    padding: 4px 8px !important;
+    border-radius: 4px;
+}
+
+.text-success.fw-bold {
+    color: #2ec866 !important;
+    font-weight: 600;
+}
+
+.timestamp-text {
+    color: #94a3b8 !important;
+}
+
+.status-badge {
+    background: rgba(46, 200, 102, 0.08) !important;
+    border: 1px solid rgba(46, 200, 102, 0.2) !important;
+    color: #2ec866 !important;
+    padding: 4px 10px !important;
+    border-radius: 4px !important;
+    font-weight: 600 !important;
+    font-size: 0.75rem;
+    display: inline-block;
+}
+
+/* =========================================================================
+   🟢 VISIBILITY PATCH: HIGH-CONTRAST COLLAPSIBLE CODE BLOCKS
+   ========================================================================= */
+.question-inspect-pod a.text-success {
+    color: #4ade80 !important; /* Vivid mint forest green for actionable links */
+    transition: color 0.15s ease;
+}
+
+.question-inspect-pod a.text-success:hover {
+    color: #22c55e !important;
+}
+
+/* Monospace code layout background contrast enhancements */
+.question-inspect-pod div[style*="background: #111418"] {
+    background-color: #0d1013 !important; /* Darker core contrast well */
+    border: 1px solid #2d3748 !important; /* Thick visible borders line */
+}
+
+/* Hard high-visibility overrides for inner snippet label colors */
+.question-inspect-pod .text-white-50 {
+    color: #f1f5f9 !important; /* High clarity bright off-white output text */
+}
+
+.question-inspect-pod .text-muted {
+    color: #94a3b8 !important; /* Crisp slate gray labels */
+    font-weight: 600;
+}
+
+/* =========================================================================
+   🟢 VISIBILITY PATCH: HIGH-CONTRAST LEFT SPECIFICATIONS LABELS
+   ========================================================================= */
+.history-card label.text-muted,
+.history-card .small.text-muted {
+    color: #94a3b8 !important; /* Crisp slate-gray font color instead of hidden dark gray */
+    font-weight: 600 !important;
+    font-size: 0.8rem !important;
+    letter-spacing: 0.3px;
+    margin-bottom: 6px !important;
+    display: inline-block;
+}
+
+/* Brighten the input text values inside disabled fields just a touch for accessibility */
+.inspect-input:disabled {
+    color: #e2e8f0 !important;
+    background-color: #161a22 !important;
+    border-color: #232931 !important;
+    opacity: 1 !important; /* Overrides default browser faded look */
+}

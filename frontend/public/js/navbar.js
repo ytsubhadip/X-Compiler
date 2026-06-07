@@ -3,8 +3,7 @@
  * @description Manages dynamic, role-based navigation generation, 
  * user session verification, responsive mobile drawer hamburger events, 
  * profile context dropdown actions, and log-out state mutations.
- * 
- * Loaded globally on all primary site layouts.
+ * * Loaded globally on all primary site layouts.
  */
 document.addEventListener("DOMContentLoaded", () => {
     
@@ -43,18 +42,23 @@ document.addEventListener("DOMContentLoaded", () => {
      */
     const currentPath = window.location.pathname;
 
-    // Conditionally configure core center navigation links based on user credentials
+    // Configure core center navigation links accessible by everyone
     let centerLinks = `<li><a href="/" class="nav-link ${currentPath === '/' ? 'active' : ''}">Home</a></li>`;
     centerLinks += `<li><a href="/playground" class="nav-link ${currentPath === '/playground' ? 'active' : ''}">playground</a></li>`;
 
+    // =========================================================================
+    // 🟢 FIXED ROLE-BASED CONDITIONAL NAVIGATION
+    // =========================================================================
     if (token) {
-        if (role === "teacher") {
+        const sanitizedRole = role.trim().toLowerCase();
+
+        if (sanitizedRole === "teacher") {
+            // Teachers see the creation panel endpoint mapping
             centerLinks += `<li><a href="/create-test" class="nav-link ${currentPath === '/create-test' ? 'active' : ''}">Create Test</a></li>`;
         } else {
-            centerLinks += `<li><a href="/dashbord" class="nav-link ${currentPath === '/dashbord' ? 'active' : ''}">coding Test</a></li>`;
+            // Students see the interactive exam entry portal path (Spelling fixed!)
+            centerLinks += `<li><a href="/coding-test" class="nav-link ${currentPath === '/coding-test' ? 'active' : ''}">coding Test</a></li>`;
         }
-    } else {
-        // centerLinks += `<li><a href="/ide" class="nav-link ${currentPath === '/ide' ? 'active' : ''}">coding Test</a></li>`;
     }
 
     // Configure right-side session actions (Dropdown vs Sign In controls)
@@ -117,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
     `;
 
-    // Initialize responsive hamburger menus
+    // Initialize responsive hamburger mobile drawer layouts
     const navToggle = document.getElementById("navToggle");
     const navMenuWrapper = document.getElementById("navMenuWrapper");
     if (navToggle && navMenuWrapper) {
@@ -130,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Setup interactive profile dropdown cards if authenticated
     if (token) {
         /**
-         * Global click listener to track local user dropdown events.
+         * Global click listener to track local user dropdown toggle states.
          */
         document.addEventListener("click", (e) => {
             const trigger = e.target.closest(".profile-avatar-trigger");
@@ -144,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (dropdown) {
                     const isShown = dropdown.classList.contains("show");
                     
-                    // Close all active dropdown elements first
+                    // Close all active dropdown elements first to avoid overlapping stacking card glitches
                     document.querySelectorAll(".profile-dropdown-card.show").forEach((d) => {
                         d.classList.remove("show");
                     });
@@ -166,10 +170,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         /**
-         * Global delegated click handlers for Dropdown Profile & Session Logouts.
+         * Global delegated click handlers for Dropdown Profile navigation & Session Logouts.
          */
         document.addEventListener("click", (e) => {
-            // Check view profile trigger
+            // Check view profile trigger matching
             const profileBtn = e.target.closest(".dropdown-profile-btn");
             if (profileBtn) {
                 e.stopPropagation();
@@ -178,11 +182,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // Check session log out trigger
+            // Check session log out trigger matching
             const logoutBtn = e.target.closest(".dropdown-logout-btn");
             if (logoutBtn) {
                 e.stopPropagation();
-                localStorage.clear(); // Clear all user tokens and keys
+                localStorage.clear(); // Flush authentication tokens, profile usernames, and roles completely
                 window.location.href = "/signin";
                 return;
             }

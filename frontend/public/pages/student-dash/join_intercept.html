@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connecting to Secure Testing Environment...</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #0d0f12;
+            color: #ffffff;
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .intercept-card {
+            background: #111418;
+            border: 1px solid #1f242d;
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        .spinner-glow {
+            color: #2ec866 !important; /* Your exact platform mint green */
+            width: 3.5rem;
+            height: 3.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="intercept-card">
+        <div id="loaderContextBlock">
+            <div class="spinner-border spinner-glow mb-4" role="status"></div>
+            <h4 class="fw-bold mb-2">Syncing Session Token</h4>
+            <p class="text-muted small px-3">Authenticating security handshakes and loading secure terminal workspace assets...</p>
+        </div>
+
+        <div id="errorContextBlock" style="display: none;">
+            <i class="bi bi-shield-x text-danger display-3 d-block mb-3"></i>
+            <h4 class="fw-bold text-white mb-2">Authentication Failed</h4>
+            <p id="errorDetailsMessage" class="text-danger small px-2 mb-4">Invalid or expired assessment access link model mapping.</p>
+            <a href="/playground" class="btn w-100 py-2 fw-bold" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: #cbd5e1;">
+                Return to Playground
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            // Scrape the dynamic token variables directly out of the window address parameters string
+            const urlParams = new URLSearchParams(window.location.search);
+            const accessCode = urlParams.get("code");
+
+            const loader = document.getElementById("loaderContextBlock");
+            const errorBlock = document.getElementById("errorContextBlock");
+            const errorMsg = document.getElementById("errorDetailsMessage");
+
+            if (!accessCode) {
+                showError("Malformed Access Request: No testing session parameters identifier detected inside current query path.");
+                return;
+            }
+
+           // Replace the fetch tracking logic inside your DOMContentLoaded event block:
+try {
+    const response = await fetch("/api/tests/join", {
+        method: "POST",
+        headers: { 
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+        },
+        body: JSON.stringify({ code: accessCode.trim().toUpperCase() })
+    });
+
+    const data = await response.json();
+
+    // 🟢 FIXED: Check the custom success property returned by the server
+    if (response.ok && data.success === true) {
+        localStorage.setItem("activeExamTestId", data.testId);
+        localStorage.setItem("examTimeRemaining", data.duration);
+        window.location.href = "/ide";
+    } else {
+        // Smooth fallback presentation without browser console alarms
+        showError(data.error || "The server rejected this testing session handshake token.");
+    }
+} catch (err) {
+    showError("Network Connection Timeout: Unable to complete cluster parameter authentication loops.");
+}
+
+            function showError(message) {
+                loader.style.display = "none";
+                errorBlock.style.display = "block";
+                errorMsg.innerText = message;
+            }
+        });
+    </script>
+</body>
+</html>

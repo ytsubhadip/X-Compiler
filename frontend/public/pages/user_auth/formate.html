@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formate</title>
+    <title>Forgot Password</title>
     <link rel="icon" type="image/png" href="/asset/magento-brands-solid-full.svg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -29,23 +29,13 @@
         }
 
         @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-
-            to {
-                transform: rotate(360deg);
-            }
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         @keyframes spin-reverse {
-            from {
-                transform: rotate(360deg);
-            }
-
-            to {
-                transform: rotate(0deg);
-            }
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
         }
     </style>
 </head>
@@ -67,8 +57,7 @@
                 </div>
 
                 <div class="auth-form-wrapper">
-                    <form class="auth-form" id="formSignup">
-
+                    <form class="auth-form" id="formForgotPasswordReset">
 
                         <div class="form-group">
                             <label for="Email">Email Address</label>
@@ -79,6 +68,14 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label for="RollNumber">University Roll Number / UID</label>
+                            <div class="input-wrapper">
+                                <i class="bi bi-card-text input-icon"></i>
+                                <input class="input-control" type="text" id="RollNumber" required
+                                    placeholder="e.g., 30001222001">
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <label for="Password">New Password</label>
@@ -105,18 +102,21 @@
                         <div class="button-container">
                             <button class="button btn-auth-submit" type="submit" id="btnSubmitSignup"
                                 aria-label="Submit small">
-                                <i class="fa-solid fa-arrow-rotate-left  fa-spin-reverse"
+                                <i class="fa-solid fa-arrow-rotate-left fa-spin-reverse"
                                     style="color: rgb(20, 20, 21);"></i>
                                 &nbsp;&nbsp;
-                                Reset&nbsp; Password
+                                Reset Password
                             </button>
                         </div>
+                        
+                        <div id="resetStatusAlertDisplay" class="text-center small mt-3 fw-bold" style="display: none;"></div>
                     </form>
                 </div>
             </div>
         </div>
     </main>
 </body>
+
 <script>
     function togglePasswordVisibility(inputId, toggleIcon) {
         const passwordInput = document.getElementById(inputId);
@@ -132,6 +132,69 @@
             }
         }
     }
+
+    // =========================================================================
+    // 🟢 ASYNCHRONOUS FORM PROCESSING TRANSACTION CONTROLLER
+    // =========================================================================
+    document.getElementById("formForgotPasswordReset").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const emailVal = document.getElementById("Email").value.trim();
+        const rollVal = document.getElementById("RollNumber").value.trim(); // Scrape the secure UID token
+        const passVal = document.getElementById("Password").value;
+        const confirmPassVal = document.getElementById("ConfirmPassword").value;
+        const alertBox = document.getElementById("resetStatusAlertDisplay");
+        const submitBtn = document.getElementById("btnSubmitSignup");
+
+        // Front-end sanity logic verification check
+        if (passVal !== confirmPassVal) {
+            showAlertMessage("Password entries do not match. Please verify configurations.", "text-danger");
+            return;
+        }
+
+        if (passVal.length < 6) {
+            showAlertMessage("Security Exception: New password must contain at least 6 characters.", "text-danger");
+            return;
+        }
+
+        try {
+            if (submitBtn) submitBtn.disabled = true;
+            showAlertMessage("Initiating identity verification check...", "text-warning");
+
+            // 🟢 UPDATED FETCH PAYLOAD: Pushing email, rollNumber, and new password parameters to backend
+            const response = await fetch("/api/auth/reset-password", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: emailVal, rollNumber: rollVal, password: passVal })
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success === true) {
+                showAlertMessage(data.message, "text-success");
+                
+                // Route user cleanly to login screen upon success parameters matching
+                setTimeout(() => {
+                    window.location.href = "/signin"; 
+                }, 1500);
+            } else {
+                showAlertMessage(data.error || "The server rejected this mutation call string.", "text-danger");
+                if (submitBtn) submitBtn.disabled = false;
+            }
+
+        } catch (err) {
+            console.error("Forgot password client breakdown fault:", err);
+            showAlertMessage("Transmission Failure: Unable to handshake with cloud clusters.", "text-danger");
+            if (submitBtn) submitBtn.disabled = false;
+        }
+
+        function showAlertMessage(msg, bootstrapTextColorClass) {
+            if (!alertBox) return;
+            alertBox.innerText = msg;
+            alertBox.className = `text-center small mt-3 fw-bold ${bootstrapTextColorClass}`;
+            alertBox.style.display = "block";
+        }
+    });
 </script>
 
 </html>

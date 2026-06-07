@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>From Dashbord</title>
+    <title>Create Test Form</title>
     <link rel="icon" type="image/png" href="/asset/magento-brands-solid-full.svg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -15,9 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -26,10 +23,9 @@
     <link rel="stylesheet" href="/css/create_test/create_test_form.css">
 </head>
 
-<body style="min-height: 100vh; overflow-y: auto;">
-    <!-- navbar start -->
+<body style="min-height: 100vh; overflow-y: auto; background-color: #0d0f12;">
+
     <nav class="custom-navbar"></nav>
-    <!-- navbar end -->
 
     <div class="starry-background-canvas">
         <div id="stars"></div>
@@ -37,95 +33,64 @@
         <div id="stars3"></div>
     </div>
 
-    <!-- main -->
     <h1>Create Test</h1>
     <p>Design a new technical assessment for your students.</p>
 
-    <!-- main -->
     <div class="from-container">
-        <form action="">
+        <form id="formCreateTestAssessment">
+            
             <div class="input-group">
-                <label for="">Test Name</label>
-                <input type="text" name="" id="" placeholder="e.g. Data Structure">
-
+                <label for="testName">Test Name</label>
+                <input type="text" id="testName" placeholder="e.g. Data Structures & Algorithms" required>
             </div>
 
             <div class="input-group">
                 <div class="child-div">
-                    <label for="">Department</label>
-                    <select name="" id="">
-                        <option value="">Bsc Data Scinence</option>
-                        <option value="">Bsc Cyber Security </option>
-                        <option value="">BCA</option>
+                    <label for="testDepartment">Department</label>
+                    <select id="testDepartment" required>
+                        <option value="Bsc Data Science">Bsc Data Science</option>
+                        <option value="Bsc Cyber Security">Bsc Cyber Security</option>
+                        <option value="BCA">BCA</option>
                     </select>
-
                 </div>
+                
                 <div class="child-div">
-                    <label for="">Semester</label>
-                    <select name="" id="">
-                        <option value="">1</option>
-                        <option value="">2</option>
-                        <option value="">3</option>
-                        <option value="">4</option>
-                        <option value="">5</option>
-                        <option value="">6</option>
-                        <option value="">7</option>
-                        <option value="">8</option>
+                    <label for="testSemester">Semester</label>
+                    <select id="testSemester" required>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
                     </select>
-
                 </div>
-
             </div>
+            
             <div class="input-group">
-                <label for="">Duration</label>
-                <input type="time" name="" id="">
+                <label for="testDuration">Duration (Minutes)</label>
+                <input type="number" id="testDuration" placeholder="e.g. 90" min="1" required>
             </div>
 
             <div class="question-group">
                 <div class="question-header">
-                    <h3>Questions</h3>
-                    <span>0 Selected</span>
+                    <h3>Questions Canvas</h3>
+                    <span id="labelQuestionCounter">0 Selected</span>
                 </div>
 
                 <div class="question-add">
                     <button type="button" id="addQuestionBtn">Add Question</button>
                 </div>
-
             </div>
 
-            <button>create Test</button>
+            <button type="submit" id="btnSubmitTestForm">Create Test Assessment</button>
 
         </form>
     </div>
+
+    <script src="/js/create_test_form.js"></script>
+    <script src="/js/navbar.js"></script>
 </body>
-<script>
-
-      // add question page button
-    const addQuestionPage = document.getElementById("addQuestionBtn");
-
-    if (addQuestionPage) {
-        addQuestionPage.addEventListener("click", function () {
-            window.location.href = "/add-question";
-        });
-    }
-
-    // navbar toggle button for mobile device
-    document.addEventListener('DOMContentLoaded', function () {
-        const navToggle = document.getElementById('navToggle');
-        const navMenuWrapper = document.getElementById('navMenuWrapper');
-
-        if (navToggle && navMenuWrapper) {
-            navToggle.addEventListener('click', function () {
-                navToggle.classList.toggle('active');
-                navMenuWrapper.classList.toggle('active');
-            });
-        }
-    });
-
-  
-
-</script>
-<script src="/js/navbar.js"></script>
-
-
 </html>

@@ -528,5 +528,29 @@ select.input-control option {
     max-height: 90px; /* Extra breathing space for labels and borders */
 }
 
+/* =========================================================================
+   DYNAMIC MOUSE CURSOR GREEN GLOW EFFECT (Outside Sign-In Box)
+   ========================================================================= */
+@media (hover: hover) {
+    .cursor-glow {
+        position: fixed;
+        width: 450px;
+        height: 450px;
+        background: radial-gradient(circle, rgba(46, 200, 102, 0.09) 0%, rgba(46, 200, 102, 0.02) 55%, transparent 75%);
+        border-radius: 50%;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        z-index: 2; /* Positioned in front of starry background, behind the login card */
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        mix-blend-mode: screen;
+        will-change: left, top;
+    }
+
+    .cursor-glow.active {
+        opacity: 1;
+    }
+}
+
 
 

@@ -73,6 +73,9 @@ app.get("/test-history",(req, res)=>{
 app.get("/dashbord",(req, res)=>{
     res.sendFile(path.join(__dirname, "public", "pages","student-dash", "student-dash.html"))
 })
+app.get("/add-question", (req, res)=>{
+    res.sendFile(path.join(__dirname,"public", "pages", "create_test", "question_page.html"))
+})
 app.get("/status", (req, res) => {
     res.json({ status: "ok", uptime: process.uptime() });
 });
@@ -147,7 +150,7 @@ async function launchBackendEngine() {
         console.log(" Database connected cleanly to Atlas cluster!");
         
         app.listen(PORT, () => {
-            console.log(`Server running live on port ${PORT}`);
+            console.log(`Server running live on port http://localhost:${PORT}`);
         });
     } catch (crash) {
         console.error("DATABASE CONNECTION FAILED:", crash.message || crash);

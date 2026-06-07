@@ -90,4 +90,45 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
+    // =========================================================================
+    // DYNAMIC MOUSE CURSOR GLOW EFFECT (OUTSIDE SIGN-IN BOX)
+    // =========================================================================
+    const glow = document.getElementById("cursorGlow");
+    const authCard = document.querySelector(".auth-card");
+
+    if (glow) {
+        document.addEventListener("mousemove", (e) => {
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+
+            // Move the glow to follow mouse coordinates
+            glow.style.left = `${mouseX}px`;
+            glow.style.top = `${mouseY}px`;
+
+            if (authCard) {
+                const rect = authCard.getBoundingClientRect();
+                // Check if the cursor coordinates fall inside the bounds of the authentication card
+                const isInside = (
+                    mouseX >= rect.left &&
+                    mouseX <= rect.right &&
+                    mouseY >= rect.top &&
+                    mouseY <= rect.bottom
+                );
+
+                if (isInside) {
+                    glow.classList.remove("active");
+                } else {
+                    glow.classList.add("active");
+                }
+            } else {
+                glow.classList.add("active");
+            }
+        });
+
+        // Hide glow when the mouse leaves the viewport
+        document.addEventListener("mouseleave", () => {
+            glow.classList.remove("active");
+        });
+    }
 });

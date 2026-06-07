@@ -86,11 +86,11 @@
                     <h3>Questions</h3>
                     <span>0 Selected</span>
                 </div>
-                
-                    <div class="question-add">
-                        <button>Add Question</button>
-                    </div>
-                
+
+                <div class="question-add">
+                    <button type="button" id="addQuestionBtn">Add Question</button>
+                </div>
+
             </div>
 
             <button>create Test</button>
@@ -99,6 +99,16 @@
     </div>
 </body>
 <script>
+
+      // add question page button
+    const addQuestionPage = document.getElementById("addQuestionBtn");
+
+    if (addQuestionPage) {
+        addQuestionPage.addEventListener("click", function () {
+            window.location.href = "/add-question";
+        });
+    }
+
     // navbar toggle button for mobile device
     document.addEventListener('DOMContentLoaded', function () {
         const navToggle = document.getElementById('navToggle');
@@ -111,6 +121,8 @@
             });
         }
     });
+
+  
 
 </script>
 <script src="/js/navbar.js"></script>

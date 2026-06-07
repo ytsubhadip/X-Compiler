@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="nav-container">
             <a class="nav-brand" href="/">
                 <i class="fa-brands fa-magento nav-logo"></i>
-                <span class="nav-title">ML compiler</span>
+                <span class="nav-title">X compiler</span>
             </a>
             
             <div class="nav-menu-wrapper" id="navMenuWrapper">

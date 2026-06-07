@@ -12,28 +12,58 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/home.css">
-    <link rel="stylesheet" href="/css/navbar.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"/>
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <!-- <link rel="stylesheet" href="/css/animated-Element/star_background.css"> -->
 </head>
-<body style="overflow-y:auto; min-height:100vh;">
+
+<body>
 
     <nav class="custom-navbar"></nav>
+    <div class="hero">
+        <div class="hero-title-section">
+            <h1 class="Manrope">
+                 code with <span id="element"></span><br>
+                <span>next generation compiler</span>
+            </h1>
+            <div class="hero-description">
+                We help thousands of students build coding skills and prepare for their careers, while empowering aspiring developers to learn, practice, and grow through real-world programming challenges.
+    
+            </div>
+            <div class="hero-butn-group">
+                <button class="for-student" type="button">For Student</button>
+                <button class="for-teacher" type="button">For Teacher</button>
+            </div>
 
-    <div class="starry-background-canvas">
-        <div id="stars"></div>
-        <div id="stars2"></div>
-        <div id="stars3"></div>
+        </div>
+        <div class="hero-sponor-section">
+            <div class="brand-logo">
+                <img src="asset/ilead.png" alt="" srcset="">
+            </div>
+        </div>
     </div>
 
     <script src="/js/navbar.js"></script>
+    type
+    <script src="https://unpkg.com/typed.js@3.0.0/dist/typed.umd.js"></script>
+     <script>
+    var typed = new Typed('#element', {
+      strings: ['python', 'javascripts','c','cpp', 'java'],
+      typeSpeed: 130,
+      loop: true,
+      loopCount: Infinity,
+    });
+  </script>
 
 </body>
 

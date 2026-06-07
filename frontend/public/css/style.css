@@ -44,40 +44,15 @@ body {
     background-color: transparent !important;
     min-height: 100%;
     overflow-x: hidden; /* allow vertical scrolling */
+    overflow-y:auto;
     font-family: var(--font-sans);
     color: var(--text-primary);
     height: 100vh;
 }
 
-/* Utilities */
-#dark-mode, .user {
-    cursor: pointer;
-}
-
 .outfit {
     font-family: var(--font-sans);
     font-weight: 700;
-}
-
-
-/* =========================================================================
-   STARRY BACKGROUND CANVAS LAYER (Fixed Full-Screen Backdrop)
-   ========================================================================= */
-.starry-background-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
-    pointer-events: none;
-    overflow: hidden;
-}
-
-#stars, #stars2, #stars3 {
-    position: absolute;
-    top: 0;
-    left: 0;
 }
 
 

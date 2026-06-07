@@ -21,9 +21,8 @@ function initializeDifficultyButtons() {
     });
 }
 
-/**
- * Manages adding and removing topic tags dynamically on input and press of Enter key.
- */
+
+
 function initializeTopicTags() {
     const tagInput = document.getElementById("tagInput");
     const tagContainer = document.getElementById("tagContainer");

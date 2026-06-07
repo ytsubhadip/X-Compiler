@@ -1,11 +1,4 @@
-/**
- * @file question_page.js
- * @description Controls interactive client-side behaviors on the Add Question page,
- * including active difficulty tab highlights and dynamic style switches.
- * 
- * Used in:
- * - /pages/create_test/question_page.html
- */
+
 
 function initializeDifficultyButtons() {
     const difficultyButtons = document.querySelectorAll(".difficulty-btn-group button");

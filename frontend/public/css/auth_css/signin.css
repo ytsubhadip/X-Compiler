@@ -126,6 +126,10 @@ input.input-control:-webkit-autofill::first-line {
     z-index: 10;
 }
 
+.auth-container.signup-container {
+    max-width: 480px; /* Wider container for signup fields to avoid cramping */
+}
+
 .back-to-home-link {
     color: var(--text-muted);
     text-decoration: none !important;

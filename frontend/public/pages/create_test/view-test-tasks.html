@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Assessment Tasks Matrix</title>
+    <link rel="icon" type="image/png" href="/asset/magento-brands-solid-full.svg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <!-- Links your high contrast history canvas metrics variables -->
+    <link rel="stylesheet" href="/css/create_test/test_history.css?v=2.0.2">
+    
+    <style>
+        .lockout-banner {
+            background: rgba(239, 68, 68, 0.1) !important;
+            border: 1px solid rgba(239, 68, 68, 0.3) !important;
+            color: #f87171 !important;
+            border-radius: 8px;
+            padding: 16px;
+            font-weight: 600;
+            display: none; /* Controlled by engine state */
+        }
+        .question-inspect-pod {
+            background: #161a22;
+            border: 1px solid #232931;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .inspect-input {
+            background: #111418 !important;
+            border: 1px solid #232931 !important;
+            color: #ffffff !important;
+            border-radius: 6px;
+            padding: 10px;
+            width: 100%;
+        }
+        .inspect-input:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            border-color: #1f242d !important;
+        }
+    </style>
+</head>
+<body style="min-height: 100vh; background-color: #0d0f12; color: #fff;">
+
+    <nav class="custom-navbar"></nav>
+
+    <div class="container py-5">
+        <!-- 🔒 PROTECTION FLAG ELEMENT WARNING ALERT BAR -->
+        <div id="lockoutBannerAlert" class="lockout-banner mb-4 text-center">
+            <i class="bi bi-shield-lock-fill me-2"></i> This assessment is currently live or has active submissions. Edits are locked to preserve grading integrity.
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 id="viewTestTitleDisplay" class="m-0">Loading Assessment Specs...</h1>
+                <p class="text-muted m-0 mt-1">Review operational workspace settings parameter models.</p>
+            </div>
+            
+            <!-- CONTROLS MANAGEMENT HUB BAR -->
+            <div id="actionControlsContextCluster" class="d-flex gap-2">
+                <!-- Action triggers are dynamically populated via JavaScript -->
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- LEFT PANEL: TEST METADATA MANIFEST DETAILS -->
+            <div class="col-lg-4 mb-4">
+                <div class="history-card">
+                    <h5 class="text-success fw-bold mb-3">Test Specifications</h5>
+                    <div class="mb-3">
+                        <label class="small text-muted d-block mb-1">Department</label>
+                        <input type="text" id="metaDept" class="inspect-input" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label class="small text-muted d-block mb-1">Semester</label>
+                        <input type="number" id="metaSemester" class="inspect-input" disabled>
+                    </div>
+                    <div>
+                        <label class="small text-muted d-block mb-1">Duration (Minutes)</label>
+                        <input type="number" id="metaDuration" class="inspect-input" disabled>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT PANEL: QUESTIONS ITERATION HOUSING LAYER -->
+            <div class="col-lg-8">
+                <div class="history-card">
+                    <h5 class="text-muted fw-bold mb-4">Assigned Task Components</h5>
+                    <div id="questionsContainerCanvasWrapper">
+                        <!-- Inductions flow natively here via script arrays map -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WIRE ENGINE CONTROLLERS LOGICS -->
+    <script src="/js/view-test-tasks.js"></script>
+    <script src="/js/navbar.js"></script>
+</body>
+</html>

@@ -62,7 +62,6 @@
  outline: 2px solid white;
  
 }
-
 .hero-butn-group .for-student::before {
  content: '';
  width: 0;
@@ -77,11 +76,9 @@
  z-index: -1;
  
 }
-
 .hero-butn-group .for-student:hover::before {
  width: 9em;
 }
-
 .hero-butn-group button:focus-visible {
  outline: 2px solid white;
 }

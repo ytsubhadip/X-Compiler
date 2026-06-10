@@ -11,13 +11,14 @@
    ========================================================================= */
 .container {
     display: grid;
-    grid-template-columns: 280px 1fr;
+    grid-template-columns: 320px 1fr;
     grid-template-rows: 1fr auto;
-    gap: 24px;
-    height: calc(100vh - 100px);
-    max-width: 1400px;
-    margin: 20px auto;
-    padding: 0 24px;
+    gap: 0;
+    height: calc(100vh - 64px);
+    max-width: 100% !important;
+    width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
     position: relative;
     z-index: 10;
     box-sizing: border-box;
@@ -31,7 +32,11 @@
     grid-row: 1 / span 2;
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 20px;
+    background: rgba(13, 15, 18, 0.45);
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 24px;
+    height: 100%;
     box-sizing: border-box;
 }
 
@@ -143,7 +148,9 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    padding-right: 6px;
+    padding: 32px 40px;
+    box-sizing: border-box;
+    height: 100%;
 }
 
 .question-pannel {
@@ -372,9 +379,13 @@
     display: flex;
     justify-content: flex-end;
     gap: 16px;
-    padding: 18px 0;
+    padding: 18px 40px;
+    background: rgba(13, 15, 18, 0.85);
     border-top: 1px solid rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     box-sizing: border-box;
+    z-index: 20;
 }
 
 .footer-button button {
@@ -523,3 +534,63 @@
     border-color: var(--accent-success, #2ec866) !important;
     box-shadow: 0 0 8px rgba(46, 200, 102, 0.2) !important;
 }
+
+/* Responsive media queries for mobile viewports */
+@media (max-width: 991px) {
+    body {
+        height: auto !important;
+        overflow-y: auto !important;
+    }
+    
+    .container {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        padding-top: 0;
+        padding-bottom: 40px;
+    }
+    
+    .left-side-div {
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 20px;
+        margin-bottom: 0;
+    }
+    
+    .right-side-div {
+        width: 100%;
+        height: auto;
+        overflow-y: visible;
+        padding: 24px 20px;
+    }
+    
+    .footer-button {
+        position: relative;
+        width: 100%;
+        padding: 20px;
+        background: transparent;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 768px) {
+    .input-group:has(.difficulty) {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .difficulty-btn-group {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .difficulty-btn-group button {
+        width: 100%;
+    }
+}
+

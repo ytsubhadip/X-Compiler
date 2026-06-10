@@ -101,7 +101,8 @@ app.get("/create-test", (req, res) => {
 });
 
 app.get("/profile", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "user_profile", "profile.html"));
+    // Profile page lives under public/user_profile (not public/pages/user_profile)
+    res.sendFile(path.join(__dirname, "public", "user_profile", "profile.html"));
 });
 
 app.get("/test-form", (req, res) => {
@@ -202,6 +203,39 @@ app.post("/signin", async (req, res) => {
     } catch (err) {
         console.error("Authentication query error:", err);
         return res.status(500).json({ error: "Internal server gate malfunction." });
+    }
+});
+
+// =========================================================================
+// REST ENDPOINT: GET CURRENT AUTHENTICATED USER INFORMATION
+// =========================================================================
+app.get("/api/auth/me", async (req, res) => {
+    try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({ error: "Missing authentication credentials." });
+        }
+
+        const token = authHeader.split(" ")[1];
+        const userId = token.replace("session-auth-token-", "");
+
+        const userProfileInstance = await User.findById(userId);
+        if (!userProfileInstance) {
+            return res.status(404).json({ error: "User session details not found." });
+        }
+
+        return res.status(200).json({
+            name: userProfileInstance.name,
+            email: userProfileInstance.email,
+            role: userProfileInstance.role,
+            rollnumber: userProfileInstance.rollnumber || "N/A",
+            department: userProfileInstance.department || "",
+            semester: userProfileInstance.semester || null
+        });
+
+    } catch (err) {
+        console.error("Fetch profile credentials error:", err);
+        return res.status(500).json({ error: "Internal server database retrieval gate failure." });
     }
 });
 

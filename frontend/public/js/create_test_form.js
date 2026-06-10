@@ -24,6 +24,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const counterLabel = document.getElementById("labelQuestionCounter");
     const pageLoader = document.getElementById("globalPageLoader");
     const loaderText = document.getElementById("globalLoaderText");
+    const uploadZone = document.getElementById("questionUploadZone");
+    const fileInput = document.getElementById("questionFileInput");
+    const uploadContentText = document.getElementById("uploadContentText");
+    const fileInfoDisplay = document.getElementById("fileInfoDisplay");
+    const selectedFileName = document.getElementById("selectedFileName");
+    const removeFileBtn = document.getElementById("removeFileBtn");
 
     // =========================================================================
     // 2. SESSION TRANSACTION MEMORY HOOKS (Preserve form state across links)
@@ -155,6 +161,95 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert(`Platform Processing Error: ${err.message}`);
             }
         });
+    }
+
+    // =========================================================================
+    // 4. INTERACTIVE FILE UPLOAD ZONE HANDLING (PDF, EXCEL, DOC)
+    // =========================================================================
+    if (uploadZone && fileInput) {
+        // Trigger file input click when clicking the zone
+        uploadZone.addEventListener("click", (e) => {
+            // Prevent trigger if remove-file-btn is clicked
+            if (e.target.closest("#removeFileBtn")) return;
+            fileInput.click();
+        });
+
+        // Drag & Drop handlers
+        ["dragenter", "dragover"].forEach(eventName => {
+            uploadZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                uploadZone.classList.add("dragover");
+            }, false);
+        });
+
+        ["dragleave", "drop"].forEach(eventName => {
+            uploadZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                uploadZone.classList.remove("dragover");
+            }, false);
+        });
+
+        // Drop file handler
+        uploadZone.addEventListener("drop", (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files && files.length > 0) {
+                handleUploadedFile(files[0]);
+            }
+        });
+
+        // File input change handler
+        fileInput.addEventListener("change", (e) => {
+            const files = e.target.files;
+            if (files && files.length > 0) {
+                handleUploadedFile(files[0]);
+            }
+        });
+
+        // Remove selected file handler
+        if (removeFileBtn) {
+            removeFileBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                resetFileUpload();
+            });
+        }
+    }
+
+    function handleUploadedFile(file) {
+        const allowedExtensions = /(\.pdf|\.xlsx|\.xls|\.doc|\.docx)$/i;
+        if (!allowedExtensions.exec(file.name)) {
+            alert("Format Error: Only PDF, Excel (.xlsx, .xls) and Word (.doc, .docx) documents are supported.");
+            resetFileUpload();
+            return;
+        }
+
+        // Limit size to 10MB
+        if (file.size > 10 * 1024 * 1024) {
+            alert("Size Limit: File size exceeds the 10MB limit.");
+            resetFileUpload();
+            return;
+        }
+
+        // Display file info
+        if (selectedFileName) selectedFileName.innerText = file.name;
+        if (uploadContentText) uploadContentText.style.display = "none";
+        if (fileInfoDisplay) fileInfoDisplay.style.display = "flex";
+        
+        // Add visual success outline feedback
+        uploadZone.style.borderColor = "var(--accent-success, #2ec866)";
+        uploadZone.style.background = "rgba(46, 200, 102, 0.05)";
+    }
+
+    function resetFileUpload() {
+        if (fileInput) fileInput.value = "";
+        if (uploadContentText) uploadContentText.style.display = "flex";
+        if (fileInfoDisplay) fileInfoDisplay.style.display = "none";
+        
+        // Reset visual border states
+        uploadZone.style.borderColor = "rgba(255, 255, 255, 0.18)";
+        uploadZone.style.background = "rgba(255, 255, 255, 0.005)";
     }
 
     // Helper method to completely reset draft tracking allocations safely

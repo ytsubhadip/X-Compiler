@@ -7,6 +7,11 @@
  * customized with a premium Green and Black theme.
  */
 
+body {
+    height: auto !important;
+    overflow-y: auto !important;
+}
+
 /* =========================================================================
    1. PAGE HEADER STYLING
    ========================================================================= */
@@ -55,13 +60,13 @@ body > p {
 /* =========================================================================
    3. INPUT & FORM CONTROLS
    ========================================================================= */
-.input-group {
+.form-group {
     display: flex;
     flex-direction: column;
     margin-bottom: 22px;
 }
 
-.input-group label,
+.form-group label,
 .child-div label {
     font-size: 0.76rem;
     font-weight: 700;
@@ -71,9 +76,10 @@ body > p {
     text-transform: uppercase;
 }
 
-/* Base text inputs and native time pickers */
-.input-group input[type="text"],
-.input-group input[type="time"] {
+/* Base text inputs, number inputs, and native time pickers */
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="time"] {
     width: 100%;
     background: transparent !important;
     border: none !important;
@@ -89,24 +95,26 @@ body > p {
 }
 
 /* Dark mode compatibility override for native clock picker popups */
-.input-group input[type="time"] {
+.form-group input[type="time"] {
     color-scheme: dark;
 }
 
-.input-group input[type="text"]::placeholder {
+.form-group input[type="text"]::placeholder,
+.form-group input[type="number"]::placeholder {
     color: rgba(255, 255, 255, 0.4) !important;
 }
 
 /* Focus and active styles using Green theme accent */
-.input-group input[type="text"]:focus,
-.input-group input[type="time"]:focus,
+.form-group input[type="text"]:focus,
+.form-group input[type="number"]:focus,
+.form-group input[type="time"]:focus,
 .child-div select:focus {
     border-bottom-color: var(--accent-success, #2ec866) !important;
     box-shadow: 0 2px 0 rgba(46, 200, 102, 0.35) !important;
 }
 
 /* Side-by-side select elements layout */
-.input-group:has(.child-div) {
+.form-group:has(.child-div) {
     display: flex;
     flex-direction: row;
     gap: 20px;
@@ -201,8 +209,15 @@ body > p {
     border-radius: 20px;
 }
 
-/* Dashed Add Question button */
-.question-add button {
+/* Actions list layout */
+.question-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* Add Question button */
+.question-actions .action-btn {
     width: 100%;
     padding: 12px;
     background: transparent;
@@ -213,12 +228,115 @@ body > p {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
-.question-add button:hover {
+.question-actions .action-btn:hover {
     border-color: var(--accent-success, #2ec866);
     color: var(--accent-success, #2ec866);
     background: rgba(46, 200, 102, 0.05);
+}
+
+/* Drag and Drop Upload Zone */
+.upload-zone {
+    width: 100%;
+    border: 1px dashed rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.005);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    box-sizing: border-box;
+}
+
+.upload-zone:hover,
+.upload-zone.dragover {
+    border-color: var(--accent-success, #2ec866);
+    background: rgba(46, 200, 102, 0.03);
+}
+
+.upload-zone.dragover .upload-icon {
+    transform: translateY(-4px);
+    color: var(--accent-success, #2ec866);
+}
+
+.upload-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.upload-icon {
+    font-size: 1.6rem;
+    color: rgba(255, 255, 255, 0.4);
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.upload-content span {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.upload-content .upload-limits {
+    font-size: 0.72rem;
+    color: var(--text-dark-muted);
+}
+
+/* Selected File Display */
+.file-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(46, 200, 102, 0.08);
+    border: 1px solid rgba(46, 200, 102, 0.2);
+    border-radius: 6px;
+    padding: 8px 12px;
+    animation: fadeIn 0.3s ease;
+}
+
+.file-info .file-icon {
+    font-size: 1.1rem;
+    color: var(--accent-success, #2ec866);
+    margin-right: 8px;
+}
+
+.file-info .file-name {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    flex: 1;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.remove-file-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s ease;
+}
+
+.remove-file-btn:hover {
+    color: var(--accent-error, #ef4444);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* =========================================================================
@@ -249,3 +367,18 @@ form > button:hover {
 form > button:active {
     transform: translateY(0);
 }
+
+/* Responsive media queries for mobile viewports */
+@media (max-width: 768px) {
+    .from-container {
+        padding: 24px 16px;
+        margin-bottom: 40px;
+        border-radius: 16px;
+    }
+    
+    .form-group:has(.child-div) {
+        flex-direction: column;
+        gap: 22px;
+    }
+}
+

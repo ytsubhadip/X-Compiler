@@ -1,211 +1,314 @@
 /**
  * @file test_history.css
- * @description Flat SaaS-style dark interface layout.
- * Wipes out native table head background styles and hides horizontal scroll tracks.
+ * @description Premium SaaS-style dark glassmorphism layout for test history cards and assessment views.
  */
 
 /* =========================================================================
-   1. CORE CANVAS LAYOUT
+   1. CORE CANVAS LAYOUT & TYPOGRAPHY
    ========================================================================= */
 .container {
     position: relative;
     z-index: 10;
-    font-family: 'Outfit', 'Rubik', sans-serif;
-    max-width: 95% !important; 
+    font-family: var(--font-sans), 'Outfit', sans-serif;
+    max-width: 1200px !important;
 }
 
 h1 {
-    font-size: 2.4rem;
+    font-size: 2.2rem;
     font-weight: 700;
     color: #ffffff !important;
     letter-spacing: -0.5px;
 }
 
 p.text-muted {
-    color: #94a3b8 !important; 
+    color: var(--text-muted) !important;
     font-size: 0.95rem;
 }
 
+/* Starry pulse animation details */
+.animate-pulse-glow {
+    animation: pulseGlow 2.5s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+    0%, 100% {
+        opacity: 0.6;
+        transform: scale(0.98);
+        filter: drop-shadow(0 0 2px rgba(46, 200, 102, 0.4));
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.03);
+        filter: drop-shadow(0 0 10px rgba(46, 200, 102, 0.8));
+    }
+}
+
 /* =========================================================================
-   2. CLEAN DATA CANVAS HOLDER (FLAT MATTE CONTAINER)
+   2. GLASSMORPHIC TEST HISTORY CARD
    ========================================================================= */
-.history-card {
-    background: #111418 !important; 
-    border: 1px solid #1f242d !important; 
-    border-radius: 12px !important;
+.test-history-card {
+    background: rgba(20, 22, 28, 0.5) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 16px !important;
     padding: 24px !important;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4) !important;
-    width: 100% !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-/* 🟢 REMOVED SCROLLBAR: Completely hides horizontal and vertical scrollbars from the responsive container wrapper */
-.table-responsive {
-    overflow-x: hidden !important; 
-    overflow-y: hidden !important;
-    width: 100% !important;
-    -ms-overflow-style: none;  /* Internet Explorer 10+ */
-    scrollbar-width: none;  /* Firefox */
-}
-
-/* 🟢 REMOVED SCROLLBAR: Hides the webkit scrollbar track completely for Chrome, Safari, and Edge */
-.table-responsive::-webkit-scrollbar {
-    display: none !important;
-    width: 0 !important;
-    height: 0 !important;
-}
-
-.custom-table {
-    color: #ffffff !important;
-    vertical-align: middle;
-    width: 100% !important;
-    margin: 0 !important;
-    border-collapse: separate !important;
-    border-spacing: 0 12px !important; 
+/* Card hover glow and lift effects */
+.test-history-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(46, 200, 102, 0.35) !important;
+    box-shadow: 0 12px 40px rgba(46, 200, 102, 0.12), 0 0 20px rgba(46, 200, 102, 0.06) !important;
+    background: rgba(20, 22, 28, 0.75) !important;
 }
 
 /* =========================================================================
-   3. HIGH-CONTRAST DATA LAYER GRID 
+   3. HEADER SECTION (TITLE AND BADGE)
    ========================================================================= */
-.custom-table th,
-.custom-table td {
-    padding: 16px 12px !important;
-    white-space: nowrap !important; 
+.card-header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
 }
 
-/* Precise column distributions preventing layout content collisions */
-.custom-table th:nth-child(1), .custom-table td:nth-child(1) { width: 18%; } /* Title */
-.custom-table th:nth-child(2), .custom-table td:nth-child(2) { width: 14%; } /* Scope */
-.custom-table th:nth-child(3), .custom-table td:nth-child(3) { width: 8%;  text-align: center; } /* Sem */
-.custom-table th:nth-child(4), .custom-table td:nth-child(4) { width: 12%; } /* Duration */
-.custom-table th:nth-child(5), .custom-table td:nth-child(5) { width: 14%; } /* Problems Canvas */
-.custom-table th:nth-child(6), .custom-table td:nth-child(6) { width: 16%; } /* Timestamp */
-.custom-table th:nth-child(7), .custom-table td:nth-child(7) { width: 6%;  text-align: center; } /* State */
-.custom-table th:nth-child(8), .custom-table td:nth-child(8) { width: 12%; } /* Performance Analytics */
-
-/* 🟢 FIXED WHITE THEME BUG: Forces headers to be completely transparent with zero fallback tint backgrounds */
-.custom-table thead,
-.custom-table tr,
-.custom-table th {
-    background: transparent !important;
-    background-color: transparent !important;
-    color: #64748b !important; 
-    font-size: 0.78rem !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    border: none !important;
-}
-
-/* Base row pods fill design stays clean */
-.custom-table td {
-    font-size: 0.92rem;
-    background: #161a22 !important; 
-    border-top: 1px solid #1f242d !important;
-    border-bottom: 1px solid #1f242d !important;
-    color: #ffffff !important;
-}
-
-.custom-table td:first-child {
-    border-left: 1px solid #1f242d !important;
-    border-top-left-radius: 8px !important;
-    border-bottom-left-radius: 8px !important;
+.test-title {
+    font-size: 1.25rem;
     font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.4;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 78%;
 }
 
-.custom-table td:last-child {
-    border-right: 1px solid #1f242d !important;
-    border-top-right-radius: 8px !important;
-    border-bottom-right-radius: 8px !important;
-}
-
-.custom-table tbody tr {
-    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.custom-table tbody tr:hover {
-    transform: translateX(4px);
-}
-
-.custom-table tbody tr:hover td {
-    background: #1c212b !important; 
-    border-color: rgba(46, 200, 102, 0.25) !important; 
-}
-
-/* =========================================================================
-   4. CONTROL CHIPS & ACTIONS SELECTION COMPONENT ACTIONS
-   ========================================================================= */
-.btn-action-panel {
+.status-badge-live {
+    background: rgba(46, 200, 102, 0.1) !important;
+    border: 1px solid rgba(46, 200, 102, 0.25) !important;
+    color: #2ec866 !important;
+    padding: 4px 10px !important;
+    border-radius: 20px !important;
+    font-weight: 600 !important;
+    font-size: 0.72rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
     gap: 6px;
-    padding: 6px 12px !important;
-    font-size: 0.78rem !important;
-    font-weight: 600 !important;
-    border-radius: 6px !important;
-    text-decoration: none !important;
-    transition: background-color 0.15s ease, border-color 0.15s ease !important;
-    white-space: nowrap !important;
 }
 
-.btn-tasks-explorer {
-    color: #2ec866 !important;
-    background: rgba(46, 200, 102, 0.06) !important;
-    border: 1px solid rgba(46, 200, 102, 0.2) !important;
+.status-badge-live::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-color: #2ec866;
+    border-radius: 50%;
+    animation: statusPulse 1.8s infinite;
 }
 
-.btn-tasks-explorer:hover {
-    background: #2ec866 !important;
-    color: #0d0f12 !important;
-    border-color: #2ec866 !important;
+@keyframes statusPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(46, 200, 102, 0.7);
+        transform: scale(0.95);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(46, 200, 102, 0);
+        transform: scale(1);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(46, 200, 102, 0);
+        transform: scale(0.95);
+    }
 }
 
-.btn-records-audit {
-    color: #cbd5e1 !important;
+/* =========================================================================
+   4. INVITE CODE PILL BLOCK
+   ========================================================================= */
+.code-share-block {
+    display: flex;
+}
+
+.invite-code-pill {
     background: rgba(255, 255, 255, 0.03) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    color: var(--text-secondary) !important;
+    padding: 6px 12px !important;
+    border-radius: 8px !important;
+    font-size: 0.8rem !important;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
 }
 
-.btn-records-audit:hover {
-    background: rgba(255, 255, 255, 0.08) !important;
-    border-color: rgba(255, 255, 255, 0.2) !important;
+.invite-code-pill:hover {
+    background: rgba(46, 200, 102, 0.08) !important;
+    border-color: rgba(46, 200, 102, 0.3) !important;
+    color: #ffffff !important;
 }
 
-.custom-table .badge.bg-secondary {
-    background-color: rgba(255, 255, 255, 0.03) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    color: #cbd5e1 !important;
-    font-weight: 600;
+.invite-code-pill.copied {
+    background: rgba(46, 200, 102, 0.15) !important;
+    border-color: rgba(46, 200, 102, 0.4) !important;
+    color: #ffffff !important;
+    animation: copyScale 0.3s ease;
+}
+
+@keyframes copyScale {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.invite-code-pill i {
     font-size: 0.75rem;
-    padding: 4px 8px !important;
+    color: var(--accent-success);
+}
+
+.invite-code-pill strong {
+    font-family: var(--font-mono), monospace;
+    letter-spacing: 0.5px;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 2px 6px;
     border-radius: 4px;
 }
 
-.text-success.fw-bold {
-    color: #2ec866 !important;
+/* =========================================================================
+   5. METADATA GRID DISPLAY
+   ========================================================================= */
+.metadata-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: auto; /* Push card footer & action row to bottom */
+    border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.metadata-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.metadata-item label {
+    font-size: 0.7rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted) !important;
+    opacity: 0.65;
     font-weight: 600;
+    margin: 0;
 }
 
-.timestamp-text {
-    color: #94a3b8 !important;
+.metadata-item span {
+    font-size: 0.88rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
 }
 
-.status-badge {
-    background: rgba(46, 200, 102, 0.08) !important;
-    border: 1px solid rgba(46, 200, 102, 0.2) !important;
-    color: #2ec866 !important;
-    padding: 4px 10px !important;
-    border-radius: 4px !important;
+/* =========================================================================
+   6. TIMESTAMP & FOOTER
+   ========================================================================= */
+.card-footer-timestamp {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 10px;
+    margin-top: 14px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* =========================================================================
+   7. INTERACTIVE ACTION ROW
+   ========================================================================= */
+.card-actions-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.action-btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 14px !important;
+    font-size: 0.85rem !important;
     font-weight: 600 !important;
-    font-size: 0.75rem;
-    display: inline-block;
+    border-radius: 8px !important;
+    text-decoration: none !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    white-space: nowrap !important;
+}
+
+.btn-tasks-view {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.btn-tasks-view:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.18) !important;
+    transform: translateY(-2px);
+}
+
+.btn-records-view {
+    color: #0d0f12 !important;
+    background: var(--accent-success) !important;
+    border: 1px solid var(--accent-success) !important;
+    box-shadow: 0 4px 12px rgba(46, 200, 102, 0.2) !important;
+}
+
+.btn-records-view:hover {
+    background: var(--accent-success-bright) !important;
+    border-color: var(--accent-success-bright) !important;
+    box-shadow: 0 6px 16px rgba(57, 229, 127, 0.35) !important;
+    transform: translateY(-2px);
+}
+
+/* =========================================================================
+   8. SPECIFIC LAYOUT BACKWARDS COMPATIBILITY (FOR VIEW TASKS PAGE)
+   ========================================================================= */
+.history-card {
+    background: rgba(20, 22, 28, 0.6) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4) !important;
+    width: 100% !important;
 }
 
 /* =========================================================================
    🟢 VISIBILITY PATCH: HIGH-CONTRAST COLLAPSIBLE CODE BLOCKS
    ========================================================================= */
 .question-inspect-pod a.text-success {
-    color: #4ade80 !important; /* Vivid mint forest green for actionable links */
+    color: #4ade80 !important;
     transition: color 0.15s ease;
 }
 
@@ -213,19 +316,17 @@ p.text-muted {
     color: #22c55e !important;
 }
 
-/* Monospace code layout background contrast enhancements */
 .question-inspect-pod div[style*="background: #111418"] {
-    background-color: #0d1013 !important; /* Darker core contrast well */
-    border: 1px solid #2d3748 !important; /* Thick visible borders line */
+    background-color: #0d1013 !important;
+    border: 1px solid #2d3748 !important;
 }
 
-/* Hard high-visibility overrides for inner snippet label colors */
 .question-inspect-pod .text-white-50 {
-    color: #f1f5f9 !important; /* High clarity bright off-white output text */
+    color: #f1f5f9 !important;
 }
 
 .question-inspect-pod .text-muted {
-    color: #94a3b8 !important; /* Crisp slate gray labels */
+    color: #94a3b8 !important;
     font-weight: 600;
 }
 
@@ -234,7 +335,7 @@ p.text-muted {
    ========================================================================= */
 .history-card label.text-muted,
 .history-card .small.text-muted {
-    color: #94a3b8 !important; /* Crisp slate-gray font color instead of hidden dark gray */
+    color: #94a3b8 !important;
     font-weight: 600 !important;
     font-size: 0.8rem !important;
     letter-spacing: 0.3px;
@@ -242,10 +343,32 @@ p.text-muted {
     display: inline-block;
 }
 
-/* Brighten the input text values inside disabled fields just a touch for accessibility */
 .inspect-input:disabled {
     color: #e2e8f0 !important;
     background-color: #161a22 !important;
     border-color: #232931 !important;
-    opacity: 1 !important; /* Overrides default browser faded look */
+    opacity: 1 !important;
+}
+
+/* =========================================================================
+   9. RESPONSIVE OPTIMIZATIONS
+   ========================================================================= */
+@media (max-width: 768px) {
+    .test-history-card {
+        padding: 20px !important;
+    }
+    .test-title {
+        font-size: 1.15rem;
+    }
+    .metadata-grid {
+        gap: 10px;
+        padding: 12px;
+    }
+    .card-actions-row {
+        flex-direction: column;
+    }
+    .action-btn {
+        width: 100%;
+    }
+}aded look */
 }

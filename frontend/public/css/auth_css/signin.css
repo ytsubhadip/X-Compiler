@@ -346,13 +346,13 @@ input.input-control:-webkit-autofill::first-line {
 }
 
 .btn-signup-submit {
-    background-color: #ffffff !important;
+    background-color:var(--accent-success) !important;
     color: #0d0f12 !important;
     box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
 }
 
 .btn-signup-submit:hover {
-    background-color: #f3f4f6 !important;
+    background-color: var(--accent-success-bright) !important;
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.35);
     transform: translateY(-1px);
 }
@@ -482,6 +482,20 @@ input.input-control:-webkit-autofill::first-line {
 
 .persona-selector-container.teacher-active ~ .auth-card-footer .auth-redirect-link:hover {
     color: #60a5fa !important;
+}
+
+/* Make submit CTAs blue when Teacher persona is active */
+.persona-selector-container.teacher-active ~ .auth-form-wrapper .btn-signin-submit,
+.persona-selector-container.teacher-active ~ .auth-form-wrapper .btn-signup-submit {
+    background-color: #3b82f6 !important; /* Teacher blue */
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15) !important;
+}
+.persona-selector-container.teacher-active ~ .auth-form-wrapper .btn-signin-submit:hover,
+.persona-selector-container.teacher-active ~ .auth-form-wrapper .btn-signup-submit:hover {
+    background-color: #60a5fa !important;
+    box-shadow: 0 0 15px rgba(96, 165, 250, 0.25) !important;
+    transform: translateY(-1px);
 }
 
 /* =========================================================================

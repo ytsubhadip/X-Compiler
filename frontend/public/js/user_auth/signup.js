@@ -62,6 +62,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 payload.department = deptSelect ? deptSelect.value : "";
                 payload.semester = semInput ? parseInt(semInput.value) : null;
             }
+            
+            // teacher unique ID moved to signin page; no teacher unique in signup payload
 
             try {
                 console.log("Submitting payload context:", payload);

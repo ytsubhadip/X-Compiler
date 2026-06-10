@@ -1,96 +1,151 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Outfit:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Outfit:wght@100..900&display=swap');
 
-.hero{
-    background-image: url('../img/hero-bg.jpg');
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    text-align: center;
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
 }
-.Manrope{
-  font-family: "Manrope", sans-serif !important;
-  font-optical-sizing: auto;
-  font-style: normal;
-  font-weight: 400;
+.hero-butn-group button {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+.hero-butn-group button:focus,
+.hero-butn-group button:active,
+.hero-butn-group button:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+
+/* Hero Section */
+.hero {
+  background: url('../img/hero-bg.jpg') center/cover no-repeat;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* Hero Title */
+.Manrope {
+  font-family: "Manrope", sans-serif;
+  font-weight: 300;
   font-size: 3.5rem;
+  line-height: 1.2;
 }
 
-#element{
+#element {
   color: var(--accent-success);
 }
-.hero-title-section{
+
+.hero-title-section {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
 }
-.hero-description{
-  font-family: "Outfit", sans-serif !important;
-  font-optical-sizing: auto;
-  font-style: normal;
+
+/* Hero Description */
+.hero-description {
+  font-family: "Outfit", sans-serif;
   font-weight: 300;
   font-size: 1rem;
   max-width: 600px;
   margin-bottom: 2rem;
+  line-height: 1.6;
 }
-.hero-butn-group{
-  display: flex;
-  gap: 1rem;
-}
-.hero-butn-group{
-  display: flex;
-  gap: 4rem;
 
+/* Button Group */
+.hero-butn-group {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
-.hero-butn-group button{
-  background-color: transparent;
+
+/* Buttons */
+.hero-butn-group button {
+  width: 9em;
+  height: 3em;
+  border: none;
+  border-radius: 30em;
+  background: transparent;
   color: white;
- width: 9em;
- height: 3em;
- border-radius: 30em;
- font-size: 15px;
- font-family: inherit;
- border: none;
- position: relative;
- overflow: hidden;
- z-index: 1;
- outline: 2px solid white;
- 
-}
-.hero-butn-group .for-student::before {
- content: '';
- width: 0;
- height: 3em;
- border-radius: 30em;
- position: absolute;
- top: 0;
- left: 0;
- background-image: linear-gradient(to right, #0fd850 0%, #f9f047 100%);
- transition: .5s ease;
- display: block;
- z-index: -1;
- 
-}
-.hero-butn-group .for-student:hover::before {
- width: 9em;
-}
-.hero-butn-group button:focus-visible {
- outline: 2px solid white;
+  font-size: 15px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  outline: 2px solid white;
 }
 
-.hero-sponor-section{
+/* Hover Animation */
+.hero-butn-group button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 0;
+  border-radius: 30em;
+  background-image: linear-gradient(to right,
+      #0fd850 0%,
+      #f9f047 100%);
+  transition: width 0.5s ease;
+  z-index: -1;
+}
+
+.hero-butn-group button:hover::before {
+  width: 100%;
+}
+
+.hero-butn-group button:hover {
+  color: #000;
+}
+
+.hero-butn-group button:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 4px;
+}
+
+/* Sponsor Section */
+.hero-sponor-section {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
   margin-top: 4rem;
 }
-.brand-logo img{
+
+.brand-logo {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.brand-logo img {
   width: 100px;
   height: auto;
+  object-fit: contain;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .Manrope {
+    font-size: 2.5rem;
+  }
+
+  .hero-description {
+    font-size: 0.9rem;
+    padding: 0 1rem;
+  }
+
+  .hero-butn-group {
+    gap: 1rem;
+  }
 }

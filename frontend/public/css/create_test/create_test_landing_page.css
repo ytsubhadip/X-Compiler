@@ -90,8 +90,8 @@
     margin-right: auto;
 }
 
-/* Action button row layout (styled to accommodate user's class spelling) */
-.button-broup {
+/* Action button row layout */
+.button-group {
     display: flex;
     gap: 24px;
     justify-content: center;

@@ -21,76 +21,106 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/navbar.css">
     <link rel="stylesheet" href="/css/create_test/create_test_form.css">
+    <link rel="stylesheet" href="/css/loder/loder.css">
 </head>
 
 <body style="min-height: 100vh; overflow-y: auto; background-color: #0d0f12;">
 
-    <nav class="custom-navbar"></nav>
+        <nav class="custom-navbar"></nav>
 
-    <div class="starry-background-canvas">
-        <div id="stars"></div>
-        <div id="stars2"></div>
-        <div id="stars3"></div>
-    </div>
+        <div class="starry-background-canvas">
+            <div id="stars"></div>
+            <div id="stars2"></div>
+            <div id="stars3"></div>
+        </div>
 
-    <h1>Create Test</h1>
-    <p>Design a new technical assessment for your students.</p>
+        <h1>Create Test</h1>
+        <p>Design a new technical assessment for your students.</p>
 
-    <div class="from-container">
-        <form id="formCreateTestAssessment">
+        <div class="from-container">
+            <form id="formCreateTestAssessment">
             
-            <div class="input-group">
-                <label for="testName">Test Name</label>
-                <input type="text" id="testName" placeholder="e.g. Data Structures & Algorithms" required>
-            </div>
-
-            <div class="input-group">
-                <div class="child-div">
-                    <label for="testDepartment">Department</label>
-                    <select id="testDepartment" required>
-                        <option value="Bsc Data Science">Bsc Data Science</option>
-                        <option value="Bsc Cyber Security">Bsc Cyber Security</option>
-                        <option value="BCA">BCA</option>
-                    </select>
+                <div class="form-group">
+                    <label for="testName">Test Name</label>
+                    <input type="text" id="testName" placeholder="e.g. Data Structures & Algorithms" required>
                 </div>
+
+                <div class="form-group">
+                    <div class="child-div">
+                        <label for="testDepartment">Department</label>
+                        <select id="testDepartment" required>
+                            <option value="Bsc Data Science">Bsc Data Science</option>
+                            <option value="Bsc Cyber Security">Bsc Cyber Security</option>
+                            <option value="BCA">BCA</option>
+                        </select>
+                    </div>
                 
-                <div class="child-div">
-                    <label for="testSemester">Semester</label>
-                    <select id="testSemester" required>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                    </select>
+                    <div class="child-div">
+                        <label for="testSemester">Semester</label>
+                        <select id="testSemester" required>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
             
-            <div class="input-group">
-                <label for="testDuration">Duration (Minutes)</label>
-                <input type="number" id="testDuration" placeholder="e.g. 90" min="1" required>
-            </div>
-
-            <div class="question-group">
-                <div class="question-header">
-                    <h3>Questions Canvas</h3>
-                    <span id="labelQuestionCounter">0 Selected</span>
+                <div class="form-group">
+                    <div class="child-div">
+                        <label for="testDuration">Duration (Minutes)</label>
+                        <input type="number" id="testDuration" placeholder="e.g. 90" min="1" required>
+                    </div>
+                    <div class="child-div">
+                        <label for="testCustomCodeInput">Test Code (Optional)</label>
+                        <input type="text" id="testCustomCodeInput" placeholder="e.g. CS101" maxlength="10">
+                    </div>
                 </div>
 
-                <div class="question-add">
-                    <button type="button" id="addQuestionBtn">Add Question</button>
+                <div class="question-group">
+                    <div class="question-header">
+                        <h3>Questions Canvas</h3>
+                        <span id="labelQuestionCounter">0 Selected</span>
+                    </div>
+
+                    <div class="question-actions">
+                        <button type="button" id="addQuestionBtn" class="action-btn">
+                            <i class="bi bi-plus-circle"></i> Add Question Manually
+                        </button>
+                        
+                        <div class="upload-zone" id="questionUploadZone">
+                            <input type="file" id="questionFileInput" accept=".pdf,.xlsx,.xls,.doc,.docx" style="display: none;">
+                            <div class="upload-content" id="uploadContentText">
+                                <i class="bi bi-cloud-arrow-up upload-icon"></i>
+                                <span>Upload Questions (PDF, Excel, Doc)</span>
+                                <span class="upload-limits">Max size: 10MB</span>
+                            </div>
+                            <div class="file-info" id="fileInfoDisplay" style="display: none;">
+                                <i class="bi bi-file-earmark-check file-icon"></i>
+                                <span class="file-name" id="selectedFileName">filename.pdf</span>
+                                <button type="button" class="remove-file-btn" id="removeFileBtn">
+                                    <i class="bi bi-x"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            
+                <button type="submit" id="btnSubmitTestForm">Create Test Assessment</button>
 
-            <button type="submit" id="btnSubmitTestForm">Create Test Assessment</button>
+            </form>
+        </div>
 
-        </form>
-    </div>
+        <div id="globalPageLoader">
+            <div class="loader"></div>
+            <div id="globalLoaderText">Processing...</div>
+        </div>
 
-    <script src="/js/create_test_form.js"></script>
-    <script src="/js/navbar.js"></script>
+        <script src="/js/create_test_form.js"></script>
+        <script src="/js/navbar.js"></script>
 </body>
 </html>

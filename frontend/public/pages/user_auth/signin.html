@@ -25,7 +25,8 @@
     <link rel="stylesheet" href="/css/animated-Element/star_background.css">
 </head>
 
-<body class="landing-page d-flex flex-column" style="min-height: 100vh; height: auto !important; overflow-y: auto !important; overflow-x: hidden;">
+<body class="landing-page d-flex flex-column"
+    style="min-height: 100vh; height: auto !important; overflow-y: auto !important; overflow-x: hidden;">
     <div class="loader-wrapper">
         <div class="loader"></div>
     </div>
@@ -35,7 +36,7 @@
         <div id="stars2"></div>
         <div id="stars3"></div>
     </div>
-    
+
     <!-- Dynamic mouse cursor glow effect backdrop -->
     <div class="cursor-glow" id="cursorGlow"></div>
 
@@ -47,7 +48,7 @@
                 <div class="auth-header">
                     <i class="fa-brands fa-magento brand-icon"></i>
                     <h2 id="authTitle">Welcome Back</h2>
-                    <p id="authSubtitle">Log in to ML Compiler to compile and run your solutions as a student.</p>
+                    <p id="authSubtitle">Log in to X Compiler to compile and run your solutions as a student.</p>
                 </div>
 
                 <div class="persona-selector-container" id="personaSelectorContainer">
@@ -70,7 +71,6 @@
                                     placeholder="name@domain.com">
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label for="signinPassword">Password</label>
                             <div class="input-wrapper">
@@ -79,6 +79,15 @@
                                     placeholder="••••••••">
                                 <i class="bi bi-eye-slash-fill toggle-password"
                                     onclick="togglePasswordVisibility('signinPassword', this)"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-group-dynamic" id="groupTeacherUid">
+                            <label for="signinTeacherUid">Teacher Unique ID</label>
+                            <div class="input-wrapper">
+                                <i class="bi bi-shield-lock-fill input-icon"></i>
+                                <input class="input-control" type="text" id="signinTeacherUid"
+                                    placeholder="e.g., TCH-10029">
                             </div>
                         </div>
 
@@ -101,7 +110,7 @@
         </div>
     </main>
     <script>
-      
+
         const btnTabStudent = document.getElementById('btnTabStudent');
         const btnTabTeacher = document.getElementById('btnTabTeacher');
         const personaSelectorContainer = document.getElementById('personaSelectorContainer');
@@ -116,6 +125,14 @@
             personaSelectorContainer.classList.remove('teacher-active');
             btnSubmitSignin.className = "btn-auth-submit btn-signin-submit";
             btnSubmitSignin.removeAttribute('style');
+            
+            const groupTeacherUid = document.getElementById('groupTeacherUid');
+            const signinTeacherUid = document.getElementById('signinTeacherUid');
+            if (groupTeacherUid && signinTeacherUid) {
+                groupTeacherUid.classList.remove('active');
+                signinTeacherUid.required = false;
+            }
+
             activeRole = 'student';
             authSubtitle.innerText = "Log in to ML Compiler to compile and run your solutions as a student.";
         }
@@ -128,6 +145,14 @@
             btnSubmitSignin.style.borderColor = "#3b82f6";
             btnSubmitSignin.style.color = "#ffffff";
             btnSubmitSignin.style.boxShadow = "0 4px 12px rgba(59, 130, 246, 0.15)";
+            
+            const groupTeacherUid = document.getElementById('groupTeacherUid');
+            const signinTeacherUid = document.getElementById('signinTeacherUid');
+            if (groupTeacherUid && signinTeacherUid) {
+                groupTeacherUid.classList.add('active');
+                signinTeacherUid.required = true;
+            }
+
             activeRole = 'teacher';
             authSubtitle.innerText = "Log in to ML Compiler to compile and run your solutions as a teacher.";
         }
@@ -149,10 +174,29 @@
                 }
             }
         }
+
+        // Auto-select role if provided via query param or hash, e.g. /signup?role=teacher or /signup#teacher
+        document.addEventListener('DOMContentLoaded', function () {
+            try {
+                const params = new URLSearchParams(window.location.search);
+                if (params.get('role') === 'teacher' || window.location.hash === '#teacher') {
+                    selectTeacherRole();
+                }
+            } catch (e) {
+                if (window.location.hash === '#teacher') {
+                    selectTeacherRole();
+                }
+            }
+        });
+
     </script>
+    <div id="globalPageLoader">
+        <div class="loader"></div>
+        <div id="globalLoaderText">Processing...</div>
+    </div>
+
     <script src="/js/user_auth/signin.js"></script>
     <script src="/js/loder.js"></script>
-    <!-- <script src="js/navbar.js"></script> -->
 </body>
 
 </html>

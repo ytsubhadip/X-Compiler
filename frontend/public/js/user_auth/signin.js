@@ -46,6 +46,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 role: currentRole
             };
 
+            if (currentRole === "teacher") {
+                const uidField = document.getElementById("signinTeacherUid");
+                if (uidField) {
+                    payload.teacherUid = uidField.value.trim();
+                }
+            }
+
             try {
                 // 🟢 Trigger the global domino loading overlay screen
                 if (pageLoader && loaderText) {
@@ -96,44 +103,34 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // =========================================================================
-    // DYNAMIC MOUSE CURSOR GLOW EFFECT (OUTSIDE SIGN-IN BOX)
-    // =========================================================================
-    const glow = document.getElementById("cursorGlow");
+    // Dynamic mouse cursor green glow effect (outside the main sign-in card)
+    const cursorGlow = document.getElementById("cursorGlow");
     const authCard = document.querySelector(".auth-card");
-
-    if (glow) {
+    if (cursorGlow) {
         document.addEventListener("mousemove", (e) => {
-            const mouseX = e.clientX;
-            const mouseY = e.clientY;
-
-            // Move the glow to follow mouse coordinates
-            glow.style.left = `${mouseX}px`;
-            glow.style.top = `${mouseY}px`;
+            cursorGlow.style.left = `${e.clientX}px`;
+            cursorGlow.style.top = `${e.clientY}px`;
 
             if (authCard) {
                 const rect = authCard.getBoundingClientRect();
-                // Check if the cursor coordinates fall inside the bounds of the authentication card
-                const isInside = (
-                    mouseX >= rect.left &&
-                    mouseX <= rect.right &&
-                    mouseY >= rect.top &&
-                    mouseY <= rect.bottom
+                const isOverCard = (
+                    e.clientX >= rect.left &&
+                    e.clientX <= rect.right &&
+                    e.clientY >= rect.top &&
+                    e.clientY <= rect.bottom
                 );
-
-                if (isInside) {
-                    glow.classList.remove("active");
+                if (isOverCard) {
+                    cursorGlow.classList.remove("active");
                 } else {
-                    glow.classList.add("active");
+                    cursorGlow.classList.add("active");
                 }
             } else {
-                glow.classList.add("active");
+                cursorGlow.classList.add("active");
             }
         });
 
-        // Hide glow when the mouse leaves the viewport
         document.addEventListener("mouseleave", () => {
-            glow.classList.remove("active");
+            cursorGlow.classList.remove("active");
         });
     }
 });

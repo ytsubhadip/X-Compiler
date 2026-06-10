@@ -37,11 +37,8 @@ function initializeDifficultyButtons() {
     });
 }
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> ed267e7535521d0efb4abb6bd7d05b3f56aa57f9
 function initializeTopicTags() {
     const tagInput = document.getElementById("tagInput");
     const tagContainer = document.getElementById("tagContainer");

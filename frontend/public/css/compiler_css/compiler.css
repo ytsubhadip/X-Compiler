@@ -408,10 +408,15 @@
 }
 
 @media (max-width: 991px) {
+    body {
+        height: auto !important;
+        overflow-y: auto !important;
+    }
+    
     .ide-workspace {
         flex-direction: column;
-        overflow-y: auto;
-        height: auto;
+        overflow-y: visible;
+        height: auto !important;
     }
     
     .left-column,

@@ -179,8 +179,7 @@
 
 /* Right Pane - Output Console Pane */
 .console-pane {
-    height: 32%;
-    min-height: 160px;
+    height: 100%;
 }
 
 .console-header {
@@ -297,3 +296,45 @@
     border-color: rgba(239, 68, 68, 0.25);
     box-shadow: 0 0 10px rgba(239, 68, 68, 0.05);
 }
+
+/* Helper rules to fill height on desktop layouts */
+.ide-workspace > .col-12 {
+    height: 100%;
+}
+
+.ide-workspace > .col-12 > .row {
+    height: 100%;
+}
+
+/* Responsive media queries for mobile viewports */
+@media (max-width: 991px) {
+    body {
+        height: auto !important;
+        overflow-y: auto !important;
+    }
+    
+    .ide-workspace {
+        flex-direction: column;
+        height: auto !important;
+        overflow-y: visible !important;
+    }
+    
+    .ide-workspace > .col-12 {
+        height: auto !important;
+    }
+    
+    .ide-workspace > .col-12 > .row {
+        height: auto !important;
+        flex-direction: column;
+    }
+    
+    .editor-pane {
+        min-height: 450px;
+        margin: 16px;
+    }
+    
+    .console-pane {
+        min-height: 350px;
+        margin: 0 16px 16px 16px;
+    }
+}

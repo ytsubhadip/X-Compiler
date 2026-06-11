@@ -28,11 +28,7 @@
 
         <nav class="custom-navbar"></nav>
 
-        <div class="starry-background-canvas">
-            <div id="stars"></div>
-            <div id="stars2"></div>
-            <div id="stars3"></div>
-        </div>
+        
 
         <h1>Create Test</h1>
         <p>Design a new technical assessment for your students.</p>
@@ -75,10 +71,7 @@
                         <label for="testDuration">Duration (Minutes)</label>
                         <input type="number" id="testDuration" placeholder="e.g. 90" min="1" required>
                     </div>
-                    <div class="child-div">
-                        <label for="testCustomCodeInput">Test Code (Optional)</label>
-                        <input type="text" id="testCustomCodeInput" placeholder="e.g. CS101" maxlength="10">
-                    </div>
+                
                 </div>
 
                 <div class="question-group">
@@ -91,7 +84,7 @@
                         <button type="button" id="addQuestionBtn" class="action-btn">
                             <i class="bi bi-plus-circle"></i> Add Question Manually
                         </button>
-                        
+                            <span style="text-align: center; font-size: 0.7rem;">OR</span>
                         <div class="upload-zone" id="questionUploadZone">
                             <input type="file" id="questionFileInput" accept=".pdf,.xlsx,.xls,.doc,.docx" style="display: none;">
                             <div class="upload-content" id="uploadContentText">
@@ -111,6 +104,8 @@
                 </div>
             
                 <button type="submit" id="btnSubmitTestForm">Create Test Assessment</button>
+                
+                <button type="button" id="btnBack" style="background: #ffffff; color: #111; border: 1px solid rgba(0,0,0,.12); border-radius: 0.75rem; padding: 0.75rem 1.25rem; font-weight: 600; box-shadow: 0 1px 6px rgba(0,0,0,.08); transition: transform .2s ease, background .2s ease; margin-top: 20px;">Back</button>
 
             </form>
         </div>
@@ -119,7 +114,11 @@
             <div class="loader"></div>
             <div id="globalLoaderText">Processing...</div>
         </div>
-
+        <script>
+            document.getElementById("btnBack").addEventListener('click', (e)=>{
+                window.location.href = "/create-test"
+            })
+        </script>
         <script src="/js/create_test_form.js"></script>
         <script src="/js/navbar.js"></script>
 </body>

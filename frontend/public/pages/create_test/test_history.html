@@ -37,12 +37,55 @@
     </div>
 
     <div class="container py-5" style="position: relative; z-index: 10;">
-        <div class="d-flex align-items-center gap-3 mb-2">
-            <i class="bi bi-clock-history text-success h2 m-0 animate-pulse-glow"></i>
-            <h1 class="m-0 fw-bold font-sans">Assessment History</h1>
+        <!-- Back Navigation -->
+        <div class="mb-4">
+            <a href="/create-test" class="btn-back">
+                <i class="bi bi-arrow-left"></i> Back to Dashboard
+            </a>
         </div>
-        <p class="text-muted mb-4">Track, manage, and audit all technical code assessments deployed across cloud environments.</p>
 
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
+            <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-clock-history text-success h2 m-0 animate-pulse-glow"></i>
+                <h1 class="m-0 fw-bold font-sans">Assessment History</h1>
+            </div>
+            <a href="/test-form" class="btn-header-create-test">
+                <i class="bi bi-plus-lg"></i> Create Test
+            </a>
+        </div>
+        
+        <!-- Search & Filter Section -->
+        <div class="filter-wrapper mb-4">
+            <div class="row g-3">
+                <div class="col-12 col-md-6">
+                    <div class="glass-input-group">
+                        <i class="bi bi-search input-icon"></i>
+                        <input type="text" id="examSearchInput" placeholder="Search by exam name..." class="glass-input-control" autocomplete="off">
+                        <button type="button" id="clearExamSearch" class="clear-btn" style="display: none;">
+                            <i class="bi bi-x-circle-fill"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="glass-custom-select" id="deptFilterDropdown">
+                        <div class="glass-select-trigger" id="deptSelectTrigger">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-building input-icon"></i>
+                                <span id="deptSelectValue">All Departments</span>
+                            </div>
+                            <i class="bi bi-chevron-down chevron-icon"></i>
+                        </div>
+                        <div class="glass-select-options" id="deptSelectOptions">
+                            <div class="glass-select-option active" data-value="">All Departments</div>
+                            <div class="glass-select-option" data-value="Bsc Data Science">Bsc Data Science</div>
+                            <div class="glass-select-option" data-value="Bsc Cyber Security">Bsc Cyber Security</div>
+                            <div class="glass-select-option" data-value="BCA">BCA</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div id="historyGridContainer" class="row g-4 mt-2"></div>
 
         <div id="historyViewStateLoader" class="text-center py-5">

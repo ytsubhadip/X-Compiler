@@ -36,36 +36,49 @@ document.addEventListener("DOMContentLoaded", async () => {
     const gridContainer = document.getElementById("historyGridContainer");
     const stateLoader = document.getElementById("historyViewStateLoader");
 
-    try {
-        // Fetch full deployment parameters list logs straight from the operational backend API path
-        const response = await fetch("/api/tests/history", {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }
+    // Capture Search and Filter Controls
+    const examSearchInput = document.getElementById("examSearchInput");
+    const deptFilterDropdown = document.getElementById("deptFilterDropdown");
+    const deptSelectTrigger = document.getElementById("deptSelectTrigger");
+    const deptSelectValue = document.getElementById("deptSelectValue");
+    const clearExamSearch = document.getElementById("clearExamSearch");
+
+    let allTests = [];
+    let selectedDept = "";
+
+    // Filter application logic
+    function applyFilters() {
+        const examQuery = examSearchInput ? examSearchInput.value.toLowerCase().trim() : "";
+        const deptQuery = selectedDept.toLowerCase();
+
+        // Toggle clear buttons
+        if (clearExamSearch) clearExamSearch.style.display = examQuery ? "inline-flex" : "none";
+
+        const filtered = allTests.filter(test => {
+            const matchesExam = !examQuery || (test.title && test.title.toLowerCase().includes(examQuery));
+            const matchesDept = !deptQuery || (test.department && test.department.toLowerCase().includes(deptQuery));
+            return matchesExam && matchesDept;
         });
 
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error || "Failed to sync historic list metrics.");
+        renderTests(filtered);
+    }
 
-        // Clean loader visibility structures out of viewport
-        if (stateLoader) stateLoader.remove();
+    // Dynamic cards rendering logic
+    function renderTests(testsToRender) {
+        if (!gridContainer) return;
+        gridContainer.innerHTML = "";
 
-        // Catch edge conditions when zero assessments exist in database clusters
-        if (!data.tests || data.tests.length === 0) {
+        if (testsToRender.length === 0) {
             gridContainer.innerHTML = `
                 <div class="col-12 text-center text-muted py-5 font-sans">
-                    <i class="bi bi-folder-x d-block h3 mb-2 opacity-50"></i>
-                    No compiled assessments discovered in your account record. Try creating a new test form!
+                    <i class="bi bi-search d-block h3 mb-2 opacity-50"></i>
+                    No matching assessments discovered. Try adjusting your filters!
                 </div>`;
             return;
         }
 
-        // =========================================================================
-        // 2. ITERATIVE DATA CARD COMPILER ENGINE
-        // =========================================================================
-        data.tests.forEach(test => {
+        // Iterate and compile cards
+        testsToRender.forEach(test => {
             const cardCol = document.createElement("div");
             cardCol.className = "col-12 col-md-6 col-lg-4";
 
@@ -90,9 +103,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                     </div>
                     
                     <div class="code-share-block mb-3">
-                        <span class="invite-code-pill" 
-                              onclick="copyInviteLink(this, '${window.location.origin}/join-test?code=${renderingCode}')"
-                              title="Click to copy student invite link">
+                       <span class="invite-code-pill" 
+                             onclick="copyInviteLink(this, '${window.location.origin}/join-test?code=${renderingCode}')"
+                             title="Click to copy student invite link">
                             <i class="bi bi-share-fill"></i> Invite Code: <strong class="text-white">${renderingCode}</strong>
                         </span>
                     </div>
@@ -127,11 +140,111 @@ document.addEventListener("DOMContentLoaded", async () => {
                         <a href="/student-records?id=${test._id}" class="action-btn btn-records-view">
                             <i class="bi bi-graph-up-arrow me-1"></i> Results
                         </a>
+                        <button class="action-btn btn-delete-test" title="Delete Assessment">
+                            <i class="bi bi-trash3"></i>
+                        </button>
                     </div>
                 </div>
             `;
             gridContainer.appendChild(cardCol);
+
+            // Bind click handler for delete button (pure frontend deletion)
+            const deleteBtn = cardCol.querySelector(".btn-delete-test");
+            if (deleteBtn) {
+                deleteBtn.addEventListener("click", () => {
+                    if (confirm(`Are you sure you want to delete "${test.title}"?`)) {
+                        cardCol.remove();
+                        // Remove from the local allTests array so it stays deleted during filters
+                        allTests = allTests.filter(t => t._id !== test._id);
+                        
+                        // Check if no cards are currently visible
+                        if (gridContainer.children.length === 0) {
+                            gridContainer.innerHTML = `
+                                <div class="col-12 text-center text-muted py-5 font-sans">
+                                    <i class="bi bi-search d-block h3 mb-2 opacity-50"></i>
+                                    No matching assessments discovered. Try adjusting your filters!
+                                </div>`;
+                        }
+                    }
+                });
+            }
         });
+    }
+
+    try {
+        // Fetch full deployment parameters list logs straight from the operational backend API path
+        const response = await fetch("/api/tests/history", {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        });
+
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Failed to sync historic list metrics.");
+
+        // Clean loader visibility structures out of viewport
+        if (stateLoader) stateLoader.remove();
+
+        // Catch edge conditions when zero assessments exist in database clusters
+        if (!data.tests || data.tests.length === 0) {
+            gridContainer.innerHTML = `
+                <div class="col-12 text-center text-muted py-5 font-sans">
+                    <i class="bi bi-folder-x d-block h3 mb-2 opacity-50"></i>
+                    No compiled assessments discovered in your account record. Try creating a new test form!
+                </div>`;
+            const filterWrapper = document.querySelector(".filter-wrapper");
+            if (filterWrapper) filterWrapper.style.display = "none";
+            return;
+        }
+
+        // Save tests and initialize render/listeners
+        allTests = data.tests;
+        renderTests(allTests);
+
+        // Bind input and dropdown event listeners
+        if (examSearchInput) examSearchInput.addEventListener("input", applyFilters);
+
+        if (deptSelectTrigger) {
+            deptSelectTrigger.addEventListener("click", (e) => {
+                e.stopPropagation();
+                if (deptFilterDropdown) deptFilterDropdown.classList.toggle("active");
+            });
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener("click", () => {
+            if (deptFilterDropdown) deptFilterDropdown.classList.remove("active");
+        });
+
+        // Handle option click selection
+        const deptOptionsList = document.querySelectorAll(".glass-select-option");
+        deptOptionsList.forEach(option => {
+            option.addEventListener("click", (e) => {
+                e.stopPropagation();
+                
+                // Toggle active classes
+                deptOptionsList.forEach(opt => opt.classList.remove("active"));
+                option.classList.add("active");
+                
+                // Set value and trigger label update
+                selectedDept = option.getAttribute("data-value") || "";
+                if (deptSelectValue) deptSelectValue.textContent = option.textContent;
+                
+                // Close options list
+                if (deptFilterDropdown) deptFilterDropdown.classList.remove("active");
+                
+                applyFilters();
+            });
+        });
+
+        if (clearExamSearch) {
+            clearExamSearch.addEventListener("click", () => {
+                examSearchInput.value = "";
+                applyFilters();
+            });
+        }
 
     } catch (err) {
         console.error("History datagrid rendering failure:", err);

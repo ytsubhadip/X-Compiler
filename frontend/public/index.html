@@ -29,21 +29,21 @@
 <body>
 
     <nav class="custom-navbar"></nav>
+
     <div class="hero">
         <div class="hero-title-section">
             <h1 class="Manrope">
-                 code with <span id="element"></span><br>
+                code with <span id="element"></span><br>
                 <span>next generation compiler</span>
             </h1>
             <div class="hero-description">
-                We help thousands of students build coding skills and prepare for their careers, while empowering aspiring developers to learn, practice, and grow through real-world programming challenges.
-    
+                We help thousands of students build coding skills and prepare for their careers, while empowering
+                aspiring developers to learn, practice, and grow through real-world programming challenges.
             </div>
             <div class="hero-butn-group">
-                <button class="for-student" type="button"  id="studentBtn">For Student</button>
+                <button class="for-student" type="button" id="studentBtn">For Student</button>
                 <button class="for-teacher" type="button" id="teacherBtn">For Teacher</button>
             </div>
-
         </div>
         <div class="hero-sponor-section">
             <div class="brand-logo">
@@ -54,27 +54,23 @@
 
     <script src="/js/navbar.js"></script>
     <script src="https://unpkg.com/typed.js@3.0.0/dist/typed.umd.js"></script>
-     <script>
-    var typed = new Typed('#element', {
-      strings: ['python', 'javascripts','c','cpp', 'java'],
-      typeSpeed: 130,
-      loop: true,
-      loopCount: Infinity,
-    });
-  </script>
-  <script>
-    document.getElementById("studentBtn").addEventListener("click", function(){
+    <script>
+        var typed = new Typed('#element', {
+            strings: ['python', 'javascripts', 'c', 'cpp', 'java'],
+            typeSpeed: 130,
+            loop: true,
+            loopCount: Infinity,
+        });
+        // auth button
+        document.getElementById("studentBtn").addEventListener("click", function () {
 
-        window.location.href = "/signin";
-    })
+            window.location.href = "/signin";
+        })
+        document.getElementById("teacherBtn").addEventListener("click", function () {
 
-    document.getElementById("teacherBtn").addEventListener("click", function(){
-
-        window.location.href = "/signin#teacher";
-    })
-
-  </script>
-
+            window.location.href = "/signin#teacher";
+        })
+    </script>
 </body>
 
 </html>

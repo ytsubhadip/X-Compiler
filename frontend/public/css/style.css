@@ -35,6 +35,7 @@ html {
     background-color: var(--bg-main) !important;
     min-height: 100%;
     overflow-x: hidden; /* allow vertical scrolling */
+    user-select: none;
 }
 
 body {
@@ -48,7 +49,9 @@ body {
     font-family: var(--font-sans);
     color: var(--text-primary);
     height: 100vh;
+    user-select: none;
 }
+
 
 .outfit {
     font-family: var(--font-sans);

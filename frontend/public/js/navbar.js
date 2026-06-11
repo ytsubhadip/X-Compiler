@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Configure core center navigation links accessible by everyone
     let centerLinks = `<li><a href="/" class="nav-link ${currentPath === '/' ? 'active' : ''}">Home</a></li>`;
-    centerLinks += `<li><a href="/playground" class="nav-link ${currentPath === '/playground' ? 'active' : ''}">Playground</a></li>`;
+    centerLinks += `<li><a href="/playground" class="nav-link ${currentPath === '/playground' ? 'active' : ''}">Compiler</a></li>`;
 
     // =========================================================================
     // 🟢 FIXED ROLE-BASED CONDITIONAL NAVIGATION

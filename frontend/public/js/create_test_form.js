@@ -6,6 +6,32 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     // =========================================================================
+    // 🟢 ADDED: ANTI-LEAK WORKSPACE RECOVERY GUARD (ON PAGE LOAD)
+    // =========================================================================
+    const activeEditingTestId = localStorage.getItem("editingTestId");
+
+    // If we are NOT editing an old test, check if we came from the add-question panel
+    if (!activeEditingTestId) {
+        // Check the page history navigation record
+        const navigationEntries = performance.getEntriesByType("navigation");
+        const isPageNavReload = navigationEntries.length > 0 && navigationEntries[0].type === "reload";
+        
+        // Check if the teacher is actually coming back from the "Add Question" page
+        const comingFromAddQuestionPage = document.referrer.includes("add-question") || 
+                                          document.referrer.includes("question_page");
+
+        // 🧹 If they are starting fresh and NOT returning from adding a question, completely wipe the memory!
+        if (!comingFromAddQuestionPage && !isPageNavReload) {
+            console.log("🧹 Fresh Test Creation Session Detected. Purging previous tracking state caches...");
+            localStorage.removeItem("currentDraftQuestions");
+            localStorage.removeItem("draftTestName");
+            localStorage.removeItem("draftTestDept");
+            localStorage.removeItem("draftTestSem");
+            localStorage.removeItem("draftTestDuration");
+            localStorage.removeItem("draftTestCustomCode");
+        }
+    }
+    // =========================================================================
     // 1. END-POINT ROUTER SECURITY GUARD
     // =========================================================================
     const token = localStorage.getItem("authToken");
@@ -46,7 +72,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (localStorage.getItem("draftTestDept")) document.getElementById("testDepartment").value = localStorage.getItem("draftTestDept");
     if (localStorage.getItem("draftTestSem")) document.getElementById("testSemester").value = localStorage.getItem("draftTestSem");
     if (localStorage.getItem("draftTestDuration")) document.getElementById("testDuration").value = localStorage.getItem("draftTestDuration");
-    // 🟢 HYDRATE CUSTOM ENTRY CODE FROM MEMORY IF PRE-EXISTING
+    
+    // Hydrate custom entry code from memory if pre-existing
     if (localStorage.getItem("draftTestCustomCode")) {
         const customCodeField = document.getElementById("testCustomCodeInput");
         if (customCodeField) customCodeField.value = localStorage.getItem("draftTestCustomCode");
@@ -60,7 +87,6 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.setItem("draftTestSem", document.getElementById("testSemester").value);
             localStorage.setItem("draftTestDuration", document.getElementById("testDuration").value);
             
-            // 🟢 CACHE CUSTOM ENTRY CODE STATE VALUE
             const customCodeField = document.getElementById("testCustomCodeInput");
             if (customCodeField) {
                 localStorage.setItem("draftTestCustomCode", customCodeField.value.trim().toUpperCase());
@@ -82,7 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // 🟢 EXTRACT CUSTOM CODE DIRECTLY FROM TARGET CELL ELEMENT
             const customCodeField = document.getElementById("testCustomCodeInput");
             const finalCustomCodeValue = customCodeField ? customCodeField.value.trim().toUpperCase() : "";
 
@@ -93,7 +118,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 semester: parseInt(document.getElementById("testSemester").value, 10),
                 duration: parseInt(document.getElementById("testDuration").value, 10),
                 questions: activeDraftQuestions,
-                // 🟢 CRITICAL TRACKING SYNC: Bound code cleanly inside inbound data structures payload
                 code: finalCustomCodeValue 
             };
 
@@ -148,6 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (loaderText) loaderText.innerText = "Assessment Manifest Live! Syncing Systems...";
                 
+                // 🟢 Trigger the structural memory cleanup block right here
                 clearTransientFormLocalStorageCaches();
 
                 setTimeout(() => {
@@ -252,14 +277,18 @@ document.addEventListener("DOMContentLoaded", () => {
         uploadZone.style.background = "rgba(255, 255, 255, 0.005)";
     }
 
-    // Helper method to completely reset draft tracking allocations safely
+    // =========================================================================
+    // 🟢 FIXED LIFECYCLE MANAGEMENT: FULL CACHE WIPE ON TRANSACTION COMPLETE
+    // =========================================================================
     function clearTransientFormLocalStorageCaches() {
         localStorage.removeItem("draftTestName");
         localStorage.removeItem("draftTestDept");
         localStorage.removeItem("draftTestSem");
         localStorage.removeItem("draftTestDuration");
-        localStorage.removeItem("draftTestCustomCode"); // 🟢 Flush custom token from memory storage clean
-        localStorage.removeItem("currentDraftQuestions");
+        localStorage.removeItem("draftTestCustomCode"); 
         localStorage.removeItem("editingTestId"); 
+        
+        // 🟢 THE CRITICAL HERO LINE: Wipes out previous question allocations cleanly
+        localStorage.removeItem("currentDraftQuestions"); 
     }
 });

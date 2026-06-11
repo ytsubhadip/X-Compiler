@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const questionCount = test.questions ? test.questions.length : 0;
             
             // 🟢 RUNTIME DATA FALLBACK: Ensures clean look for older documents missing codes
-            const renderingCode = test.testCode || `OLD-${test._id.slice(-4).toUpperCase()}`;
+           const renderingCode = test.testcode || `OLD-${test._id.slice(-4).toUpperCase()}`;
 
             cardCol.innerHTML = `
                 <div class="test-history-card">

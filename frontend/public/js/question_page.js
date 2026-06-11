@@ -96,6 +96,9 @@ function addTagChipToDOM(tagValue) {
     tagContainer.insertBefore(tagChip, tagInput);
 }
 
+// =========================================================================
+// 🟢 FIXED: BULLETPROOF DYNAMIC EXAMPLE INCREMENTATION HANDLERS
+// =========================================================================
 function initializeExamplesList() {
     const examplesList = document.getElementById("examplesList");
     const addExampleBtn = document.getElementById("addExampleBtn");
@@ -103,8 +106,14 @@ function initializeExamplesList() {
     if (!examplesList || !addExampleBtn) return;
 
     addExampleBtn.addEventListener("click", () => {
-        const nextId = examplesList.querySelectorAll(".example-box").length + 1;
-        addExampleBoxToDOM(nextId, "", "", "");
+        // Always calculate the structural count based on active child nodes inside the DOM tree grid
+        const activeBoxCount = examplesList.querySelectorAll(".example-box").length;
+        const nextSecureId = activeBoxCount + 1;
+        
+        addExampleBoxToDOM(nextSecureId, "", "", "");
+        
+        // 🟢 Force structural numbers realignment pass right after appending
+        updateExampleNumbers(); 
     });
 }
 
@@ -129,10 +138,13 @@ function addExampleBoxToDOM(idNumber, inputValue = "", outputValue = "", explana
     deleteBtn.type = "button";
     deleteBtn.className = "remove-example-btn";
     deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
-    deleteBtn.addEventListener("click", () => {
-        exampleBox.remove();
-        updateExampleNumbers();
-    });
+    // Inside addExampleBoxToDOM(idNumber, inputValue, outputValue, explanationValue):
+deleteBtn.addEventListener("click", () => {
+    exampleBox.remove();
+    
+    // 🟢 RE-INDEX LIVE: Renumbers remaining boxes sequentially so arrays never duplicate!
+    updateExampleNumbers(); 
+});
     header.appendChild(deleteBtn);
     exampleBox.appendChild(header);
 

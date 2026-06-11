@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     /**
      * Target navbar element inside DOM.
      * @type {HTMLElement|null}
+     * 
      */
     const navbarTarget = document.querySelector(".custom-navbar");
     if (!navbarTarget) return;
@@ -44,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Configure core center navigation links accessible by everyone
     let centerLinks = `<li><a href="/" class="nav-link ${currentPath === '/' ? 'active' : ''}">Home</a></li>`;
-    centerLinks += `<li><a href="/playground" class="nav-link ${currentPath === '/playground' ? 'active' : ''}">playground</a></li>`;
+    centerLinks += `<li><a href="/playground" class="nav-link ${currentPath === '/playground' ? 'active' : ''}">Playground</a></li>`;
 
     // =========================================================================
     // 🟢 FIXED ROLE-BASED CONDITIONAL NAVIGATION
@@ -57,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
             centerLinks += `<li><a href="/create-test" class="nav-link ${currentPath === '/create-test' ? 'active' : ''}">Create Test</a></li>`;
         } else {
             // Students see the interactive exam entry portal path (Spelling fixed!)
-            centerLinks += `<li><a href="/coding-test" class="nav-link ${currentPath === '/coding-test' ? 'active' : ''}">coding Test</a></li>`;
+            centerLinks += `<li><a href="/coding-test" class="nav-link ${currentPath === '/coding-test' ? 'active' : ''}">Coding Test</a></li>`;
         }
     }
 

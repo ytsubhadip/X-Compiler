@@ -81,17 +81,16 @@
       <p class="text-muted small mb-4">Input the 7-character dynamic workspace identifier issued by your evaluator to authorize this compilation session environment.</p>
       
       <div class="d-flex justify-content-center align-items-center gap-2 mb-4" id="otpInputBlockMatrixContainer">
-        <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="0">
-        <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="1">
-        <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="2">
-        
-        <span class="text-secondary fw-bold fs-3 px-1 user-select-none">-</span>
-        
-        <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="3">
-        <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="4">
-        <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="5">
-        <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="6">
-      </div>
+  <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="0">
+  <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="1">
+  <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="2">
+  
+  <span class="text-secondary fw-bold fs-3 px-1 user-select-none">-</span>
+  
+  <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="3">
+  <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="4">
+  <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="5">
+</div>
       
       <button type="button" id="btnVerifyRoomCode" class="btn btn-success w-100 py-2 fw-bold" style="background: #2ec866; border-color: #2ec866; color: #0d0f12;">
         Unlock Test Workspace
@@ -113,11 +112,14 @@
         </div>
 
         <div class="problem-section mb-4">
-          <h3 class="problem-section-title fw-semibold mb-2 text-success" style="font-size: 1.1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 6px;">
-            <i class="bi bi-file-text-fill me-2"></i>Description
-          </h3>
-          <p id="description" class="problem-description text-secondary small" style="line-height: 1.6;"></p>
-        </div>
+  <div class="d-flex align-items-center my-3 p-2 rounded" style="background: #0d0f12; border: 1px solid rgba(255,255,255,0.04);">
+    <span class="text-success small me-3 class-title font-monospace fw-bold" style="font-size: 0.85rem;">
+      <i class="bi bi-grid-3x3-gap-fill me-1"></i>TASKS:
+    </span>
+    <div id="questionPaginationWrapper" class="d-flex align-items-center gap-1">
+      </div>
+  </div>
+</div>
 
         <div class="problem-section mb-4">
           <h3 class="problem-section-title fw-semibold mb-2 text-success" style="font-size: 1.1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 6px;">
@@ -135,7 +137,7 @@
 
         <div class="problem-section mb-4">
           <h3 class="problem-section-title fw-semibold mb-2 text-success" style="font-size: 1.1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 6px;">
-            <i class="bi bi-shield-lock-fill me-2"></i>Constraints
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>Constraints
           </h3>
           <ul class="constraints-list ps-3 text-muted small" style="line-height: 1.6;">
             <li>2 &le; nums.length &le; 10⁴</li>
@@ -162,13 +164,14 @@
             </select>
           </div>
           <div class="d-flex gap-2">
-            <button type="button" class="btn btn-success btn-action px-3 py-1 fw-bold small" id="coderun">
-              <i class="bi bi-play-fill"></i> Run Code
-            </button>
-            <button type="button" class="btn btn-success btn-action px-3 py-1 fw-bold small" id="codesubmit" disabled>
-              <i class="bi bi-cloud-upload"></i> Submit Exam
-            </button>
-          </div>
+  <button type="button" class="btn btn-success btn-action px-3 py-1 fw-bold small" id="coderun">
+    <i class="bi bi-play-fill"></i> Run Code
+  </button>
+  
+  <button type="button" class="btn btn-success btn-action px-3 py-1 fw-bold small" id="codesubmit">
+    <i class="bi bi-cloud-upload-fill me-1"></i> Submit Exam
+  </button>
+</div>
         </div>
 
         <div class="editor-body flex-grow-1 position-relative">
@@ -205,9 +208,9 @@
   <script src="/codemirror-5.65.21/mode/python/python.js"></script>
   
   <script src="/js/navbar.js"></script>
-  <script src="/js/ide_portal_controller.js"></script>
   <script src="/js/language.js"></script>
   <script src="/js/loadQuestion.js"></script>
+  <script src="/js/ide_portal_controller.js"></script>
   <script src="/js/run_compiler/compilerRunner.js"></script>
 </body>
 

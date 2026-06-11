@@ -346,12 +346,13 @@ function resetFormCanvasWorkspace() {
 // 4. SCRAPER OPERATORS & SUBMISSIONS ACTION MANAGERS
 // =========================================================================
 function initializeFormActions() {
-    const footerButtons = document.querySelectorAll(".footer-button button");
-    const btnAddToQueue = footerButtons[0];      // "Add in Queue" / "Update in Queue"
-    const btnSaveToAssessment = footerButtons[1]; // "Save Assignment"
+    // 🟢 FIXED: EXCLUSIVE REFERENCE ATTACHMENT THROUGH NATIVE IDS
+    const btnAddToQueue = document.getElementById("btnAddToQueueAnchor");
+    const btnSaveToAssessment = document.getElementById("btnSaveToAssessmentAnchor");
 
     if (btnAddToQueue) {
         btnAddToQueue.addEventListener("click", () => {
+            // ... (Your existing code to add/update questions in the queue stays perfectly intact here)
             const titleInput = document.querySelector(".right-side-div input[type='text']");
             const descInput = document.querySelector(".probleam-desc textarea");
             const examplesList = document.getElementById("examplesList");
@@ -387,7 +388,6 @@ function initializeFormActions() {
                 examples: structuredExamples
             };
 
-            // 🟢 MODIFIED LIFECYCLE: Checks if updating an index trace or generating a new array entry block
             if (editingQuestionIndex > -1) {
                 workingDraftQuestionsList[editingQuestionIndex] = questionPayload;
             } else {
@@ -395,15 +395,71 @@ function initializeFormActions() {
             }
 
             localStorage.setItem("currentDraftQuestions", JSON.stringify(workingDraftQuestionsList));
-
             renderSidebarDraftsQueue();
             resetFormCanvasWorkspace();
         });
     }
 
     if (btnSaveToAssessment) {
-        btnSaveToAssessment.addEventListener("click", () => {
-            window.location.href = "/test-form";
+        btnSaveToAssessment.addEventListener("click", async (e) => {
+            e.preventDefault(); // 🛡️ Safety fallback block shield
+
+            const activeEditingTestId = localStorage.getItem("editingTestId");
+
+            // ⚡ CASE A: WE ARE IN EDIT MODE -> FIRE BACKGROUND PUT PASS
+            if (activeEditingTestId) {
+                try {
+                    btnSaveToAssessment.disabled = true;
+                    btnSaveToAssessment.innerHTML = `<i class="fa-solid fa-spinner fa-spin me-2"></i> Syncing Changes...`;
+
+                    const updatedQuestionsList = JSON.parse(localStorage.getItem("currentDraftQuestions")) || [];
+
+                    const response = await fetch(`/api/tests/update/${activeEditingTestId}`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+                        },
+                        body: JSON.stringify({ 
+                            title: localStorage.getItem("draftTestName") || "Updated Test",
+                            department: localStorage.getItem("draftTestDept"),
+                            semester: parseInt(localStorage.getItem("draftTestSem"), 10),
+                            duration: parseInt(localStorage.getItem("draftTestDuration"), 10),
+                            code: localStorage.getItem("draftTestCustomCode"),
+                            questions: updatedQuestionsList 
+                        })
+                    });
+
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.error || "Database sync refused by server matrix.");
+
+                    // 🟢 Trigger your exact confirmation alert popup box
+                    alert("🎉 Question paper updated successfully!");
+                    
+                    // Clear state tracking metrics out of local system cache storage entirely
+                    localStorage.removeItem("draftTestName");
+                    localStorage.removeItem("draftTestDept");
+                    localStorage.removeItem("draftTestSem");
+                    localStorage.removeItem("draftTestDuration");
+                    localStorage.removeItem("draftTestCustomCode");
+                    localStorage.removeItem("currentDraftQuestions");
+                    localStorage.removeItem("editingTestId"); 
+
+                    // 🚀 Force clean page routing delivery back into histories panel
+                    window.location.href = "/test-history";
+                    return;
+
+                } catch (err) {
+                    console.error("Critical edit save collapse:", err);
+                    alert(`Sync Failure Exception: ${err.message}`);
+                    btnSaveToAssessment.disabled = false;
+                    btnSaveToAssessment.innerHTML = `Save Assignment`;
+                }
+            } 
+            // ⚡ CASE B: FRESH CREATION -> GO BACK TO BLANK FORM LAYOUTS
+            else {
+                window.location.href = "/test-form";
+            }
         });
     }
 
@@ -413,7 +469,6 @@ function initializeFormActions() {
         btnNewQuestionReset.addEventListener("click", resetFormCanvasWorkspace);
     }
 }
-
 // =========================================================================
 // 5. ENGINE KICKOFF
 // =========================================================================

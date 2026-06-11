@@ -1,19 +1,18 @@
 /**
  * @file ide_portal_controller.js
  * @description Decoupled workspace state controller. Orchestrates interactive 
- * 7-cell hyphenated OTP access matrices (e.g. OLD-8ADE), handles invite leaks, 
- * and securely initializes CodeMirror instances under strict anti-flicker guards.
+ * 6-cell OTP access matrices, handles verification handshakes, establishes proctoring anti-cheat,
+ * and manages multi-task execution contexts.
  */
 
 window.wpCodeEditorInstance = null;
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", () => {
     const overlayGate = document.getElementById("authGateBoxOverlay");
     const workspaceGrid = document.getElementById("mainWorkspaceGridMatrix");
     const verifyBtn = document.getElementById("btnVerifyRoomCode");
     const statusAlert = document.getElementById("portalStatusAlertDisplay");
     
-    // Select all split character cells across the DOM grid array
     const otpCells = document.querySelectorAll(".otp-digit-cell");
     const authToken = localStorage.getItem("authToken");
 
@@ -22,108 +21,56 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    // Immediately push text cursor focus to box cell 1 on page initialization
     if (otpCells.length > 0 && overlayGate && overlayGate.style.display !== "none") {
         otpCells[0].focus();
     }
 
-    // =========================================================================
-    // 1. DYNAMIC FOCUS-SHIFTING OTP CELL KEYSTROKE HANDLERS
-    // =========================================================================
+    // Dynamic focus transformations logic loop bounds
     otpCells.forEach((cell, idx) => {
-        // Handle input typing transformations
         cell.addEventListener("input", (e) => {
             const inputChar = e.target.value.trim().toUpperCase();
-            cell.value = inputChar; // Force clean uppercase characters inside display rendering
+            cell.value = inputChar; 
 
-            if (inputChar.length > 0) {
-                // Shift focus to the next logical input box in line if it exists
-                if (idx < otpCells.length - 1) {
-                    otpCells[idx + 1].focus();
-                }
+            if (inputChar.length > 0 && idx < otpCells.length - 1) {
+                otpCells[idx + 1].focus();
             }
 
-            // Automated completion shortcut trigger: Check if every box has a string digit compiled
             const activeCodeBuffer = getCompiledOtpString();
-            if (activeCodeBuffer.length === 8) { // 7 letters + 1 integrated hyphen = 8 total characters
+            // 🟢 FIXED: Adjusted validation array boundaries strictly back to 6 characters
+            if (activeCodeBuffer.length === 6) { 
                 triggerSecurityHandshake(activeCodeBuffer);
             }
         });
 
-        // Handle structural backspaces to reverse caret focus points
         cell.addEventListener("keydown", (e) => {
-            if (e.key === "Backspace") {
-                if (cell.value === "" && idx > 0) {
-                    otpCells[idx - 1].focus();
-                    otpCells[idx - 1].value = "";
-                }
-            }
-        });
-
-        // Intercept global string copy pastes and scatter values across the box elements arrays
-        cell.addEventListener("paste", (e) => {
-            e.preventDefault();
-            let pasteBuffer = (e.clipboardData || window.clipboardData).getData("text").trim().toUpperCase();
-            
-            // Remove any random hyphens the student pasted so we can unpack raw alphanumeric strings evenly
-            pasteBuffer = pasteBuffer.replace(/-/g, "");
-
-            if (pasteBuffer.length <= 7) {
-                otpCells.forEach((targetCell, targetIdx) => {
-                    if (pasteBuffer.charAt(targetIdx)) {
-                        targetCell.value = pasteBuffer.charAt(targetIdx);
-                    }
-                });
-
-                // Jump focus to the end of parsed input values index boundary
-                const shiftIndexTarget = Math.min(pasteBuffer.length, otpCells.length - 1);
-                if (otpCells[shiftIndexTarget]) otpCells[shiftIndexTarget].focus();
-
-                const verifiedCodeString = getCompiledOtpString();
-                if (verifiedCodeString.length === 8) {
-                    triggerSecurityHandshake(verifiedCodeString);
-                }
+            if (e.key === "Backspace" && cell.value === "" && idx > 0) {
+                otpCells[idx - 1].focus();
+                otpCells[idx - 1].value = "";
             }
         });
     });
 
-    /**
-     * Unpacks cell array values and bundles them with a hyphen: e.g. "OLD" + "-" + "8ADE"
-     * @returns {string} Fully structured 8-character token identifier signature.
-     */
     function getCompiledOtpString() {
-        let prefixSegment = "";
-        let suffixSegment = "";
-        
-        otpCells.forEach((cell, index) => {
+        let compiledString = "";
+        otpCells.forEach((cell) => {
             const tokenChar = cell.value.trim().toUpperCase();
-            if (index < 3) prefixSegment += tokenChar;  // First 3 boxes (e.g., 'OLD')
-            if (index >= 3) suffixSegment += tokenChar; // Last 4 boxes (e.g., '8ADE')
+            if (tokenChar) compiledString += tokenChar; 
         });
-
-        // Return if any fields are empty to avoid incomplete validation fetch streams
-        if (prefixSegment.length < 3 || suffixSegment.length < 4) return "";
-        
-        return `${prefixSegment}-${suffixSegment}`;
+        return compiledString;
     }
 
-    // =========================================================================
-    // 2. MANUAL ACCORDION INTERACTION OVERRIDES
-    // =========================================================================
     if (verifyBtn) {
         verifyBtn.addEventListener("click", async () => {
             const submissionCode = getCompiledOtpString();
-            if (!submissionCode || submissionCode.length < 8) {
-                displayGateError("Please input an authentic 7-character code sequence.");
+            // 🟢 FIXED: Validate exact 6-character layout configs for manual click execution
+            if (!submissionCode || submissionCode.length < 6) {
+                displayGateError("Please input an authentic 6-character code sequence.");
                 return;
             }
             await triggerSecurityHandshake(submissionCode);
         });
     }
 
-    // =========================================================================
-    // 3. SECURE BACKEND API COMMUNICATIONS ARCHITECTURE LAYER
-    // =========================================================================
     async function triggerSecurityHandshake(compiledOtpCode) {
         try {
             if (statusAlert) statusAlert.style.display = "none";
@@ -143,20 +90,20 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (response.ok && data.success === true) {
                 localStorage.setItem("activeExamTestId", data.testId);
                 localStorage.setItem("examTimeRemaining", data.duration);
-                
-                // Clear out the overlay and instantiate active terminal layout frames
+                localStorage.setItem("activeExamQuestionsList", JSON.stringify(data.questions));
+                localStorage.setItem("activeExamCurrentIndex", "0"); 
+
                 bypassGateAndMountEditor();
                 
-                // Fire dynamic text loading hooks configured inside loadQuestion.js
-                if (typeof window.loadQuestionDataMatrix === "function") {
-                    window.loadQuestionDataMatrix(data.testId);
+                if (typeof window.hydrateExamWorkspaceTaskElement === "function") {
+                    window.hydrateExamWorkspaceTaskElement();
                 }
             } else {
                 displayGateError(data.error || "Access Denied: Specified validation code mismatch.");
                 clearAndResetOtpCells();
             }
         } catch (err) {
-            console.error("Lock gate system breakdown payload interception:", err);
+            console.error("Lock gate breakdown connection interception error:", err);
             displayGateError("Network communication latency error tracking handshakes.");
         } finally {
             if (verifyBtn) verifyBtn.disabled = false;
@@ -168,27 +115,23 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (workspaceGrid) workspaceGrid.classList.remove("workspace-blur-active");
         
         const textareaElement = document.getElementById("editor");
-        if (textareaElement) {
-            // 🟢 ANTI-FLICKER RENDERING GUARD: Guarantees single allocation loops
-            if (!window.wpCodeEditorInstance) {
-                window.wpCodeEditorInstance = CodeMirror.fromTextArea(textareaElement, {
-                    mode: "python",
-                    theme: "darcula",
-                    lineNumbers: true,
-                    autoCloseBrackets: true,
-                    matchBrackets: true,
-                    indentUnit: 4,
-                    lineWrapping: true,
-                    scrollbarStyle: "native"
-                });
-                window.wpCodeEditorInstance.setSize("100%", "100%");
-                
-                setTimeout(() => {
-                    if (window.wpCodeEditorInstance) window.wpCodeEditorInstance.refresh();
-                }, 200);
-            } else {
-                window.wpCodeEditorInstance.refresh();
-            }
+        if (textareaElement && !window.wpCodeEditorInstance) {
+            window.wpCodeEditorInstance = CodeMirror.fromTextArea(textareaElement, {
+                mode: "python",
+                theme: "darcula",
+                lineNumbers: true,
+                autoCloseBrackets: true,
+                matchBrackets: true,
+                indentUnit: 4,
+                lineWrapping: true
+            });
+            window.wpCodeEditorInstance.setSize("100%", "100%");
+
+            // Broadcast global signal that CodeMirror is fully mounted so compilerRunner catches it instantly
+            window.dispatchEvent(new Event("ideWorkspaceMounted"));
+            
+            // Activate our proctor security lock downs
+            activateProctorSecurityShield();
         }
     }
 
@@ -203,8 +146,89 @@ document.addEventListener("DOMContentLoaded", async () => {
         statusAlert.style.display = "block";
     }
 
-    // Auto-uncover interface structures seamlessly if the terminal token is cached valid
+    // =========================================================================
+    // 🟢 PRODUCTION-GRADE PROCTORING & ANTI-CHEAT PROTOCOL MATRIX
+    // =========================================================================
+    let tabViolationStrikes = 0;
+    const MAX_VIOLATION_LIMIT = 2; // Strict limit: 3rd switch triggers force lockout auto-submit
+
+    function activateProctorSecurityShield() {
+        console.log("🛡️ Proctoring Security Shield Active: Monitoring Workspace Activity Vectors...");
+
+        // 1️⃣ ANTI-INSPECT: Block Right-Click Context Menus
+        document.addEventListener("contextmenu", (e) => {
+            e.preventDefault();
+            alert("Security Restriction: Right-click inspection is strictly disabled during active assessment sessions.");
+        });
+
+        // 2️⃣ ANTI-INSPECT: Block Core Developer Tool Keyboard Combos (F12, Ctrl+Shift+I/J/C, Ctrl+U)
+        document.addEventListener("keydown", (e) => {
+            const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+            const metaOrCtrl = isMac ? e.metaKey : e.ctrlKey;
+
+            if (
+                e.key === "F12" ||
+                (metaOrCtrl && e.shiftKey && (e.key === "I" || e.key === "i" || e.key === "J" || e.key === "j" || e.key === "C" || e.key === "c")) ||
+                (metaOrCtrl && (e.key === "U" || e.key === "u"))
+            ) {
+                e.preventDefault();
+                e.stopPropagation();
+                alert("Security Alert: Developer system tool hotkeys are strictly prohibited.");
+            }
+        });
+
+        // 3️⃣ ANTI-COPY/PASTE: Block Clipboard Vectors within Code Canvas Area
+        const workspaceContainer = document.getElementById("mainWorkspaceGridMatrix");
+        if (workspaceContainer) {
+            ["copy", "cut", "paste"].forEach(eventType => {
+                workspaceContainer.addEventListener(eventType, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    alert(`Security Restriction: Clipboard interactions (${eventType}) are permanently blocked inside the evaluation window.`);
+                });
+            });
+        }
+
+        // 4️⃣ ANTI-TAB-SWITCH: Monitor Window Visibility Focus Transitions
+        document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState === "hidden") {
+                if (!localStorage.getItem("activeExamTestId")) return;
+
+                tabViolationStrikes++;
+                console.warn(`⚠️ Tab violation detected! Strike Count: ${tabViolationStrikes}/${MAX_VIOLATION_LIMIT + 1}`);
+
+                if (tabViolationStrikes <= MAX_VIOLATION_LIMIT) {
+                    const strikesRemaining = (MAX_VIOLATION_LIMIT + 1) - tabViolationStrikes;
+                    alert(`🚨 SECURITY VIOLATION DETECTED!\nYou have navigated away from the active examination portal environment. This infraction counts as a formal strike.\n\n⚠️ Warning: If you switch tabs, lose window focus, or minimize this screen ${strikesRemaining} more time(s), your session will be instantly terminated and force-submitted.`);
+                } else {
+                    executeEmergencyForceTermination();
+                }
+            }
+        });
+    }
+
+    // 🚨 EMERGENCY FORCE TERMINATION TERMINATION SEQUENCE
+    function executeEmergencyForceTermination() {
+        console.error("🚨 CRITICAL STRIKE THRESHOLD REACHED: Initiating programmatic lockout submittal...");
+        
+        const submitButtonElement = document.getElementById("codesubmit");
+        if (submitButtonElement) {
+            submitButtonElement.disabled = false; 
+            alert("🔒 ACCESS TERMINATED!\nYou have exceeded the maximum window tracking infraction limit. Your assessment session has been locked out, and your current script drafts are being automatically force-submitted to the evaluation databases.");
+            submitButtonElement.click(); 
+        } else {
+            localStorage.clear();
+            window.location.href = "/dashboard";
+        }
+    }
+
+    // Re-engage proctoring instantly if refreshing back into a live running session context block
     if (localStorage.getItem("activeExamTestId")) {
         bypassGateAndMountEditor();
+        setTimeout(() => {
+            if (typeof window.hydrateExamWorkspaceTaskElement === "function") {
+                window.hydrateExamWorkspaceTaskElement();
+            }
+        }, 150);
     }
 });

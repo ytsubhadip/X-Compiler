@@ -8,27 +8,31 @@
  * - /pages/compiler_page/coding_test.html
  */
 
-const optionL = document.getElementById('inlineFormSelectPref');
-let ideTypewriterTimeout;
-let lineFadeTimeout;
+// Scope timers and tracking states globally within this module space
+let ideTypewriterTimeout = null;
+let lineFadeTimeout = null;
+let currentLang = 'python'; // Default fallback tracking context
 
-const codeCache = {
+// Global template memory bank cache configuration values
+window.codeCache = {
     python: "print('Hello world')",
-    cpp: `#include <iostream>\nusing namespace std;\nint main() {\n  cout << "Hello world";\n  return 0;\n}`,
-    c: `#include <stdio.h>\nint main() {\n  printf("hello, world");\n  return 0;\n}`,
-    java: `public class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello World");\n  }\n}`,
+    cpp: `#include <iostream>\nusing namespace std;\nint main() {\n   cout << "Hello world";\n   return 0;\n}`,
+    c: `#include <stdio.h>\nint main() {\n   printf("hello, world");\n   return 0;\n}`,
+    java: `public class Main {\n   public static void main(String[] args) {\n      System.out.println("Hello World");\n   }\n}`,
     javascript: `console.log("Hello World");`
 };
 
-let currentLang = optionL ? optionL.value || 'python' : 'python';
-
 /**
  * Streams pre-formatted template code snippets into the global CodeMirror instance.
+ * @param {string} targetText - The text blocks to stream inside the workspace canvas.
+ * @param {number} speed - Delay speed intervals between character placement metrics.
  */
 function streamCodeIntoEditor(targetText, speed = 10) {
-    clearInterval(ideTypewriterTimeout);
+    // Explicitly wipe active character intervals to prevent overlapping typewriter streams
+    if (ideTypewriterTimeout) {
+        clearInterval(ideTypewriterTimeout);
+    }
     
-    // 🟢 SECURE INSTANCE CHECK: Target the global window instance wrapper
     if (!window.wpCodeEditorInstance) return;
     
     window.wpCodeEditorInstance.setValue(""); 
@@ -45,33 +49,59 @@ function streamCodeIntoEditor(targetText, speed = 10) {
             index++;
         } else {
             clearInterval(ideTypewriterTimeout);
+            ideTypewriterTimeout = null;
         }
     }, speed);
 }
 
-// Event listener for dropdown language shifts
-if (optionL) {
+/**
+ * 🟢 NEON GLOW DELEGATED INITIALIZATION
+ * Hooks event listeners and trackers safely after all elements mount to the DOM.
+ */
+function initializeLanguageWorkspaceEngine() {
+    const optionL = document.getElementById('inlineFormSelectPref');
+    
+    // Core structural check: if layout arrays or global canvases aren't bound yet, retry smoothly
+    if (!optionL || !window.wpCodeEditorInstance) {
+        setTimeout(initializeLanguageWorkspaceEngine, 100);
+        return;
+    }
+
+    // Initialize state tracker metrics matching active template drop selections
+    if (optionL.value && optionL.value.toLowerCase().trim() !== 'nol') {
+        let initialLang = optionL.value.toLowerCase().trim();
+        if (initialLang === 'c++') initialLang = 'cpp'; // Normalize tracking flags
+        currentLang = initialLang;
+    }
+
+    // Dropdown change listener block definitions
     optionL.addEventListener('change', function () {
-        const selectedLang = optionL.value.toLowerCase().trim();
+        let selectedLang = optionL.value.toLowerCase().trim();
         if (!window.wpCodeEditorInstance) return;
 
         if (selectedLang === "nol") {
-            clearInterval(ideTypewriterTimeout);
+            if (ideTypewriterTimeout) clearInterval(ideTypewriterTimeout);
             window.wpCodeEditorInstance.setValue("");
             return;
         }
 
+        // 🟢 HARD FIX: Normalize C++ string lookups to match 'cpp' cache key
+        if (selectedLang === 'c++') {
+            selectedLang = 'cpp';
+        }
+
+        // Cache currently written data blocks into local runtime volatile buffers before switching
         if (currentLang && currentLang !== "nol") {
-            codeCache[currentLang] = window.wpCodeEditorInstance.getValue();
+            window.codeCache[currentLang] = window.wpCodeEditorInstance.getValue();
         }
         
-        clearInterval(ideTypewriterTimeout);
+        if (ideTypewriterTimeout) clearInterval(ideTypewriterTimeout);
         currentLang = selectedLang;
         
         // Dynamically adjust CodeMirror syntax highlighting options safely
         if (currentLang === 'python') {
             window.wpCodeEditorInstance.setOption("mode", "text/x-python");
-        } else if (currentLang === 'cpp' || currentLang === 'c++') {
+        } else if (currentLang === 'cpp') {
             window.wpCodeEditorInstance.setOption("mode", "text/x-c++src");
         } else if (currentLang === 'c') {
             window.wpCodeEditorInstance.setOption("mode", "text/x-csrc");
@@ -81,24 +111,16 @@ if (optionL) {
             window.wpCodeEditorInstance.setOption("mode", "text/javascript");
         }
 
-        const retrievedCode = codeCache[currentLang];
-        if (retrievedCode) {
-            streamCodeIntoEditor(retrievedCode, 8); 
+        // Guard fallback: stream default configurations if cached data fields return empty rows
+        let retrievedCode = window.codeCache[currentLang];
+        if (!retrievedCode || retrievedCode.trim() === "") {
+            retrievedCode = window.codeCache[currentLang] || "print('Hello world')";
         }
+
+        streamCodeIntoEditor(retrievedCode, 8); 
     });
-}
 
-/**
- * 🟢 NEON GLOW DELEGATED INITIALIZATION
- * Attaches the change listener safely after the global CodeMirror canvas mounts.
- */
-function initializeLineHighlighterHook() {
-    if (!window.wpCodeEditorInstance) {
-        // If your overlay gate is still active, wait slightly and check back
-        setTimeout(initializeLineHighlighterHook, 500);
-        return;
-    }
-
+    // Code line keyboard input neon active highlight handlers
     window.wpCodeEditorInstance.on("change", (instance, changeObj) => {
         if (changeObj.origin === "+input" || changeObj.origin === "paste") {
             clearTimeout(lineFadeTimeout);
@@ -117,5 +139,9 @@ function initializeLineHighlighterHook() {
     });
 }
 
-// Start watching for editor mounting cycles
-initializeLineHighlighterHook();
+// Instantiate workspace orchestrator check sequence
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeLanguageWorkspaceEngine);
+} else {
+    initializeLanguageWorkspaceEngine();
+}

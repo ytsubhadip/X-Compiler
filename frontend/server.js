@@ -37,10 +37,10 @@ const UserSchema = new mongoose.Schema({
 const User = mongoose.models.User || mongoose.model('User', UserSchema);
 
 // =========================================================================
-// 🟢 FIXED: INCLUDED 'testcode' INSIDE ASSESSMENT SCHEMA BLUEPRINT
+// ASSESSMENT SCHEMA BLUEPRINT
 // =========================================================================
 const TestSchema = new mongoose.Schema({
-    testcode: { type: String, required: true, uppercase: true, trim: true }, // 🟢 FIX: Added missing database string target key definition
+    testcode: { type: String, required: true, uppercase: true, trim: true }, 
     title: { type: String, required: true },
     department: { type: String, required: true },
     semester: { type: Number, required: true },
@@ -61,9 +61,67 @@ const TestSchema = new mongoose.Schema({
         }
     ],
     createdAt: { type: Date, default: Date.now }
-}, { collection: 'tests' }); // Force explicit pluralized collection matching rules
+}, { collection: 'tests' });
 
 const Test = mongoose.models.Test || mongoose.model('Test', TestSchema);
+
+// =========================================================================
+// INLINE SUBMISSION MONGOOSE SCHEMA
+// =========================================================================
+const submissionSchema = new mongoose.Schema({
+    testId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+    submissions: [
+        {
+            questionId: { type: String, required: true },
+            submittedCode: { type: String, required: true }
+        }
+    ],
+    submittedAt: {
+        type: Date,
+        default: Date.now
+    }
+});
+
+const Submission = mongoose.models.Submission || mongoose.model("Submission", submissionSchema, "submissions");
+
+// =========================================================================
+// 🟢 LIVE PRODUCTION EVALUATION RECEIVER (SITS AT TOP OF THE INTERCEPT ROUTE)
+// =========================================================================
+app.post("/api/tests/submit-evaluation", async (req, res) => {
+    console.log("📥 [ROUTE HIT] Submittal endpoint reached perfectly!");
+    try {
+        const { testId, submissions } = req.body;
+        console.log("📦 [PAYLOAD RAW DATA]:", { testId, submissions });
+
+        if (!testId || !submissions || submissions.length === 0) {
+            console.log("⚠️ [VALIDATION FAILED]: Missing data metrics!");
+            return res.status(400).json({ success: false, error: "Incomplete payload parameters." });
+        }
+
+        console.log("🔄 [CASTING]: Converting test ID string to Mongoose ObjectId...");
+        const convertedTestId = new mongoose.Types.ObjectId(testId);
+
+        console.log("💾 [DB WRITE]: Attempting Atlas insertion...");
+        const newRecord = await Submission.create({
+            testId: convertedTestId,
+            submissions: submissions
+        });
+
+        console.log("✅ [DB SUCCESS]: Record saved beautifully! ID:", newRecord._id);
+
+        return res.status(200).json({ 
+            success: true, 
+            message: "Successfully logged code data to Atlas cluster!" 
+        });
+
+    } catch (routeErr) {
+        console.error("💥 [ROUTE CRASH LOG]:", routeErr);
+        return res.status(500).json({ success: false, error: routeErr.message });
+    }
+});
 
 // Route Setup Inclusions
 const compileRoutes = require("./routes/compile");
@@ -101,7 +159,6 @@ app.get("/create-test", (req, res) => {
 });
 
 app.get("/profile", (req, res) => {
-    // Profile page lives under public/user_profile (not public/pages/user_profile)
     res.sendFile(path.join(__dirname, "public", "user_profile", "profile.html"));
 });
 
@@ -240,19 +297,32 @@ app.get("/api/auth/me", async (req, res) => {
 });
 
 // =========================================================================
-// REST ENDPOINT: SAVE COMPILED TESTS ASSESSMENTS TO MONGODB
+// REST ENDPOINT: ENFORCE CUSTOM ASSESSMENT CODES EXCLUSIVELY
+// =========================================================================
+// =========================================================================
+// REST ENDPOINT: SAVE ASSESSMENTS TO MONGODB (WITH AUTO 6-DIGIT GENERATOR)
 // =========================================================================
 app.post("/api/tests/create", async (req, res) => {
     try {
-        // 🟢 INCLUDED 'code' IN THE INBOUND DESERIALIZER DESTRUCTURING STREAM
         let { title, department, semester, duration, questions, code } = req.body;
 
         if (!title || !department || !semester || !duration || !questions || questions.length === 0) {
-            return res.status(400).json({ error: "Missing required parameters to construct assessment manifest." });
+            return res.status(400).json({ 
+                success: false, 
+                error: "Missing required parameters to construct assessment manifest." 
+            });
         }
 
-        // Auto fallback generation string key block logic loop in case teacher panel doesn't pass one
-        const finalTestRoomCode = (code || req.body.testcode || Math.random().toString(36).substring(2, 8)).trim().toUpperCase();
+        // 🟢 AUTO 6-DIGIT GENERATION VECTOR: Fallback loop if no code is provided
+        let finalTestRoomCode = code || req.body.testcode || "";
+        
+        if (!finalTestRoomCode || finalTestRoomCode.trim() === "") {
+            // Generates a random high-entropy 6-character alphanumeric string (e.g., 'VAHPY7')
+            finalTestRoomCode = Math.random().toString(36).substring(2, 8);
+        }
+
+        // Clean formatting: enforce strict uppercase strings inside the indices layout profiles
+        finalTestRoomCode = finalTestRoomCode.trim().toUpperCase();
 
         const parsedSemester = parseInt(semester, 10);
         const parsedDuration = parseInt(duration, 10);
@@ -269,8 +339,9 @@ app.post("/api/tests/create", async (req, res) => {
             })) : []
         }));
 
+        // Create the record directly inside your Atlas database tests collection
         const newTestAssessment = await Test.create({
-            testcode: finalTestRoomCode, // 🟢 FIXED: Successfully saved straight down to your collections
+            testcode: finalTestRoomCode, 
             title: title.trim(),
             department: department,
             semester: parsedSemester,
@@ -278,15 +349,21 @@ app.post("/api/tests/create", async (req, res) => {
             questions: sanitizedQuestions
         });
 
+        console.log(`✨ New Examination Created Cleanly! Room Code: ${finalTestRoomCode}`);
+
         return res.status(201).json({ 
+            success: true,
             message: "Assessment deployed live successfully!", 
             testId: newTestAssessment._id,
-            code: finalTestRoomCode
+            code: finalTestRoomCode // Returns the 6-digit code back to the client panel interface
         });
 
     } catch (err) {
-        console.error("Test creation database write error:", err);
-        return res.status(500).json({ error: `Internal server processing failure: ${err.message || err}` });
+        console.error("Test creation write crash:", err);
+        return res.status(500).json({ 
+            success: false, 
+            error: `Internal server failure: ${err.message || err}` 
+        });
     }
 });
 
@@ -341,160 +418,38 @@ app.get("/api/tests/details/:id", async (req, res) => {
 });
 
 // =========================================================================
-// REST ENDPOINT: SECURE MUTATION PUT PIPELINE (WITH SUBMISSION GUARD CHECK)
-// =========================================================================
-app.put("/api/tests/update/:id", async (req, res) => {
-    try {
-        const testId = req.params.id;
-        let { title, department, semester, duration, questions } = req.body;
-
-        if (!mongoose.Types.ObjectId.isValid(testId)) {
-            return res.status(400).json({ error: "Malformed transaction payload target ID reference token." });
-        }
-
-        let liveSubmissionCount = 0;
-        if (mongoose.models.Submission) {
-            liveSubmissionCount = await mongoose.models.Submission.countDocuments({ testId: testId });
-        }
-        
-        if (liveSubmissionCount > 0) {
-            return res.status(423).json({ 
-                error: "🔒 Mutation Rejected: A student has just initiated this exam. Edits are now permanently locked to protect grading integrity!" 
-            });
-        }
-
-        const parsedSemester = parseInt(semester, 10);
-        const parsedDuration = parseInt(duration, 10);
-
-        const updatedTest = await Test.findByIdAndUpdate(
-            testId,
-            {
-                title: title.trim(),
-                department: department,
-                semester: parsedSemester,
-                duration: parsedDuration,
-                questions: questions
-            },
-            { new: true, runValidators: true }
-        );
-
-        return res.status(200).json({ 
-            message: "Assessment specifications and questions modified cleanly!", 
-            test: updatedTest 
-        });
-
-    } catch (err) {
-        console.error("Protected test update trace crashed:", err);
-        return res.status(500).json({ error: "Internal system mutation processing engine fault block." });
-    }
-});
-
-// =========================================================================
-// 🟢 UPGRADED MULTI-MATCH HANDSHAKE ROUTE (Checks testcode OR hex _id)
+// SERVER-SIDE: SECURE ASSESSMENT JOIN HANDSHAKE ENDPOINT
 // =========================================================================
 app.post("/api/tests/join", async (req, res) => {
     try {
-        const { code } = req.body; 
-
+        console.log("📥 INBOUND HANDSHAKE BODY:", req.body);
+        const { code } = req.body;
         if (!code) {
-            return res.status(200).json({ success: false, error: "Missing verification token signature." });
+            return res.status(400).json({ success: false, error: "Validation token missing." });
         }
 
-        const cleanToken = code.trim();
-        const upperToken = cleanToken.toUpperCase();
+        const targetTest = await Test.findOne({ testcode: code.trim().toUpperCase() });
+        console.log("🔍 DATABASE RETRIEVAL MATRIX:", targetTest);
 
-        // Check if the input string is a structurally valid 24-character MongoDB ObjectId
-        const isValidObjectId = mongoose.Types.ObjectId.isValid(cleanToken);
-
-        // 🧠 MULTI-MATCH FILTER: Match either the unique testcode OR the native hex _id string
-        const activeTestMatch = await Test.findOne({
-            $or: [
-                { testcode: upperToken },
-                ...(isValidObjectId ? [{ _id: cleanToken }] : [])
-            ]
-        });
-
-        console.log("🔍 Advanced Multi-Search Result:", activeTestMatch ? "MATCH FOUND! 🎉" : "NULL (NOT FOUND)");
-
-        if (!activeTestMatch) {
-            return res.status(200).json({ 
+        if (!targetTest) {
+            return res.status(404).json({ 
                 success: false, 
-                error: "Invalid test code or assessment ID. Please check with your evaluator." 
+                error: "Access Denied: Specified validation room code could not be found." 
             });
         }
 
         return res.status(200).json({
             success: true,
-            testId: activeTestMatch._id,
-            duration: activeTestMatch.duration || 60
+            testId: targetTest._id,
+            title: targetTest.title,
+            department: targetTest.department,
+            duration: targetTest.duration,
+            questions: targetTest.questions 
         });
 
     } catch (err) {
-        console.error("Join pipeline error:", err);
-        return res.status(500).json({ success: false, error: "Internal transaction failure." });
-    }
-});
-
-// =========================================================================
-// 🟢 FIXED: ENFORCE CUSTOM ASSESSMENT CODES EXCLUSIVELY
-// =========================================================================
-app.post("/api/tests/create", async (req, res) => {
-    try {
-        let { title, department, semester, duration, questions, code } = req.body;
-
-        // Fallback check if the key was sent as req.body.testcode instead
-       const finalTestRoomCode = (code || req.body.testcode || "").trim().toUpperCase();
-
-        // ❌ CRITICAL CHANGE: If no code is provided, throw a clear error instead of generating a random one
-        if (!finalTestRoomCode || finalTestRoomCode.trim() === "") {
-            return res.status(400).json({ 
-                success: false, 
-                error: "A custom test access code (e.g., 'OLD-7878') is strictly required." 
-            });
-        }
-
-        // Structural length guard validation to ensure it matches your custom formatting
-        if (finalTestRoomCode.length < 5) {
-            return res.status(400).json({ 
-                success: false, 
-                error: "The custom code format is invalid. Please use a structured format like 'OLD-7878'." 
-            });
-        }
-
-        const parsedSemester = parseInt(semester, 10);
-        const parsedDuration = parseInt(duration, 10);
-
-        const sanitizedQuestions = questions.map(q => ({
-            title: q.title || "Untitled Question",
-            difficulty: q.difficulty || "Easy",
-            tags: Array.isArray(q.tags) ? q.tags : [],
-            description: q.description || "",
-            examples: Array.isArray(q.examples) ? q.examples.map(ex => ({
-                input: ex.input || "",
-                output: ex.output || "",
-                explanation: ex.explanation || ""
-            })) : []
-        }));
-
-        const newTestAssessment = await Test.create({
-            testcode: finalTestRoomCode, // 🟢 Saves your exact typed code
-            title: title.trim(),
-            department: department,
-            semester: parsedSemester,
-            duration: parsedDuration,
-            questions: sanitizedQuestions
-        });
-
-        return res.status(201).json({ 
-            success: true,
-            message: "Assessment deployed live successfully!", 
-            testId: newTestAssessment._id,
-            code: finalTestRoomCode
-        });
-
-    } catch (err) {
-        console.error("Test creation write crash:", err);
-        return res.status(500).json({ error: `Internal server failure: ${err.message || err}` });
+        console.error("Critical Room Token Verification Error:", err);
+        return res.status(500).json({ success: false, error: "Internal server processing failure." });
     }
 });
 
@@ -532,6 +487,76 @@ app.post("/api/auth/reset-password", async (req, res) => {
     } catch (err) {
         console.error("Password reset failure:", err);
         return res.status(500).json({ success: false, error: "Internal transaction failure." });
+    }
+});
+
+// =========================================================================
+// REST ENDPOINT: SECURE MUTATION PUT PIPELINE (WITH SUBMISSION GUARD CHECK)
+// =========================================================================
+app.put("/api/tests/update/:id", async (req, res) => {
+    try {
+        const testId = req.params.id;
+        let { title, department, semester, duration, code, questions } = req.body;
+
+        const targetTest = await Test.findById(testId);
+        if (!targetTest) {
+            return res.status(404).json({ 
+                success: false, 
+                error: "Target assessment record could not be found inside the cluster database." 
+            });
+        }
+
+        const cleanTitle = title ? title.trim() : targetTest.title;
+        const cleanDept = department ? department : targetTest.department;
+        const cleanSem = semester ? parseInt(semester, 10) : targetTest.semester;
+        const cleanDuration = duration ? parseInt(duration, 10) : targetTest.duration;
+        const cleanCode = code ? code.trim().toUpperCase() : targetTest.testcode;
+
+        let sanitizedQuestions = targetTest.questions;
+        if (Array.isArray(questions)) {
+            sanitizedQuestions = questions.map(q => ({
+                title: q.title || "Untitled Task Parameter",
+                difficulty: q.difficulty || "Easy",
+                tags: Array.isArray(q.tags) ? q.tags : [],
+                description: q.description || "",
+                examples: Array.isArray(q.examples) ? q.examples.map(ex => ({
+                    input: ex.input || "",
+                    output: ex.output || "",
+                    explanation: ex.explanation || ""
+                })) : []
+            }));
+        }
+
+        const updatedTestDocument = await Test.findByIdAndUpdate(
+            testId,
+            {
+                $set: {
+                    title: cleanTitle,
+                    department: cleanDept,
+                    semester: cleanSem,
+                    duration: cleanDuration,
+                    testcode: cleanCode, 
+                    questions: sanitizedQuestions
+                }
+            },
+            { new: true, runValidators: true }
+        );
+
+        console.log(`🎉 Sync Complete: Assessment Document Profile [${testId}] modified successfully!`);
+
+        return res.status(200).json({
+            success: true,
+            message: "Assessment profiles modified cleanly.",
+            testId: updatedTestDocument._id,
+            code: updatedTestDocument.testcode
+        });
+
+    } catch (err) {
+        console.error("❌ Critical Backend Update System Crash:", err);
+        return res.status(500).json({ 
+            success: false, 
+            error: `Internal system mutation processing engine fault block: ${err.message || err}` 
+        });
     }
 });
 

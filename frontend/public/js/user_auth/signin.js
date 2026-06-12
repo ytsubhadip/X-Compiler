@@ -1,16 +1,7 @@
-/**
- * @file signin.js
- * @description Manages student and teacher platform credential authorization,
- * tab state updates, REST API endpoint communications, and user metadata caching.
- * * Used in:
- * - /pages/user_auth/signin.html
- */
-
 document.addEventListener("DOMContentLoaded", () => {
-    /** @type {HTMLFormElement|null} */
+
     const signinForm = document.getElementById("formSignin");
 
-    /** @type {HTMLButtonElement|null} */
     const submitBtn = document.getElementById("btnSubmitSignin");
 
     // Shared references for the global dynamic domino loader
@@ -84,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 // Navigate users based on permission levels
                 const roleAfter = (data.role || currentRole || '').toString().toLowerCase();
-                const dest = roleAfter === 'teacher' ? '/create-test' : '/dashboard'; // Fixed typo routing from 'dashbord' to 'dashboard'
+                const dest = roleAfter === 'teacher' ? '/create-test' : '/coding-test'; // Fixed typo routing from 'dashbord' to 'dashboard'
                 
                 setTimeout(() => window.location.href = dest, 600);
 

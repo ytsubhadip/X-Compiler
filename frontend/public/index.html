@@ -24,10 +24,144 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/navbar.css">
+
+    <style>
+        .terminal-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: #111;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: opacity 0.5s ease;
+}
+
+.terminal-loader.hide {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Loader Box */
+.terminal-loader .loader-box {
+    border: 0.1em solid #333;
+    background-color: #1a1a1a;
+    color: #0f0;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 1em;
+    padding: 1.5em 1em;
+    width: 12em;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.terminal-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1.5em;
+    background-color: #333;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    padding: 0 0.4em;
+    box-sizing: border-box;
+}
+
+.terminal-controls {
+    float: right;
+}
+
+.control {
+    display: inline-block;
+    width: 0.6em;
+    height: 0.6em;
+    margin-left: 0.4em;
+    border-radius: 50%;
+    background-color: #777;
+}
+
+.control.close {
+    background-color: #e33;
+}
+
+.control.minimize {
+    background-color: #ee0;
+}
+
+.control.maximize {
+    background-color: #0b0;
+}
+
+.terminal-title {
+    float: left;
+    line-height: 1.5em;
+    color: #eee;
+}
+
+.text {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 0.2em solid #0f0;
+    margin-top: 1.5em;
+
+    animation:
+        typeAndDelete 4s steps(11) infinite,
+        blinkCursor 0.5s step-end infinite alternate;
+}
+
+@keyframes blinkCursor {
+    50% {
+        border-right-color: transparent;
+    }
+}
+
+@keyframes typeAndDelete {
+
+    0%,
+    10% {
+        width: 0;
+    }
+
+    45%,
+    55% {
+        width: 6.2em;
+    }
+
+    90%,
+    100% {
+        width: 0;
+    }
+}
+    </style>
 </head>
 
 <body>
+    <!-- loder -->
+    <div class="terminal-loader" id="loader">
+    <div class="terminal-loader" id="loader">
+    <div class="loader-box">
+        <div class="terminal-header">
+            <div class="terminal-title">Status</div>
+            <div class="terminal-controls">
+                <div class="control close"></div>
+                <div class="control minimize"></div>
+                <div class="control maximize"></div>
+            </div>
+        </div>
+        <div class="text">Loading...</div>
+    </div>
+</div>
 
+        <div class="text">Loading...</div>
+    </div>
+    <!-- loder -->
     <nav class="custom-navbar"></nav>
 
     <div class="hero">
@@ -61,15 +195,38 @@
             loop: true,
             loopCount: Infinity,
         });
-        // auth button
+        // auth button - redirect to dashboard if already logged in
+        function getAuthToken() {
+            return localStorage.getItem('token') || sessionStorage.getItem('token');
+        }
+
         document.getElementById("studentBtn").addEventListener("click", function () {
+            if (getAuthToken()) {
+                window.location.href = "/dashboard";
+            } else {
+                window.location.href = "/signin";
+            }
+        });
 
-            window.location.href = "/signin";
-        })
         document.getElementById("teacherBtn").addEventListener("click", function () {
+            if (getAuthToken()) {
+                window.location.href = "/teacher/dashboard";
+            } else {
+                window.location.href = "/signin#teacher";
+            }
+        });
 
-            window.location.href = "/signin#teacher";
-        })
+        // loder
+        window.addEventListener("load", () => {
+            setTimeout(() => {
+                const loader = document.getElementById("loader");
+                loader.classList.add("hide");
+
+                setTimeout(() => {
+                    loader.remove(); // completely remove loader from DOM
+                }, 500);
+            }, 4000);
+        });
     </script>
 </body>
 

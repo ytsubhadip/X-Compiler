@@ -377,8 +377,8 @@
     grid-column: 2;
     grid-row: 2;
     display: flex;
-    justify-content: flex-end;
-    gap: 16px;
+    justify-content: space-between;
+    align-items: center;
     padding: 18px 40px;
     background: rgba(13, 15, 18, 0.85);
     border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -399,26 +399,32 @@
 }
 
 /* Save / Add Queue CTA styles */
-.footer-button button:nth-child(1) {
+#btnAddToQueueAnchor, #btnBack {
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.18);
     color: var(--text-primary);
 }
 
-.footer-button button:nth-child(1):hover {
+#btnAddToQueueAnchor:hover {
     border-color: var(--accent-success, #2ec866);
     color: var(--accent-success, #2ec866);
     background: rgba(46, 200, 102, 0.04);
 }
 
-.footer-button button:nth-child(2) {
+#btnBack:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+#btnSaveToAssessmentAnchor {
     background-color: var(--accent-success, #2ec866);
     color: #0d0f12; /* Black text color on green background for contrast */
     border: none;
     box-shadow: 0 4px 12px rgba(46, 200, 102, 0.15);
 }
 
-.footer-button button:nth-child(2):hover {
+#btnSaveToAssessmentAnchor:hover {
     background-color: var(--accent-success-bright, #39e57f);
     box-shadow: 0 8px 20px rgba(46, 200, 102, 0.3);
     transform: translateY(-1px);

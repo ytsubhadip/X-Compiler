@@ -18,42 +18,301 @@
     <link rel="stylesheet" href="/css/navbar.css">
     <!-- Links your high contrast history canvas metrics variables -->
     <link rel="stylesheet" href="/css/create_test/test_history.css?v=2.0.2">
+    <link rel="stylesheet" href="/css/animated-Element/star_background.css">
     
     <style>
+        /* 🌌 Stars Canvas adjustment */
+        .starry-background-canvas {
+            z-index: 1 !important;
+        }
+
+        /* 🌟 Main container alignment */
+        .container {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* 🔒 Lockout Warning Alert Banner styling */
         .lockout-banner {
-            background: rgba(239, 68, 68, 0.1) !important;
-            border: 1px solid rgba(239, 68, 68, 0.3) !important;
-            color: #f87171 !important;
-            border-radius: 8px;
-            padding: 16px;
+            background: rgba(239, 68, 68, 0.08) !important;
+            border: 1px solid rgba(239, 68, 68, 0.2) !important;
+            color: #fca5a5 !important;
+            border-radius: 12px;
+            padding: 18px 24px;
             font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             display: none; /* Controlled by engine state */
+            transition: all 0.3s ease;
         }
-        .question-inspect-pod {
-            background: #161a22;
-            border: 1px solid #232931;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 16px;
+
+        /* 💎 Premium title header text styling */
+        h1#viewTestTitleDisplay {
+            font-size: 2.4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 40%, #a7f3d0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.8px;
+            margin: 0;
         }
+
+        /* 📦 History Specs and Components Cards overhaul */
+        .history-card {
+            background: rgba(20, 22, 28, 0.45) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-radius: 18px !important;
+            padding: 28px !important;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5) !important;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            width: 100% !important;
+        }
+
+        .history-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(46, 200, 102, 0.15) !important;
+            box-shadow: 0 20px 50px rgba(46, 200, 102, 0.05), 0 0 25px rgba(46, 200, 102, 0.02) !important;
+        }
+
+        .history-card h5 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* 🏷️ Inputs inside cards styling */
         .inspect-input {
-            background: #111418 !important;
-            border: 1px solid #232931 !important;
-            color: #ffffff !important;
-            border-radius: 6px;
-            padding: 10px;
+            background: rgba(0, 0, 0, 0.25) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            color: #f1f5f9 !important;
+            border-radius: 10px !important;
+            padding: 12px 16px !important;
+            font-size: 0.95rem;
+            font-weight: 500;
             width: 100%;
+            transition: all 0.25s ease;
         }
+
         .inspect-input:disabled {
-            opacity: 0.65;
+            color: #cbd5e1 !important;
+            background-color: rgba(255, 255, 255, 0.01) !important;
+            border-color: rgba(255, 255, 255, 0.03) !important;
+            opacity: 0.85 !important;
             cursor: not-allowed;
-            border-color: #1f242d !important;
+        }
+
+        /* 📋 Question Inspect Pod Cards overhaul */
+        .question-inspect-pod {
+            background: rgba(255, 255, 255, 0.01) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-left: 4px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .question-inspect-pod:hover {
+            background: rgba(255, 255, 255, 0.02) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Dynamic difficulty indicator left borders using modern CSS selector nesting */
+        .question-inspect-pod:has(.bg-difficulty-easy) {
+            border-left-color: #2ec866 !important;
+        }
+        .question-inspect-pod:has(.bg-difficulty-medium) {
+            border-left-color: #fbbf24 !important;
+        }
+        .question-inspect-pod:has(.bg-difficulty-hard) {
+            border-left-color: #ef4444 !important;
+        }
+
+        /* 🏷️ Badge aesthetics */
+        .question-inspect-pod h6 {
+            font-size: 1.1rem;
+            color: #ffffff;
+        }
+
+        .question-inspect-pod p {
+            line-height: 1.6;
+            font-size: 0.92rem;
+        }
+
+        .badge {
+            font-size: 0.72rem !important;
+            font-weight: 700 !important;
+            padding: 6px 12px !important;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 6px !important;
+        }
+
+        /* Difficulty specific badge configurations */
+        .bg-difficulty-easy {
+            background: rgba(46, 200, 102, 0.1) !important;
+            border: 1px solid rgba(46, 200, 102, 0.25) !important;
+            color: #2ec866 !important;
+        }
+        .bg-difficulty-medium {
+            background: rgba(251, 191, 36, 0.1) !important;
+            border: 1px solid rgba(251, 191, 36, 0.25) !important;
+            color: #fbbf24 !important;
+        }
+        .bg-difficulty-hard {
+            background: rgba(239, 68, 68, 0.1) !important;
+            border: 1px solid rgba(239, 68, 68, 0.25) !important;
+            color: #ef4444 !important;
+        }
+
+        /* 🏷️ Tag chips styling inside pods */
+        .question-inspect-pod .bg-dark {
+            background-color: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+
+        /* Collapsible examples trigger link aesthetics */
+        .question-inspect-pod a[data-bs-toggle="collapse"] {
+            color: #4ade80 !important;
+            font-size: 0.85rem !important;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .question-inspect-pod a[data-bs-toggle="collapse"]:hover {
+            color: #39e57f !important;
+            text-shadow: 0 0 8px rgba(46, 200, 102, 0.3);
+        }
+
+        /* Code snippets example containers */
+        .question-inspect-pod div[style*="background"] {
+            background-color: rgba(0, 0, 0, 0.25) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-radius: 10px !important;
+            padding: 14px !important;
+            font-family: var(--font-mono) !important;
+        }
+
+        .question-inspect-pod div[style*="background"] strong.text-warning {
+            color: #fcd34d !important;
+            font-size: 0.78rem !important;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .question-inspect-pod div[style*="background"] .text-white-50 {
+            color: #e2e8f0 !important;
+            font-size: 0.88rem;
+        }
+
+        .question-inspect-pod div[style*="background"] .text-muted {
+            color: rgba(255, 255, 255, 0.4) !important;
+            font-weight: 500;
+        }
+
+        /* 🟢 Action buttons styling & interactive animations */
+        .btn-action-panel {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 10px;
+            text-decoration: none !important;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid transparent;
+            outline: none !important;
+        }
+
+        /* Edit / Explorer button style */
+        .btn-tasks-explorer {
+            color: #0d0f12 !important;
+            background: #2ec866 !important;
+            border-color: #2ec866 !important;
+            box-shadow: 0 4px 12px rgba(46, 200, 102, 0.2);
+        }
+
+        .btn-tasks-explorer:hover {
+            color: #0d0f12 !important;
+            background: #39e57f !important;
+            border-color: #39e57f !important;
+            box-shadow: 0 8px 20px rgba(46, 200, 102, 0.4), 0 0 0 3px rgba(46, 200, 102, 0.15);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .btn-tasks-explorer:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        /* Clone button variant when assessment is locked */
+        #btnCloneToDraftTriggerAction {
+            color: #ffffff !important;
+            background: #3b82f6 !important;
+            border-color: #3b82f6 !important;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+
+        #btnCloneToDraftTriggerAction:hover {
+            background: #60a5fa !important;
+            border-color: #60a5fa !important;
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4), 0 0 0 3px rgba(59, 130, 246, 0.15);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        /* Back Button style */
+        .btn-records-audit {
+            color: #94a3b8 !important;
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+
+        .btn-records-audit:hover {
+            color: #ffffff !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            border-color: rgba(255, 255, 255, 0.18) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-1px);
+        }
+
+        /* Slide arrow left micro-animation for back button */
+        .btn-records-audit:hover i {
+            transform: translateX(-3px);
+        }
+
+        /* Shake/Wiggle mini animation for edit button icon on hover */
+        .btn-tasks-explorer:hover i {
+            animation: wiggleMini 0.4s ease-in-out;
+        }
+
+        @keyframes wiggleMini {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-8deg); }
+            75% { transform: rotate(8deg); }
         }
     </style>
 </head>
-<body style="min-height: 100vh; background-color: #0d0f12; color: #fff;">
+<body style="min-height: 100vh; background-color: #0d0f12; color: #fff; position: relative;">
 
     <nav class="custom-navbar"></nav>
+
+    <div class="starry-background-canvas">
+        <div id="stars"></div>
+        <div id="stars2"></div>
+        <div id="stars3"></div>
+    </div>
 
     <div class="container py-5">
         <!-- 🔒 PROTECTION FLAG ELEMENT WARNING ALERT BAR -->

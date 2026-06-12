@@ -310,7 +310,7 @@ function loadQuestionIntoFormForEditing(index) {
     }
 
     // 5. Update footer submission buttons context text labels cleanly
-    const btnAddToQueue = document.querySelectorAll(".footer-button button")[0];
+    const btnAddToQueue = document.getElementById("btnAddToQueueAnchor");
     if (btnAddToQueue) btnAddToQueue.textContent = "Update in Queue";
 
     renderSidebarDraftsQueue();
@@ -338,7 +338,7 @@ function resetFormCanvasWorkspace() {
 
     // Restore text context values
     editingQuestionIndex = -1;
-    const btnAddToQueue = document.querySelectorAll(".footer-button button")[0];
+    const btnAddToQueue = document.getElementById("btnAddToQueueAnchor");
     if (btnAddToQueue) btnAddToQueue.textContent = "Add in Queue";
 }
 
@@ -349,6 +349,18 @@ function initializeFormActions() {
     // 🟢 FIXED: EXCLUSIVE REFERENCE ATTACHMENT THROUGH NATIVE IDS
     const btnAddToQueue = document.getElementById("btnAddToQueueAnchor");
     const btnSaveToAssessment = document.getElementById("btnSaveToAssessmentAnchor");
+    const btnBack = document.getElementById("btnBack");
+
+    if (btnBack) {
+        btnBack.addEventListener("click", () => {
+            const activeEditingTestId = localStorage.getItem("editingTestId");
+            if (activeEditingTestId) {
+                window.location.href = `/view-test-tasks?id=${activeEditingTestId}`;
+            } else {
+                window.location.href = "/test-form";
+            }
+        });
+    }
 
     if (btnAddToQueue) {
         btnAddToQueue.addEventListener("click", () => {

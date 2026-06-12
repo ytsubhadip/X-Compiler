@@ -53,7 +53,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <button type="button" id="btnCloneToDraftTriggerAction" class="btn-action-panel btn-tasks-explorer">
                     <i class="bi bi-copy"></i> Clone to New Draft
                 </button>
-                <a href="/test-history" class="btn-action-panel btn-records-audit">Back</a>
+                <a href="/test-history" class="btn-action-panel btn-records-audit">
+                    <i class="bi bi-arrow-left" style="transition: transform 0.2s ease;"></i> Back
+                </a>
             `;
             
             document.getElementById("btnCloneToDraftTriggerAction").addEventListener("click", () => {
@@ -65,10 +67,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (banner) banner.style.display = "none";
 
             controlsHub.innerHTML = `
-                <button type="button" id="btnRedirectToEditor" class="btn-action-panel btn-tasks-explorer" style="background: #2ec866; border-color: #2ec866; color: #0d0f12;">
+                <button type="button" id="btnRedirectToEditor" class="btn-action-panel btn-tasks-explorer">
                     <i class="bi bi-pencil-square"></i> Edit Assessment Questions
                 </button>
-                <a href="/test-history" class="btn-action-panel btn-records-audit">Back</a>
+                <a href="/test-history" class="btn-action-panel btn-records-audit">
+                    <i class="bi bi-arrow-left" style="transition: transform 0.2s ease;"></i> Back
+                </a>
             `;
             
             document.getElementById("btnRedirectToEditor").addEventListener("click", () => {
@@ -116,7 +120,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         block.innerHTML = `
             <div class="d-flex justify-content-between mb-2">
                 <h6 class="text-white m-0 fw-bold">${index + 1}. ${q.title}</h6>
-                <span class="badge bg-secondary" style="border-radius:4px;">${q.difficulty}</span>
+                <span class="badge bg-difficulty-${q.difficulty.toLowerCase()}" style="border-radius:4px;">${q.difficulty}</span>
             </div>
             <p class="small text-muted mb-0" style="white-space: pre-wrap; color: #cbd5e1 !important;">${q.description}</p>
             

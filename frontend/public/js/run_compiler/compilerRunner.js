@@ -95,6 +95,30 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateX(40px)'; setTimeout(() => toast.remove(), 400); }, 4000);
     }
 
+    function addSubmissionToHistoryTable(status, time) {
+        const tableBody = document.getElementById("submissionsLogList");
+        if (!tableBody) return;
+
+        if (tableBody.innerHTML.includes("No submissions logged")) {
+            tableBody.innerHTML = "";
+        }
+
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td class="font-monospace text-muted">${timeStr}</td>
+            <td>
+                <span class="badge ${status === 'Accepted' ? 'bg-success-subtle text-success border border-success-subtle' : 'bg-danger-subtle text-danger border border-danger-subtle'}">
+                    ${status}
+                </span>
+            </td>
+            <td class="font-monospace text-white">${time !== undefined && time !== null ? Math.round(time) + ' ms' : '-'}</td>
+        `;
+        tableBody.insertBefore(row, tableBody.firstChild);
+    }
+
     // =========================================================================
     // 🟢 PRODUCTION-GRADE WORKSPACE DYNAMIC MODAL INJECTORS
     // =========================================================================
@@ -245,18 +269,30 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!response.ok) throw new Error(`Gateway Error ${response.status}`);
                 const con = await response.json();
 
+                // Update stats
+                const execTimeNode = document.getElementById("execTime");
+                if (execTimeNode) {
+                    execTimeNode.textContent = con.time !== undefined ? Math.round(con.time) : "-";
+                }
+                const complexityNode = document.getElementById("complexity");
+                if (complexityNode && !localStorage.getItem("activeExamTestId")) {
+                    complexityNode.textContent = con.memory ? `${con.memory} KB` : "O(N)";
+                }
+
                 if (con.error) {
                     output.classList.add("console-error-text");
                     if (statusEl) { statusEl.textContent = "Rejected"; statusEl.className = "badge-status badge-status-rejected"; }
                     updateConsolePet('error');
                     typeConsoleOutput(output, con.error, 4);
                     showModernToast("Execution halted: Structural bugs discovered.", false);
+                    addSubmissionToHistoryTable('Rejected', con.time);
                 } else {
                     output.classList.remove("console-error-text");
                     if (statusEl) { statusEl.textContent = "Accepted"; statusEl.className = "badge-status badge-status-success"; }
                     updateConsolePet('success');
                     typeConsoleOutput(output, con.output || "Execution completed cleanly.", 6);
                     showModernToast("Build finished cleanly. Scripts evaluated successfully.", true);
+                    addSubmissionToHistoryTable('Accepted', con.time);
                 }
             } catch (err) {
                 console.error("Outbound compile link failure:", err);

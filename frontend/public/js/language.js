@@ -1,13 +1,3 @@
-/**
- * @file language.js
- * @description Manages CodeMirror editor language context switching, 
- * interactive live typing code line highlights, and character streaming (typewriter effect) 
- * inside the IDE editor panel.
- * * Used in:
- * - /pages/compiler_page/playground.html
- * - /pages/compiler_page/coding_test.html
- */
-
 // Scope timers and tracking states globally within this module space
 let ideTypewriterTimeout = null;
 let lineFadeTimeout = null;
@@ -22,11 +12,7 @@ window.codeCache = {
     javascript: `console.log("Hello World");`
 };
 
-/**
- * Streams pre-formatted template code snippets into the global CodeMirror instance.
- * @param {string} targetText - The text blocks to stream inside the workspace canvas.
- * @param {number} speed - Delay speed intervals between character placement metrics.
- */
+
 function streamCodeIntoEditor(targetText, speed = 10) {
     // Explicitly wipe active character intervals to prevent overlapping typewriter streams
     if (ideTypewriterTimeout) {

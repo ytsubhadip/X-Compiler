@@ -26,7 +26,7 @@
   <style>
     /* Absolute overlay positioning for the workspace lock gate */
     .auth-gate-backdrop {
-      position: absolute;
+      position: fixed;
       top: 56px; /* Sits perfectly below the core custom navbar element */
       left: 0;
       width: 100%;
@@ -67,10 +67,139 @@
       border-color: #2ec866 !important;
       box-shadow: 0 0 0 2px rgba(46, 200, 102, 0.15) !important;
     }
+
+    /* 🟩 HackerRank style tabs */
+    .nav-tabs .nav-link {
+        border: none !important;
+        border-radius: 0 !important;
+        color: #94a3b8 !important;
+        transition: all 0.2s ease;
+        padding-bottom: 12px !important;
+        font-size: 0.875rem !important;
+        font-weight: 600 !important;
+        background: transparent !important;
+    }
+    .nav-tabs .nav-link:hover {
+        color: #ffffff !important;
+    }
+    .nav-tabs .nav-link.active {
+        color: #2ec866 !important;
+        background: transparent !important;
+        border-bottom: 3px solid #2ec866 !important;
+    }
+    .console-tabs .nav-link {
+        padding-bottom: 8px !important;
+    }
+    .console-tabs .nav-link.active {
+        color: #2ec866 !important;
+        border-bottom: 2px solid #2ec866 !important;
+    }
+
+    /* Action buttons styles matching HackerRank */
+    #coderun.btn-action {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        color: #ffffff !important;
+        transition: all 0.2s ease;
+    }
+    #coderun.btn-action:hover {
+        background: rgba(255, 255, 255, 0.09) !important;
+        border-color: rgba(255, 255, 255, 0.25) !important;
+        transform: translateY(-1px);
+    }
+    #codesubmit.btn-action {
+        background: #2ec866 !important;
+        border: 1px solid #2ec866 !important;
+        color: #0d0f12 !important;
+        transition: all 0.2s ease;
+    }
+    #codesubmit.btn-action:hover {
+        background: #39e57f !important;
+        border-color: #39e57f !important;
+        box-shadow: 0 0 15px rgba(46, 200, 102, 0.3) !important;
+        transform: translateY(-1px);
+    }
+
+    /* 🟢 Desktop View defaults */
+    .coding-test-body {
+        height: 100vh;
+        overflow: hidden;
+        position: relative;
+    }
+
+    /* 📱 Mobile and Tablet Responsiveness Overrides */
+    @media (max-width: 991px) {
+        .coding-test-body {
+            height: auto !important;
+            overflow-y: auto !important;
+        }
+        .ide-workspace {
+            flex-direction: column !important;
+            height: auto !important;
+            min-height: 0 !important;
+        }
+        .left-column.h-100,
+        .right-column.h-100 {
+            height: auto !important;
+            width: 100% !important;
+            min-height: 450px !important;
+        }
+        .left-column {
+            padding: 16px !important;
+        }
+        .right-column {
+            padding: 16px !important;
+            gap: 16px !important;
+        }
+        .editor-pane {
+            min-height: 380px !important;
+            height: 380px !important;
+        }
+        .console-pane {
+            height: 300px !important;
+            min-height: 300px !important;
+        }
+    }
+
+    /* 📱 Small mobile devices adjustment (OTP & Editor Header) */
+    @media (max-width: 575px) {
+        .auth-gate-box {
+            padding: 28px 16px !important;
+        }
+        .otp-digit-cell {
+            width: 32px !important;
+            height: 44px !important;
+            font-size: 1.2rem !important;
+        }
+        #otpInputBlockMatrixContainer {
+            gap: 4px !important;
+        }
+        .editor-header {
+            height: auto !important;
+            min-height: auto !important;
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 12px !important;
+            padding: 12px !important;
+        }
+        .custom-select-wrapper {
+            width: 100% !important;
+        }
+        .editor-header .d-flex {
+            width: 100% !important;
+            justify-content: space-between !important;
+            gap: 10px !important;
+        }
+        .editor-header .btn-action {
+            flex: 1 !important;
+            justify-content: center !important;
+            padding: 8px 12px !important;
+        }
+    }
   </style>
 </head>
 
-<body class="landing-page d-flex flex-column" style="height: 100vh; overflow: hidden; position: relative;">
+<body class="landing-page d-flex flex-column coding-test-body">
 
   <nav class="custom-navbar"></nav>
 
@@ -81,16 +210,16 @@
       <p class="text-muted small mb-4">Input the 7-character dynamic workspace identifier issued by your evaluator to authorize this compilation session environment.</p>
       
       <div class="d-flex justify-content-center align-items-center gap-2 mb-4" id="otpInputBlockMatrixContainer">
-  <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="0">
-  <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="1">
-  <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="2">
-  
-  <span class="text-secondary fw-bold fs-3 px-1 user-select-none">-</span>
-  
-  <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="3">
-  <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="4">
-  <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="5">
-</div>
+        <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="0">
+        <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="1">
+        <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="2">
+        
+        <span class="text-secondary fw-bold fs-3 px-1 user-select-none">-</span>
+        
+        <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="3">
+        <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="4">
+        <input type="text" class="form-control text-center text-uppercase font-monospace otp-digit-cell" maxlength="1" required data-index="5">
+      </div>
       
       <button type="button" id="btnVerifyRoomCode" class="btn btn-success w-100 py-2 fw-bold" style="background: #2ec866; border-color: #2ec866; color: #0d0f12;">
         Unlock Test Workspace
@@ -103,49 +232,86 @@
   <div id="mainWorkspaceGridMatrix" class="row gx-0 ide-workspace flex-grow-1 workspace-blur-active">
     
     <div class="col-12 col-lg-5 left-column h-100 overflow-y-auto">
-      <div class="pane-card left-pane p-4">
-        
-        <div class="problem-header mb-3">
-          <span class="badge bg-success-subtle text-success border border-success-subtle mb-2 px-2 py-1 fw-semibold">Easy</span>
-          <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle mb-2 px-2 py-1 fw-semibold">ML Compiler</span>
-          <h2 id="question" class="problem-title mt-1 fw-bold text-white" style="font-size: 1.5rem;">Loading Assessment Parameters...</h2>
-        </div>
-
-        <div class="problem-section mb-4">
-  <div class="d-flex align-items-center my-3 p-2 rounded" style="background: #0d0f12; border: 1px solid rgba(255,255,255,0.04);">
-    <span class="text-success small me-3 class-title font-monospace fw-bold" style="font-size: 0.85rem;">
-      <i class="bi bi-grid-3x3-gap-fill me-1"></i>TASKS:
-    </span>
-    <div id="questionPaginationWrapper" class="d-flex align-items-center gap-1">
-      </div>
-  </div>
-</div>
-
-        <div class="problem-section mb-4">
-          <h3 class="problem-section-title fw-semibold mb-2 text-success" style="font-size: 1.1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 6px;">
-            <i class="bi bi-lightbulb-fill me-2"></i>Example
-          </h3>
-          <pre id="exap" class="code-block p-3 rounded-3 font-monospace text-wrap" style="background: var(--bg-pre, #0d0f12); border: 1px solid rgba(255, 255, 255, 0.04); color: #a7b5c9; font-size: 0.9rem;"></pre>
-        </div>
-
-        <div class="problem-section mb-4">
-          <h3 class="problem-section-title fw-semibold mb-2 text-success" style="font-size: 1.1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 6px;">
-            <i class="bi bi-check-circle-fill me-2"></i>Expected Outcomes
-          </h3>
-          <pre id="sample" class="code-block p-3 rounded-3 font-monospace text-wrap" style="background: var(--bg-pre, #0d0f12); border: 1px solid rgba(255, 255, 255, 0.04); color: #a7b5c9; font-size: 0.9rem;"></pre>
-        </div>
-
-        <div class="problem-section mb-4">
-          <h3 class="problem-section-title fw-semibold mb-2 text-success" style="font-size: 1.1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 6px;">
-            <i class="bi bi-exclamation-triangle-fill me-2"></i>Constraints
-          </h3>
-          <ul class="constraints-list ps-3 text-muted small" style="line-height: 1.6;">
-            <li>2 &le; nums.length &le; 10⁴</li>
-            <li>-10⁹ &le; nums[i] &le; 10⁹</li>
-            <li>Standard time and space limitations apply to binary evaluation cycles.</li>
+      <div class="pane-card left-pane p-0 d-flex flex-column h-100" style="background: #111418;">
+        <!-- Left Pane Tabs -->
+        <div class="left-pane-header px-3 pt-3" style="background: #111418; border-bottom: 1px solid #1f242d;">
+          <ul class="nav nav-tabs border-0" id="leftPaneTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active border-0 text-white bg-transparent fw-semibold pb-2" id="description-tab" data-bs-toggle="tab" data-bs-target="#description-panel" type="button" role="tab" style="font-size: 0.9rem; border-bottom: 3px solid #2ec866 !important; border-radius:0;"><i class="bi bi-file-earmark-text-fill me-2 text-success"></i>Problem Description</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link border-0 text-muted bg-transparent fw-semibold pb-2" id="sub-history-tab" data-bs-toggle="tab" data-bs-target="#sub-history-panel" type="button" role="tab" style="font-size: 0.9rem; border-radius:0;"><i class="bi bi-clock-history me-2"></i>Submissions</button>
+            </li>
           </ul>
         </div>
         
+        <div class="tab-content flex-grow-1 overflow-y-auto p-4" style="background: #151922; min-height: 0;">
+          <!-- Problem Description Tab -->
+          <div class="tab-pane fade show active" id="description-panel" role="tabpanel">
+            <div class="problem-header mb-3">
+              <span class="badge bg-success-subtle text-success border border-success-subtle mb-2 px-2 py-1 fw-semibold">Easy</span>
+              <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle mb-2 px-2 py-1 fw-semibold">ML Compiler</span>
+              <h2 id="question" class="problem-title mt-1 fw-bold text-white" style="font-size: 1.5rem; border:none; padding:0; margin:0;">Loading Assessment Specs...</h2>
+            </div>
+
+            <div class="problem-section mb-4">
+              <div class="d-flex align-items-center my-3 p-2 rounded" style="background: #0d0f12; border: 1px solid rgba(255,255,255,0.04);">
+                <span class="text-success small me-3 class-title font-monospace fw-bold" style="font-size: 0.85rem;">
+                  <i class="bi bi-grid-3x3-gap-fill me-1"></i>TASKS:
+                </span>
+                <div id="questionPaginationWrapper" class="d-flex align-items-center gap-1"></div>
+              </div>
+            </div>
+
+            <div class="problem-section mb-4">
+              <h3 class="problem-section-title fw-semibold mb-2 text-success" style="font-size: 1.1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 6px;">
+                <i class="bi bi-lightbulb-fill me-2"></i>Example
+              </h3>
+              <pre id="exap" class="code-block p-3 rounded-3 font-monospace text-wrap" style="background: var(--bg-pre, #0d0f12); border: 1px solid rgba(255, 255, 255, 0.04); color: #a7b5c9; font-size: 0.9rem;"></pre>
+            </div>
+
+            <div class="problem-section mb-4">
+              <h3 class="problem-section-title fw-semibold mb-2 text-success" style="font-size: 1.1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 6px;">
+                <i class="bi bi-check-circle-fill me-2"></i>Expected Outcomes
+              </h3>
+              <pre id="sample" class="code-block p-3 rounded-3 font-monospace text-wrap" style="background: var(--bg-pre, #0d0f12); border: 1px solid rgba(255, 255, 255, 0.04); color: #a7b5c9; font-size: 0.9rem;"></pre>
+            </div>
+
+            <div class="problem-section mb-4">
+              <h3 class="problem-section-title fw-semibold mb-2 text-success" style="font-size: 1.1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 6px;">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>Constraints
+              </h3>
+              <ul class="constraints-list ps-3 text-muted small" style="line-height: 1.6;">
+                <li>2 &le; nums.length &le; 10⁴</li>
+                <li>-10⁹ &le; nums[i] &le; 10⁹</li>
+                <li>Standard time and space limitations apply to binary evaluation cycles.</li>
+              </ul>
+            </div>
+          </div>
+          
+          <!-- Submissions Tab -->
+          <div class="tab-pane fade" id="sub-history-panel" role="tabpanel">
+            <h4 class="text-white fw-bold mb-3" style="font-size: 1.15rem;">Submission Log History</h4>
+            <p class="text-muted small">Only the most recent submission is processed for final grading metrics evaluation.</p>
+            <div class="table-responsive mt-3">
+              <table class="table table-dark table-hover border-secondary-subtle">
+                <thead>
+                  <tr style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; color: #a7b5c9;">
+                    <th>Time</th>
+                    <th>Result</th>
+                    <th>Runtime</th>
+                  </tr>
+                </thead>
+                <tbody id="submissionsLogList" style="font-size: 0.85rem;">
+                  <!-- Dynamically populated or static mock items -->
+                  <tr>
+                    <td colspan="3" class="text-center text-muted py-4">No submissions logged for this exam session.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     
@@ -164,14 +330,13 @@
             </select>
           </div>
           <div class="d-flex gap-2">
-  <button type="button" class="btn btn-success btn-action px-3 py-1 fw-bold small" id="coderun">
-    <i class="bi bi-play-fill"></i> Run Code
-  </button>
-  
-  <button type="button" class="btn btn-success btn-action px-3 py-1 fw-bold small" id="codesubmit">
-    <i class="bi bi-cloud-upload-fill me-1"></i> Submit Exam
-  </button>
-</div>
+            <button type="button" class="btn btn-success btn-action px-3 py-1 fw-bold small" id="coderun">
+              <i class="bi bi-play-fill"></i> Run Code
+            </button>
+            <button type="button" class="btn btn-success btn-action px-3 py-1 fw-bold small" id="codesubmit">
+              <i class="bi bi-cloud-upload-fill me-1"></i> Submit Exam
+            </button>
+          </div>
         </div>
 
         <div class="editor-body flex-grow-1 position-relative">
@@ -179,22 +344,37 @@
         </div>
       </div>
 
-      <div class="pane-card console-pane p-3" style="height: 35%; max-height: 40%; background: #0b0d10; border-top: 1px solid #1f242d;">
-        <div class="console-header d-flex justify-content-between align-items-center mb-2">
-          <span class="console-header-title text-white fw-semibold small"><i class="bi bi-terminal-fill me-2 text-success"></i>Console Output</span>
+      <div class="pane-card console-pane p-0" style="height: 35%; max-height: 40%; background: #0b0d10; border-top: 1px solid #1f242d; display: flex; flex-direction: column;">
+        <div class="console-header d-flex justify-content-between align-items-center px-3 py-2" style="background: #111418; border-bottom: 1px solid #1f242d; height: auto;">
+          <ul class="nav nav-tabs console-tabs border-0" id="consoleTabs" role="tablist" style="margin-bottom: -9px;">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active border-0 text-white bg-transparent fw-semibold" id="output-tab" data-bs-toggle="tab" data-bs-target="#output-panel" type="button" role="tab" style="font-size: 0.8rem;"><i class="bi bi-terminal-fill me-2 text-success"></i>Compiler Log</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link border-0 text-muted bg-transparent fw-semibold" id="input-tab" data-bs-toggle="tab" data-bs-target="#input-panel" type="button" role="tab" style="font-size: 0.8rem;"><i class="bi bi-keyboard-fill me-2"></i>Custom Input</button>
+            </li>
+          </ul>
           <span class="badge bg-dark border border-secondary text-muted px-2 py-1 font-monospace" id="consoleStatus" style="font-size: 0.7rem;">Idle</span>
         </div>
-        <div class="console-body d-flex flex-column h-100 pb-4">
-          <textarea class="form-control bg-dark text-success font-monospace small flex-grow-1 mb-2 p-2" id="output" readonly placeholder="Output logs will sync following compiler evaluation thread loops..."></textarea>
-          <div class="console-footer d-flex gap-4 text-muted" style="font-size: 0.8rem;">
-            <div class="console-stat">
-              <span>Execution Clock:</span>
-              <span class="console-stat-value text-white font-monospace ms-1"><span id="execTime">-</span> ms</span>
-            </div>
-            <div class="console-stat">
-              <span>Estimated Complexity:</span>
-              <span class="console-stat-value text-white font-monospace ms-1" id="complexity">-</span>
-            </div>
+        <div class="tab-content flex-grow-1 d-flex flex-column" style="min-height: 0; padding: 12px; background: #0b0d10;">
+          <!-- Output tab content -->
+          <div class="tab-pane fade show active flex-grow-1 d-flex flex-column" id="output-panel" role="tabpanel" style="min-height:0;">
+            <textarea class="form-control bg-dark text-success font-monospace small flex-grow-1 p-2 border-0" id="output" readonly placeholder="Output logs will sync following compiler evaluation thread loops..." style="resize:none; outline:none; box-shadow:none;"></textarea>
+          </div>
+          <!-- Custom Input tab content -->
+          <div class="tab-pane fade flex-grow-1 d-flex flex-column" id="input-panel" role="tabpanel" style="min-height:0;">
+            <textarea class="form-control bg-dark text-white font-monospace small flex-grow-1 p-2 border-0" id="customInput" placeholder="Enter custom stdin parameters here to test your program..." style="resize:none; outline:none; box-shadow:none;"></textarea>
+          </div>
+        </div>
+        <!-- Console Footer -->
+        <div class="console-footer d-flex gap-4 text-muted px-3 py-2 border-top border-secondary-subtle" style="font-size: 0.8rem; background: #0b0d10;">
+          <div class="console-stat">
+            <span>Execution Clock:</span>
+            <span class="console-stat-value text-white font-monospace ms-1"><span id="execTime">-</span> ms</span>
+          </div>
+          <div class="console-stat">
+            <span>Estimated Complexity:</span>
+            <span class="console-stat-value text-white font-monospace ms-1" id="complexity">-</span>
           </div>
         </div>
       </div>

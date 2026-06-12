@@ -21,6 +21,9 @@
     position: relative;
     z-index: 10;
     box-sizing: border-box;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease;
 }
 
 /* Stunning Glassmorphic Box Backdrop surrounding the landing elements */
@@ -29,7 +32,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) translateZ(-10px);
     width: 100%;
     max-width: 580px;
     height: 100%;
@@ -53,6 +56,75 @@
         0 40px 120px rgba(0, 0, 0, 0.5), 
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
+
+/* 🌌 Glowing Orbs Background */
+.glowing-orbs-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.glowing-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.15;
+    animation: orbFloat 20s infinite alternate ease-in-out;
+}
+
+.orb-1 {
+    top: -10%;
+    left: 10%;
+    width: 450px;
+    height: 450px;
+    background: #2ec866;
+    animation-duration: 25s;
+}
+
+.orb-2 {
+    bottom: -10%;
+    right: 15%;
+    width: 500px;
+    height: 500px;
+    background: #22c55e;
+    animation-duration: 30s;
+}
+
+@keyframes orbFloat {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        transform: translate(100px, 80px) scale(1.2);
+    }
+}
+
+/* 🚀 Entry Animations */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(40px) translateZ(0);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) translateZ(inherit);
+    }
+}
+
+.animate-fade-in-up {
+    opacity: 0;
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.25s; }
+.delay-3 { animation-delay: 0.4s; }
+.delay-4 { animation-delay: 0.55s; }
 
 /* File Icon bounce indicator customized with green linear gradient mask */
 .container i.fa-file-circle-plus {

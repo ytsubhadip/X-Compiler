@@ -77,7 +77,9 @@ router.post("/compiler", async (req, res) => {
             return res.json({
                 error: decodedError,
                 output: null,
-                status: result.status?.description
+                status: result.status?.description,
+                time: result.time ? parseFloat(result.time) * 1000 : 0,
+                memory: result.memory || 0
             });
         }
 
@@ -85,7 +87,9 @@ router.post("/compiler", async (req, res) => {
         return res.json({
             output: safeDecode(result.stdout) || "Execution completed with no output output.",
             error: null,
-            status: result.status?.description
+            status: result.status?.description,
+            time: result.time ? parseFloat(result.time) * 1000 : 0,
+            memory: result.memory || 0
         });
 
     } catch (err) {

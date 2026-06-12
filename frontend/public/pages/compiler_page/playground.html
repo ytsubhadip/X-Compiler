@@ -58,7 +58,7 @@
 
 
 
-              <div class="d-flex gap-5">
+              <div class="d-flex gap-4">
 
                 <!-- <div class="container">
                   <input type="checkbox" name="checkbox" id="checkbox" />
@@ -69,7 +69,7 @@
                   <i class="bi bi-play-fill"></i> Run Code
                 </button>
 
-                <button type="button" class="btn btn-success btn-action" id="coderun">
+                <button type="button" class="btn btn-success btn-action" id="" disabled>
                   Save Code
                 </button>
               </div>
@@ -114,7 +114,8 @@
       theme: "darcula",
       lineNumbers: true,
       autoCloseBrackets: true
-    })
+    });
+    window.wpCodeEditorInstance = editor;
   </script>
 
   <script src="/js/navbar.js"></script>

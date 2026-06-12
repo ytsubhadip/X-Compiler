@@ -1,7 +1,7 @@
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const signinForm = document.getElementById("formSignin");
-
     const submitBtn = document.getElementById("btnSubmitSignin");
 
     // Shared references for the global dynamic domino loader
@@ -9,16 +9,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const loaderText = document.getElementById("globalLoaderText");
 
     if (signinForm) {
-        /**
-         * Intercepts form submissions and triggers backend authorization queries.
-         */
+
         signinForm.addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            /** @type {HTMLInputElement|null} */
             const emailField = document.getElementById("signinEmail");
-            
-            /** @type {HTMLInputElement|null} */
             const passwordField = document.getElementById("signinPassword");
 
             if (!emailField || !passwordField) return;
@@ -72,56 +67,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 // 🟢 Update loader statement text on success
                 if (loaderText) loaderText.innerText = "Access Granted! Initializing Profile...";
                 if (submitBtn) submitBtn.innerText = "Signed in";
-                
+
                 // Navigate users based on permission levels
                 const roleAfter = (data.role || currentRole || '').toString().toLowerCase();
-                const dest = roleAfter === 'teacher' ? '/create-test' : '/coding-test'; // Fixed typo routing from 'dashbord' to 'dashboard'
-                
+                const dest = roleAfter === 'teacher' ? '/create-test' : '/coding-test';
                 setTimeout(() => window.location.href = dest, 600);
 
             } catch (err) {
                 // ❌ Close loader overlay instantly on execution crashes so user can retry
                 if (pageLoader) pageLoader.classList.remove("active");
-                
+
                 // Restore button triggers and notify user of auth exceptions
                 if (submitBtn) {
                     submitBtn.disabled = false;
                     submitBtn.innerText = "Sign In";
                 }
                 console.error("AJAX error:", err);
-                alert(`Login Error: ${err.message}`);
+                // alert(`Login Error: ${err.message}`);
             }
-        });
-    }
-
-    // Dynamic mouse cursor green glow effect (outside the main sign-in card)
-    const cursorGlow = document.getElementById("cursorGlow");
-    const authCard = document.querySelector(".auth-card");
-    if (cursorGlow) {
-        document.addEventListener("mousemove", (e) => {
-            cursorGlow.style.left = `${e.clientX}px`;
-            cursorGlow.style.top = `${e.clientY}px`;
-
-            if (authCard) {
-                const rect = authCard.getBoundingClientRect();
-                const isOverCard = (
-                    e.clientX >= rect.left &&
-                    e.clientX <= rect.right &&
-                    e.clientY >= rect.top &&
-                    e.clientY <= rect.bottom
-                );
-                if (isOverCard) {
-                    cursorGlow.classList.remove("active");
-                } else {
-                    cursorGlow.classList.add("active");
-                }
-            } else {
-                cursorGlow.classList.add("active");
-            }
-        });
-
-        document.addEventListener("mouseleave", () => {
-            cursorGlow.classList.remove("active");
         });
     }
 });

@@ -25,8 +25,7 @@
     <link rel="stylesheet" href="/css/animated-Element/star_background.css">
 </head>
 
-<body class="landing-page d-flex flex-column"
-    style="min-height: 100vh; height: auto !important; overflow-y: auto !important; overflow-x: hidden;">
+<body class="landing-page d-flex flex-column">
     <div class="loader-wrapper">
         <div class="loader"></div>
     </div>
@@ -36,9 +35,6 @@
         <div id="stars2"></div>
         <div id="stars3"></div>
     </div>
-
-    <!-- Dynamic mouse cursor glow effect backdrop -->
-    <div class="cursor-glow" id="cursorGlow"></div>
 
     <main class="auth-wrapper">
         <div id="authContainer" class="auth-container" style="position: relative; z-index: 10; display: none;">
@@ -63,6 +59,7 @@
 
                 <div class="auth-form-wrapper">
                     <form class="auth-form" id="formSignin">
+
                         <div class="form-group">
                             <label for="signinEmail">Email Address</label>
                             <div class="input-wrapper">
@@ -71,6 +68,7 @@
                                     placeholder="name@domain.com">
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label for="signinPassword">Password</label>
                             <div class="input-wrapper">
@@ -87,7 +85,7 @@
                             <div class="input-wrapper">
                                 <i class="bi bi-shield-lock-fill input-icon"></i>
                                 <input class="input-control" type="text" id="signinTeacherUid"
-                                    placeholder="e.g., TCH-10029">
+                                    placeholder="TCH-10029">
                             </div>
                         </div>
 
@@ -98,6 +96,7 @@
                         <button class="btn-auth-submit btn-signin-submit" type="submit" id="btnSubmitSignin">
                             <i class="bi bi-box-arrow-in-right me-1"></i> Sign In
                         </button>
+
                     </form>
                 </div>
 
@@ -132,7 +131,6 @@
                 groupTeacherUid.classList.remove('active');
                 signinTeacherUid.required = false;
             }
-
             activeRole = 'student';
             authSubtitle.innerText = "Log in to ML Compiler to compile and run your solutions as a student.";
         }
@@ -152,7 +150,6 @@
                 groupTeacherUid.classList.add('active');
                 signinTeacherUid.required = true;
             }
-
             activeRole = 'teacher';
             authSubtitle.innerText = "Log in to ML Compiler to compile and run your solutions as a teacher.";
         }
@@ -197,7 +194,8 @@
 
     <script src="/js/user_auth/signin.js"></script>
     <script src="/js/loder.js"></script>
-    <script src="/js/inspact_on.js"></script>
+    <script src="/js/inspect_off.js"></script>
+    
 </body>
 
 </html>

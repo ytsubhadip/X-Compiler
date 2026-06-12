@@ -1,16 +1,7 @@
-/**
- * @file signup.js
- * @description Manages student and teacher platform registration form validations,
- * operational payloads aggregation, global domino loader triggers, and account generation requests.
- * * Used in:
- * - /pages/user_auth/signup.html
- */
 
 document.addEventListener("DOMContentLoaded", () => {
-    /** @type {HTMLFormElement|null} */
+   
     const signupForm = document.getElementById("formSignup");
-
-    /** @type {HTMLButtonElement|null} */
     const submitBtn = document.getElementById("btnSubmitSignup");
 
     // Shared references for the global dynamic domino loader overlay screen
@@ -18,9 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const loaderText = document.getElementById("globalLoaderText");
 
     if (signupForm) {
-        /**
-         * Intercepts form submissions, validates inputs, and updates user database.
-         */
+      
         signupForm.addEventListener("submit", async (e) => {
             e.preventDefault();
 
@@ -31,7 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
           
             if (!nameInput || !emailInput || !passwordInput || !confirmPasswordInput) return;
 
-            // Determine active persona registration context (defaults to student)
             let currentRole = "student";
             const teacherTab = document.getElementById("btnTabTeacher");
             if (teacherTab && teacherTab.classList.contains("active")) {

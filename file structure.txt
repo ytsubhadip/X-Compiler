@@ -1,0 +1,7 @@
+1) index.html -> Home page html
+2) home.css -> Home page css 
+3) inspect.js -> turn of inspect meny for user
+4) signin.html -> user signin page
+5) signin.js -> user signin js login file
+6) signup.html -> user signup page
+7) signup.js -> user signup js login file

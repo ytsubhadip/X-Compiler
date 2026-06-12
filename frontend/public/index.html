@@ -24,122 +24,6 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/navbar.css">
-
-    <style>
-        .terminal-loader {
-            position: fixed;
-            inset: 0;
-            z-index: 99999;
-            background: #111;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            transition: opacity 0.5s ease;
-        }
-
-        .terminal-loader.hide {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        /* Loader Box */
-        .terminal-loader .loader-box {
-            border: 0.1em solid #333;
-            background-color: #1a1a1a;
-            color: #0f0;
-            font-family: "Courier New", Courier, monospace;
-            font-size: 1em;
-            padding: 1.5em 1em;
-            width: 12em;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 4px;
-            position: relative;
-            overflow: hidden;
-            box-sizing: border-box;
-        }
-
-        .terminal-header {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1.5em;
-            background-color: #333;
-            border-top-left-radius: 4px;
-            border-top-right-radius: 4px;
-            padding: 0 0.4em;
-            box-sizing: border-box;
-        }
-
-        .terminal-controls {
-            float: right;
-        }
-
-        .control {
-            display: inline-block;
-            width: 0.6em;
-            height: 0.6em;
-            margin-left: 0.4em;
-            border-radius: 50%;
-            background-color: #777;
-        }
-
-        .control.close {
-            background-color: #e33;
-        }
-
-        .control.minimize {
-            background-color: #ee0;
-        }
-
-        .control.maximize {
-            background-color: #0b0;
-        }
-
-        .terminal-title {
-            float: left;
-            line-height: 1.5em;
-            color: #eee;
-        }
-
-        .text {
-            display: inline-block;
-            white-space: nowrap;
-            overflow: hidden;
-            border-right: 0.2em solid #0f0;
-            margin-top: 1.5em;
-
-            animation:
-                typeAndDelete 4s steps(11) infinite,
-                blinkCursor 0.5s step-end infinite alternate;
-        }
-
-        @keyframes blinkCursor {
-            50% {
-                border-right-color: transparent;
-            }
-        }
-
-        @keyframes typeAndDelete {
-
-            0%,
-            10% {
-                width: 0;
-            }
-
-            45%,
-            55% {
-                width: 6.2em;
-            }
-
-            90%,
-            100% {
-                width: 0;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -167,7 +51,7 @@
     <div class="hero">
         <div class="hero-title-section">
             <h1 class="Manrope">
-                code with <span id="element"></span><br>
+                code with <b><span id="element"></span></b><br>
                 <span>next generation compiler</span>
             </h1>
             <div class="hero-description">
@@ -181,7 +65,7 @@
         </div>
         <div class="hero-sponor-section">
             <div class="brand-logo">
-                <img src="asset/ilead.png" alt="" srcset="">
+                <img src="asset/ilead.png" alt="ilead logo">
             </div>
         </div>
     </div>
@@ -194,7 +78,7 @@
             typeSpeed: 130,
             loop: true,
             loopCount: Infinity,
-        });
+        }); 
         const token = localStorage.getItem("authToken");
         const role = localStorage.getItem("userRole");
         const name = localStorage.getItem("userName");
@@ -216,7 +100,7 @@
         document.getElementById("teacherBtn").addEventListener("click", function () {
             window.location.href = "";
              if (token) {
-                if (role == 'teacher') {
+                if (role == 'teacher') {    
                     window.location.href = '/create-test'
                 }
                 else {
@@ -239,7 +123,9 @@
                 }, 500);
             }, 4000);
         });
+
     </script>
-</body>
+    <script src="/js/inspact_on.js"></script>
+</body> 
 
 </html>

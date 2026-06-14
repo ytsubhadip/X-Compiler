@@ -1,8 +1,4 @@
-/**
- * @file view_test_tasks.js
- * @description Controls the read-only inspection layout. Dynamically hooks 
- * editing workflows or local cloning procedures based on submission flags.
- */
+
 
 document.addEventListener("DOMContentLoaded", async () => {
     const token = localStorage.getItem("authToken");
@@ -31,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!response.ok) throw new Error(data.error || "Failed to retrieve configuration mapping.");
 
         globalFetchedTestObjectInstance = data.test;
-        isTestLockedPermanently = data.hasSubmissions; 
+        isTestLockedPermanently = data.hasSubmissions;
 
         // Hydrate read-only text fields smoothly
         titleHeader.innerText = globalFetchedTestObjectInstance.title;
@@ -48,7 +44,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (isTestLockedPermanently) {
             // 🔒 CASE B: Active submissions exist -> Force cloning flow
             if (banner) banner.style.display = "block";
-            
+
             controlsHub.innerHTML = `
                 <button type="button" id="btnCloneToDraftTriggerAction" class="btn-action-panel btn-tasks-explorer">
                     <i class="bi bi-copy"></i> Clone to New Draft
@@ -57,7 +53,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <i class="bi bi-arrow-left" style="transition: transform 0.2s ease;"></i> Back
                 </a>
             `;
-            
+
             document.getElementById("btnCloneToDraftTriggerAction").addEventListener("click", () => {
                 executeCloneToTransientWorkspace(globalFetchedTestObjectInstance);
             });
@@ -74,7 +70,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <i class="bi bi-arrow-left" style="transition: transform 0.2s ease;"></i> Back
                 </a>
             `;
-            
+
             document.getElementById("btnRedirectToEditor").addEventListener("click", () => {
                 executeEditRedirection(globalFetchedTestObjectInstance);
             });
@@ -88,17 +84,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     function renderStaticQuestionsList(questions) {
-    if (!questionsWrapper) return;
-    questionsWrapper.innerHTML = "";
-    
-    questions.forEach((q, index) => {
-        const block = document.createElement("div");
-        block.className = "question-inspect-pod";
-        
-        // Compile individual examples if they exist in the schema array
-        let examplesHTML = "";
-        if (q.examples && q.examples.length > 0) {
-            examplesHTML = `
+        if (!questionsWrapper) return;
+        questionsWrapper.innerHTML = "";
+
+        questions.forEach((q, index) => {
+            const block = document.createElement("div");
+            block.className = "question-inspect-pod";
+
+            // Compile individual examples if they exist in the schema array
+            let examplesHTML = "";
+            if (q.examples && q.examples.length > 0) {
+                examplesHTML = `
                 <div class="mt-3 pt-2" style="border-top: 1px dashed #232931;">
                     <a class="text-success small text-decoration-none" data-bs-toggle="collapse" href="#collapseEx-${index}" role="button" aria-expanded="false" style="font-weight: 600; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 4px;">
                         <i class="bi bi-braces"></i> View Test Case Examples (${q.examples.length})
@@ -115,9 +111,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                     </div>
                 </div>
             `;
-        }
+            }
 
-        block.innerHTML = `
+            block.innerHTML = `
             <div class="d-flex justify-content-between mb-2">
                 <h6 class="text-white m-0 fw-bold">${index + 1}. ${q.title}</h6>
                 <span class="badge bg-difficulty-${q.difficulty.toLowerCase()}" style="border-radius:4px;">${q.difficulty}</span>
@@ -128,9 +124,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             
             ${examplesHTML}
         `;
-        questionsWrapper.appendChild(block);
-    });
-}
+            questionsWrapper.appendChild(block);
+        });
+    }
 
     // Flow 1: Redirect to builder with loaded questions for direct editing
     function executeEditRedirection(testObject) {
@@ -138,7 +134,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         localStorage.setItem("currentDraftQuestions", JSON.stringify(testObject.questions));
         // Save the test ID so your builder page knows it's updating an existing test instead of creating a new one
         localStorage.setItem("editingTestId", testObject._id);
-        
+
         window.location.href = "/add-question";
     }
 
@@ -156,8 +152,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         localStorage.setItem("currentDraftQuestions", JSON.stringify(clonedQuestionsArray));
         // Remove editing token so it treats it as a brand new test submission
-        localStorage.removeItem("editingTestId"); 
-        
+        localStorage.removeItem("editingTestId");
+
         window.location.href = "/add-question";
     }
 });

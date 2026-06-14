@@ -29,7 +29,7 @@
 .pane-card {
     background: #14161c;
     border: 1px solid rgba(255, 255, 255, 0.06);
-    
+
     overflow: hidden;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
     display: flex;
@@ -249,11 +249,13 @@
 
 /* Console Dynamic States */
 .console-error-text {
-    color: #ef4444 !important; /* Premium red for errors */
+    color: #ef4444 !important;
+    /* Premium red for errors */
 }
 
 .console-success-text {
-    color: #39e57f !important; /* Premium bright terminal green for output */
+    color: #39e57f !important;
+    /* Premium bright terminal green for output */
 }
 
 /* Console Status Badge */
@@ -298,11 +300,11 @@
 }
 
 /* Helper rules to fill height on desktop layouts */
-.ide-workspace > .col-12 {
+.ide-workspace>.col-12 {
     height: 100%;
 }
 
-.ide-workspace > .col-12 > .row {
+.ide-workspace>.col-12>.row {
     height: 100%;
 }
 
@@ -312,29 +314,29 @@
         height: auto !important;
         overflow-y: auto !important;
     }
-    
+
     .ide-workspace {
         flex-direction: column;
         height: auto !important;
         overflow-y: visible !important;
     }
-    
-    .ide-workspace > .col-12 {
+
+    .ide-workspace>.col-12 {
         height: auto !important;
     }
-    
-    .ide-workspace > .col-12 > .row {
+
+    .ide-workspace>.col-12>.row {
         height: auto !important;
         flex-direction: column;
     }
-    
+
     .editor-pane {
         min-height: 450px;
         margin: 16px;
     }
-    
+
     .console-pane {
         min-height: 350px;
         margin: 0 16px 16px 16px;
     }
-}
+}

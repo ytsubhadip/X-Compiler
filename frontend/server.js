@@ -159,7 +159,7 @@ app.get("/create-test", (req, res) => {
 });
 
 app.get("/profile", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "user_profile", "profile.html"));
+    res.sendFile(path.join(__dirname, "public", "pages","user_profile", "profile.html"));
 });
 
 app.get("/test-form", (req, res) => {

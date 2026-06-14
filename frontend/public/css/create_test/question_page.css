@@ -1,11 +1,3 @@
-/**
- * question_page.css
- * 
- * Styled specifically for the teacher "Add Question" dashboard.
- * Implements a split 2-column layout (Queue/Drafts on the left, problem configuration on the right),
- * customized with a premium Green and Black glassmorphism theme.
- */
-
 /* =========================================================================
    1. GRID CONTAINER LAYOUT
    ========================================================================= */
@@ -41,7 +33,7 @@
 }
 
 /* Primary "New Question" trigger button styling */
-.left-side-div > button {
+.left-side-div>button {
     width: 100%;
     padding: 16px;
     background: rgba(255, 255, 255, 0.02);
@@ -54,7 +46,7 @@
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.left-side-div > button p {
+.left-side-div>button p {
     margin: 0;
     font-size: 0.95rem;
     font-weight: 700;
@@ -65,14 +57,15 @@
     gap: 8px;
 }
 
-.left-side-div > button p::before {
-    content: "\F4FE"; /* bootstrap icon plus-circle-fill */
+.left-side-div>button p::before {
+    content: "\F4FE";
+    /* bootstrap icon plus-circle-fill */
     font-family: "bootstrap-icons";
     font-size: 1.1rem;
     color: var(--accent-success, #2ec866);
 }
 
-.left-side-div > button:hover {
+.left-side-div>button:hover {
     border-color: var(--accent-success, #2ec866);
     background: rgba(46, 200, 102, 0.04);
     box-shadow: 0 0 15px rgba(46, 200, 102, 0.1);
@@ -90,7 +83,7 @@
     box-sizing: border-box;
 }
 
-.question-queue > span {
+.question-queue>span {
     font-size: 0.76rem;
     font-weight: 700;
     color: var(--text-muted);
@@ -115,7 +108,8 @@
     padding: 12px 14px;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.06);
-    border-left: 3px solid var(--accent-success, #2ec866); /* Left border indicating active item */
+    border-left: 3px solid var(--accent-success, #2ec866);
+    /* Left border indicating active item */
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.25s ease;
@@ -205,7 +199,8 @@
     gap: 32px;
 }
 
-.difficulty, .topic-tags {
+.difficulty,
+.topic-tags {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -399,7 +394,8 @@
 }
 
 /* Save / Add Queue CTA styles */
-#btnAddToQueueAnchor, #btnBack {
+#btnAddToQueueAnchor,
+#btnBack {
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.18);
     color: var(--text-primary);
@@ -419,7 +415,8 @@
 
 #btnSaveToAssessmentAnchor {
     background-color: var(--accent-success, #2ec866);
-    color: #0d0f12; /* Black text color on green background for contrast */
+    color: #0d0f12;
+    /* Black text color on green background for contrast */
     border: none;
     box-shadow: 0 4px 12px rgba(46, 200, 102, 0.15);
 }
@@ -547,7 +544,7 @@
         height: auto !important;
         overflow-y: auto !important;
     }
-    
+
     .container {
         display: flex;
         flex-direction: column;
@@ -555,7 +552,7 @@
         padding-top: 0;
         padding-bottom: 40px;
     }
-    
+
     .left-side-div {
         width: 100%;
         height: auto;
@@ -564,14 +561,14 @@
         padding: 20px;
         margin-bottom: 0;
     }
-    
+
     .right-side-div {
         width: 100%;
         height: auto;
         overflow-y: visible;
         padding: 24px 20px;
     }
-    
+
     .footer-button {
         position: relative;
         width: 100%;
@@ -589,14 +586,13 @@
         flex-direction: column;
         gap: 20px;
     }
-    
+
     .difficulty-btn-group {
         flex-direction: column;
         width: 100%;
     }
-    
+
     .difficulty-btn-group button {
         width: 100%;
     }
 }
-

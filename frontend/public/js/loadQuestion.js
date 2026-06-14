@@ -1,16 +1,10 @@
-/**
- * @file loadQuestion.js
- * @description Handles dynamic examination multi-task navigation transitions,
- * sandboxed localized code draft snapshot retention per-problem index,
- * and visual structural hydration configurations.
- */
 
 // Global key tracker definitions for scoped storage partitions
 const CODE_DRAFT_CACHE_PREFIX = "exam_code_draft_q_";
 
-window.hydrateExamWorkspaceTaskElement = function() {
+window.hydrateExamWorkspaceTaskElement = function () {
     console.log("🔄 Dynamic Hydration sweep initiated...");
-    
+
     const rawQuestionsArray = localStorage.getItem("activeExamQuestionsList");
     const currentIndexPointer = parseInt(localStorage.getItem("activeExamCurrentIndex") || "0", 10);
 
@@ -77,14 +71,14 @@ window.hydrateExamWorkspaceTaskElement = function() {
     if (window.wpCodeEditorInstance) {
         const uniqueStorageKey = `${CODE_DRAFT_CACHE_PREFIX}${currentIndexPointer}`;
         const savedDraft = localStorage.getItem(uniqueStorageKey);
-        
+
         if (savedDraft) {
             window.wpCodeEditorInstance.setValue(savedDraft);
         } else {
             // Fallback to default code snippet from cache if they haven't touched this question yet
             const activeLangElement = document.getElementById('inlineFormSelectPref');
             const selectedLang = activeLangElement ? activeLangElement.value.toLowerCase().trim() : 'python';
-            
+
             // Call your typewriter streaming module or set text raw if needed
             if (typeof window.codeCache !== 'undefined' && window.codeCache[selectedLang]) {
                 window.wpCodeEditorInstance.setValue(window.codeCache[selectedLang]);
@@ -102,7 +96,7 @@ window.hydrateExamWorkspaceTaskElement = function() {
 /**
  * 🟢 NEW METHOD: CACHES THE WRITTEN CODE BEFORE CHANGING POINTERS
  */
-window.saveCurrentCodeDraftToLocalMemory = function() {
+window.saveCurrentCodeDraftToLocalMemory = function () {
     if (!window.wpCodeEditorInstance) return;
     const currentIndexPointer = localStorage.getItem("activeExamCurrentIndex") || "0";
     const currentCodeValue = window.wpCodeEditorInstance.getValue();
@@ -112,10 +106,10 @@ window.saveCurrentCodeDraftToLocalMemory = function() {
 /**
  * 🟢 NEW METHOD: HANDLE FORWARD/BACKWARD SWITCH NAVIGATION SEQUENCES
  */
-window.navigateExamWorkspaceTaskIndex = function(targetIndex) {
+window.navigateExamWorkspaceTaskIndex = function (targetIndex) {
     const rawQuestionsArray = localStorage.getItem("activeExamQuestionsList");
     if (!rawQuestionsArray) return;
-    
+
     const maxBoundLength = JSON.parse(rawQuestionsArray).length;
     if (targetIndex < 0 || targetIndex >= maxBoundLength) return;
 
@@ -132,12 +126,12 @@ window.navigateExamWorkspaceTaskIndex = function(targetIndex) {
 /**
  * 🟢 NEW METHOD: AUTO-GENERATES STEP PAGINATION BUTTON NODES INSIDE YOUR PANEL UI
  */
-window.renderDynamicQuestionPaginationHUD = function(totalQuestions, activeIndex) {
+window.renderDynamicQuestionPaginationHUD = function (totalQuestions, activeIndex) {
     const wrapperContainer = document.getElementById("questionPaginationWrapper");
     if (!wrapperContainer) return; // Skips if you haven't dropped the HTML container hook block yet
 
     wrapperContainer.innerHTML = "";
-    
+
     for (let i = 0; i < totalQuestions; i++) {
         const btn = document.createElement("button");
         btn.innerText = i + 1;

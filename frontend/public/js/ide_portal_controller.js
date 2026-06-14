@@ -1,9 +1,3 @@
-/**
- * @file ide_portal_controller.js
- * @description Decoupled workspace state controller. Orchestrates interactive 
- * 6-cell OTP access matrices, handles verification handshakes, establishes proctoring anti-cheat,
- * and manages multi-task execution contexts.
- */
 
 window.wpCodeEditorInstance = null;
 
@@ -12,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const workspaceGrid = document.getElementById("mainWorkspaceGridMatrix");
     const verifyBtn = document.getElementById("btnVerifyRoomCode");
     const statusAlert = document.getElementById("portalStatusAlertDisplay");
-    
+
     const otpCells = document.querySelectorAll(".otp-digit-cell");
     const authToken = localStorage.getItem("authToken");
 
@@ -29,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     otpCells.forEach((cell, idx) => {
         cell.addEventListener("input", (e) => {
             const inputChar = e.target.value.trim().toUpperCase();
-            cell.value = inputChar; 
+            cell.value = inputChar;
 
             if (inputChar.length > 0 && idx < otpCells.length - 1) {
                 otpCells[idx + 1].focus();
@@ -37,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const activeCodeBuffer = getCompiledOtpString();
             // 🟢 FIXED: Adjusted validation array boundaries strictly back to 6 characters
-            if (activeCodeBuffer.length === 6) { 
+            if (activeCodeBuffer.length === 6) {
                 triggerSecurityHandshake(activeCodeBuffer);
             }
         });
@@ -54,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let compiledString = "";
         otpCells.forEach((cell) => {
             const tokenChar = cell.value.trim().toUpperCase();
-            if (tokenChar) compiledString += tokenChar; 
+            if (tokenChar) compiledString += tokenChar;
         });
         return compiledString;
     }
@@ -91,10 +85,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 localStorage.setItem("activeExamTestId", data.testId);
                 localStorage.setItem("examTimeRemaining", data.duration);
                 localStorage.setItem("activeExamQuestionsList", JSON.stringify(data.questions));
-                localStorage.setItem("activeExamCurrentIndex", "0"); 
+                localStorage.setItem("activeExamCurrentIndex", "0");
 
                 bypassGateAndMountEditor();
-                
+
                 if (typeof window.hydrateExamWorkspaceTaskElement === "function") {
                     window.hydrateExamWorkspaceTaskElement();
                 }
@@ -113,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function bypassGateAndMountEditor() {
         if (overlayGate) overlayGate.style.display = "none";
         if (workspaceGrid) workspaceGrid.classList.remove("workspace-blur-active");
-        
+
         const textareaElement = document.getElementById("editor");
         if (textareaElement && !window.wpCodeEditorInstance) {
             window.wpCodeEditorInstance = CodeMirror.fromTextArea(textareaElement, {
@@ -129,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Broadcast global signal that CodeMirror is fully mounted so compilerRunner catches it instantly
             window.dispatchEvent(new Event("ideWorkspaceMounted"));
-            
+
             // Activate our proctor security lock downs
             activateProctorSecurityShield();
         }
@@ -210,12 +204,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // 🚨 EMERGENCY FORCE TERMINATION TERMINATION SEQUENCE
     function executeEmergencyForceTermination() {
         console.error("🚨 CRITICAL STRIKE THRESHOLD REACHED: Initiating programmatic lockout submittal...");
-        
+
         const submitButtonElement = document.getElementById("codesubmit");
         if (submitButtonElement) {
-            submitButtonElement.disabled = false; 
+            submitButtonElement.disabled = false;
             alert("🔒 ACCESS TERMINATED!\nYou have exceeded the maximum window tracking infraction limit. Your assessment session has been locked out, and your current script drafts are being automatically force-submitted to the evaluation databases.");
-            submitButtonElement.click(); 
+            submitButtonElement.click();
         } else {
             localStorage.clear();
             window.location.href = "/dashboard";

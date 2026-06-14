@@ -18,10 +18,10 @@ function streamCodeIntoEditor(targetText, speed = 10) {
     if (ideTypewriterTimeout) {
         clearInterval(ideTypewriterTimeout);
     }
-    
+
     if (!window.wpCodeEditorInstance) return;
-    
-    window.wpCodeEditorInstance.setValue(""); 
+
+    window.wpCodeEditorInstance.setValue("");
     window.wpCodeEditorInstance.focus();
 
     let index = 0;
@@ -30,7 +30,7 @@ function streamCodeIntoEditor(targetText, speed = 10) {
             const char = targetText.charAt(index);
             const doc = window.wpCodeEditorInstance.getDoc();
             const cursor = doc.getCursor();
-            
+
             doc.replaceRange(char, cursor);
             index++;
         } else {
@@ -46,7 +46,7 @@ function streamCodeIntoEditor(targetText, speed = 10) {
  */
 function initializeLanguageWorkspaceEngine() {
     const optionL = document.getElementById('inlineFormSelectPref');
-    
+
     // Core structural check: if layout arrays or global canvases aren't bound yet, retry smoothly
     if (!optionL || !window.wpCodeEditorInstance) {
         setTimeout(initializeLanguageWorkspaceEngine, 100);
@@ -80,10 +80,10 @@ function initializeLanguageWorkspaceEngine() {
         if (currentLang && currentLang !== "nol") {
             window.codeCache[currentLang] = window.wpCodeEditorInstance.getValue();
         }
-        
+
         if (ideTypewriterTimeout) clearInterval(ideTypewriterTimeout);
         currentLang = selectedLang;
-        
+
         // Dynamically adjust CodeMirror syntax highlighting options safely
         if (currentLang === 'python') {
             window.wpCodeEditorInstance.setOption("mode", "text/x-python");
@@ -103,7 +103,7 @@ function initializeLanguageWorkspaceEngine() {
             retrievedCode = window.codeCache[currentLang] || "print('Hello world')";
         }
 
-        streamCodeIntoEditor(retrievedCode, 8); 
+        streamCodeIntoEditor(retrievedCode, 8);
     });
 
     // Code line keyboard input neon active highlight handlers
@@ -111,10 +111,10 @@ function initializeLanguageWorkspaceEngine() {
         if (changeObj.origin === "+input" || changeObj.origin === "paste") {
             clearTimeout(lineFadeTimeout);
             const currentLine = window.wpCodeEditorInstance.getDoc().getCursor().line;
-            
+
             window.wpCodeEditorInstance.removeLineClass(currentLine, "background", "line-fade-out");
             window.wpCodeEditorInstance.addLineClass(currentLine, "background", "active-typing-line");
-            
+
             lineFadeTimeout = setTimeout(() => {
                 if (window.wpCodeEditorInstance) {
                     window.wpCodeEditorInstance.removeLineClass(currentLine, "background", "active-typing-line");

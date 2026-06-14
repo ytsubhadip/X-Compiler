@@ -1,8 +1,3 @@
-/**
- * @file create_test_landing.js
- * @description Manages view-state router guard assertions for teacher execution
- * frameworks and binds user action listeners to animated deployment nodes.
- */
 
 document.addEventListener("DOMContentLoaded", () => {
     // =========================================================================
@@ -48,17 +43,17 @@ document.addEventListener("DOMContentLoaded", () => {
             const rect = container.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-            
+
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
-            
+
             const rotateX = ((y - centerY) / centerY) * -10; // Max tilt: 10 degrees
             const rotateY = ((x - centerX) / centerX) * 10;
-            
+
             container.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
             container.style.transition = "none";
         });
-        
+
         container.addEventListener("mouseleave", () => {
             container.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)";
             container.style.transition = "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)";

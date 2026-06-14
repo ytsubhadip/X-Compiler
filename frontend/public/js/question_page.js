@@ -1,8 +1,3 @@
-/**
- * @file question_page.js
- * @description Manages interactive tag chips, multi-example dynamic blocks, 
- * and handles adding or editing questions within the transient local storage queue.
- */
 
 // =========================================================================
 // 1. GLOBAL STATE TRACKING & SECURITY ROUTE GUARDS
@@ -16,7 +11,7 @@ if (!token || role.trim().toLowerCase() !== "teacher") {
 }
 
 // Global Memory Collections
-let tagsList = []; 
+let tagsList = [];
 let activeSelectedDifficulty = "Easy";
 let workingDraftQuestionsList = JSON.parse(localStorage.getItem("currentDraftQuestions")) || [];
 // 🟢 NEW STATE: Track if we are editing an existing question (-1 means creating a new one)
@@ -27,7 +22,7 @@ let editingQuestionIndex = -1;
 // =========================================================================
 function initializeDifficultyButtons() {
     const difficultyButtons = document.querySelectorAll(".difficulty-btn-group button");
-    
+
     difficultyButtons.forEach((button) => {
         button.addEventListener("click", () => {
             difficultyButtons.forEach((btn) => btn.classList.remove("active", "activate"));
@@ -54,7 +49,7 @@ function initializeTopicTags() {
     tagInput.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
             e.preventDefault();
-            
+
             const tagValue = tagInput.value.trim();
             if (tagValue === "") return;
 
@@ -78,14 +73,14 @@ function addTagChipToDOM(tagValue) {
 
     const tagChip = document.createElement("div");
     tagChip.className = "tag-chip";
-    
+
     const tagLabel = document.createElement("span");
     tagLabel.textContent = tagValue;
     tagChip.appendChild(tagLabel);
 
     const closeIcon = document.createElement("i");
     closeIcon.className = "fa-solid fa-xmark";
-    
+
     closeIcon.addEventListener("click", (event) => {
         event.stopPropagation();
         tagChip.remove();
@@ -109,11 +104,11 @@ function initializeExamplesList() {
         // Always calculate the structural count based on active child nodes inside the DOM tree grid
         const activeBoxCount = examplesList.querySelectorAll(".example-box").length;
         const nextSecureId = activeBoxCount + 1;
-        
+
         addExampleBoxToDOM(nextSecureId, "", "", "");
-        
+
         // 🟢 Force structural numbers realignment pass right after appending
-        updateExampleNumbers(); 
+        updateExampleNumbers();
     });
 }
 
@@ -128,7 +123,7 @@ function addExampleBoxToDOM(idNumber, inputValue = "", outputValue = "", explana
 
     const header = document.createElement("div");
     header.className = "example-header";
-    
+
     const title = document.createElement("span");
     title.className = "example-title-label";
     title.textContent = `Example ${idNumber}`;
@@ -139,12 +134,12 @@ function addExampleBoxToDOM(idNumber, inputValue = "", outputValue = "", explana
     deleteBtn.className = "remove-example-btn";
     deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
     // Inside addExampleBoxToDOM(idNumber, inputValue, outputValue, explanationValue):
-deleteBtn.addEventListener("click", () => {
-    exampleBox.remove();
-    
-    // 🟢 RE-INDEX LIVE: Renumbers remaining boxes sequentially so arrays never duplicate!
-    updateExampleNumbers(); 
-});
+    deleteBtn.addEventListener("click", () => {
+        exampleBox.remove();
+
+        // 🟢 RE-INDEX LIVE: Renumbers remaining boxes sequentially so arrays never duplicate!
+        updateExampleNumbers();
+    });
     header.appendChild(deleteBtn);
     exampleBox.appendChild(header);
 
@@ -204,10 +199,10 @@ function updateExampleNumbers() {
 function renderSidebarDraftsQueue() {
     const draftsQueueWrapper = document.querySelector(".question-container");
     const countHeader = document.querySelector(".question-queue > span");
-    
+
     if (!draftsQueueWrapper) return;
     draftsQueueWrapper.innerHTML = "";
-    
+
     if (countHeader) {
         countHeader.innerText = `DRAFTS (${workingDraftQuestionsList.length})`;
     }
@@ -223,13 +218,13 @@ function renderSidebarDraftsQueue() {
         draftRowNode.style.display = "flex";
         draftRowNode.style.justifyContent = "space-between";
         draftRowNode.style.alignItems = "center";
-        
+
         // 🟢 HIGHLIGHT ACTIVE EDIT: Adds subtle styling context if this card is currently open
         if (editingQuestionIndex === idx) {
             draftRowNode.style.borderLeft = "3px solid #fbbf24";
             draftRowNode.style.background = "rgba(255, 255, 255, 0.08)";
         }
-        
+
         draftRowNode.innerHTML = `
             <div class="draft-click-area" data-index="${idx}" style="display: flex; align-items: center; gap: 10px; max-width: 80%; flex-grow: 1; cursor: pointer;">
                 <i class="fa-solid fa-square-poll-horizontal"></i>
@@ -253,7 +248,7 @@ function renderSidebarDraftsQueue() {
         btn.addEventListener("click", (e) => {
             e.stopPropagation();
             const targetIdx = parseInt(btn.getAttribute("data-index"));
-            
+
             // Reset edit context if active card gets dropped out
             if (editingQuestionIndex === targetIdx) {
                 editingQuestionIndex = -1;
@@ -261,7 +256,7 @@ function renderSidebarDraftsQueue() {
             } else if (editingQuestionIndex > targetIdx) {
                 editingQuestionIndex--; // Balance structural array index shift keys
             }
-            
+
             workingDraftQuestionsList.splice(targetIdx, 1);
             localStorage.setItem("currentDraftQuestions", JSON.stringify(workingDraftQuestionsList));
             renderSidebarDraftsQueue();
@@ -275,7 +270,7 @@ function loadQuestionIntoFormForEditing(index) {
     if (!question) return;
 
     editingQuestionIndex = index;
-    
+
     // 1. Hydrate title and descriptor content blocks
     const titleInput = document.querySelector(".right-side-div input[type='text']");
     const descInput = document.querySelector(".probleam-desc textarea");
@@ -324,7 +319,7 @@ function resetFormCanvasWorkspace() {
     if (titleInput) titleInput.value = "";
     if (descInput) descInput.value = "";
     if (examplesList) examplesList.innerHTML = "";
-    
+
     tagsList = [];
     const container = document.getElementById("tagContainer");
     if (container) {
@@ -432,13 +427,13 @@ function initializeFormActions() {
                             "Content-Type": "application/json",
                             "Authorization": `Bearer ${localStorage.getItem("authToken")}`
                         },
-                        body: JSON.stringify({ 
+                        body: JSON.stringify({
                             title: localStorage.getItem("draftTestName") || "Updated Test",
                             department: localStorage.getItem("draftTestDept"),
                             semester: parseInt(localStorage.getItem("draftTestSem"), 10),
                             duration: parseInt(localStorage.getItem("draftTestDuration"), 10),
                             code: localStorage.getItem("draftTestCustomCode"),
-                            questions: updatedQuestionsList 
+                            questions: updatedQuestionsList
                         })
                     });
 
@@ -447,7 +442,7 @@ function initializeFormActions() {
 
                     // 🟢 Trigger your exact confirmation alert popup box
                     alert("🎉 Question paper updated successfully!");
-                    
+
                     // Clear state tracking metrics out of local system cache storage entirely
                     localStorage.removeItem("draftTestName");
                     localStorage.removeItem("draftTestDept");
@@ -455,7 +450,7 @@ function initializeFormActions() {
                     localStorage.removeItem("draftTestDuration");
                     localStorage.removeItem("draftTestCustomCode");
                     localStorage.removeItem("currentDraftQuestions");
-                    localStorage.removeItem("editingTestId"); 
+                    localStorage.removeItem("editingTestId");
 
                     // 🚀 Force clean page routing delivery back into histories panel
                     window.location.href = "/test-history";
@@ -467,7 +462,7 @@ function initializeFormActions() {
                     btnSaveToAssessment.disabled = false;
                     btnSaveToAssessment.innerHTML = `Save Assignment`;
                 }
-            } 
+            }
             // ⚡ CASE B: FRESH CREATION -> GO BACK TO BLANK FORM LAYOUTS
             else {
                 window.location.href = "/test-form";

@@ -1,8 +1,3 @@
-/**
- * @file compilerRunner.js - Unified High-Performance Code Execution Client
- * Handles compiler triggers, terminal animations, status widgets,
- * countdown proctoring, and multi-task assignment submittal transactions.
- */
 
 document.addEventListener("DOMContentLoaded", () => {
     let widgetTimeout;
@@ -29,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
         function type() {
             if (i < text.length) {
                 textarea.value += text.charAt(i);
-                textarea.scrollTop = textarea.scrollHeight; 
+                textarea.scrollTop = textarea.scrollHeight;
                 i++;
                 consoleTimeout = setTimeout(type, speed);
             }
@@ -105,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const now = new Date();
         const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-        
+
         const row = document.createElement("tr");
         row.innerHTML = `
             <td class="font-monospace text-muted">${timeStr}</td>
@@ -130,14 +125,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const backdrop = document.createElement("div");
         backdrop.id = "customExamModalWrapper";
         backdrop.style.cssText = "position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(10, 12, 16, 0.82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 99999; display: flex; align-items: center; justify-content: center; opacity: 0; transition: all 0.3s ease;";
-        
+
         const card = document.createElement("div");
         card.style.cssText = "background: #111418; border: 1px solid rgba(255, 255, 255, 0.06); padding: 32px; border-radius: 20px; max-width: 440px; width: 90%; text-align: center; box-shadow: 0 30px 70px rgba(0,0,0,0.8); transform: scale(0.9); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);";
         card.innerHTML = htmlContent;
-        
+
         backdrop.appendChild(card);
         document.body.appendChild(backdrop);
-        
+
         // Force Reflow for Animations
         setTimeout(() => {
             backdrop.style.opacity = "1";
@@ -178,14 +173,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 clearInterval(clockInterval);
                 document.getElementById("examClockNode").textContent = "00:00";
                 document.getElementById("examClockNode").className = "text-danger font-monospace fw-bold";
-                
+
                 // 🚨 FORCE AUTOMATED RECOGNITION EXECUTOR
                 executeFinalSubmissionPipeline(true);
                 return;
             }
 
             totalSeconds--;
-            
+
             // Sync calculation units back to local cache storage rows
             const ceilingMinutes = Math.ceil(totalSeconds / 60);
             localStorage.setItem("examTimeRemaining", ceilingMinutes);
@@ -368,9 +363,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             cachedQuestionsList.forEach((q, idx) => {
                 const targetId = q._id || q.id;
-                const savedCode = localStorage.getItem(`exam_code_draft_q_${idx}`) || 
-                                  localStorage.getItem(`exam_code_draft_q_${targetId}`) || 
-                                  "";
+                const savedCode = localStorage.getItem(`exam_code_draft_q_${idx}`) ||
+                    localStorage.getItem(`exam_code_draft_q_${targetId}`) ||
+                    "";
 
                 answersPayload.push({
                     questionId: targetId,
@@ -388,14 +383,14 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             const report = await response.json();
-            
+
             if (response.ok && report.success) {
                 // Wipe Local Storage configurations keys clean immediately upon verification handshake
                 localStorage.removeItem("activeExamTestId");
                 localStorage.removeItem("activeExamQuestionsList");
                 localStorage.removeItem("examTimeRemaining");
                 localStorage.removeItem("activeExamCurrentIndex");
-                
+
                 cachedQuestionsList.forEach((q, idx) => {
                     localStorage.removeItem(`exam_code_draft_q_${idx}`);
                     localStorage.removeItem(`exam_code_draft_q_${q._id || q.id}`);
@@ -417,7 +412,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     remainingTicks--;
                     const node = document.getElementById("countdown-redirect-ticker");
                     if (node) node.textContent = remainingTicks;
-                    
+
                     if (remainingTicks <= 0) {
                         clearInterval(redirectTimer);
                         removeCustomExamModal();

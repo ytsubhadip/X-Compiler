@@ -1,6 +1,6 @@
 
 document.addEventListener("DOMContentLoaded", () => {
-   
+
     const signupForm = document.getElementById("formSignup");
     const submitBtn = document.getElementById("btnSubmitSignup");
 
@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const loaderText = document.getElementById("globalLoaderText");
 
     if (signupForm) {
-      
+
         signupForm.addEventListener("submit", async (e) => {
             e.preventDefault();
 
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const emailInput = document.getElementById("signupEmail");
             const passwordInput = document.getElementById("signupPassword");
             const confirmPasswordInput = document.getElementById("signupConfirmPassword");
-          
+
             if (!nameInput || !emailInput || !passwordInput || !confirmPasswordInput) return;
 
             let currentRole = "student";
@@ -45,12 +45,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 const deptSelect = document.getElementById("signupStudentDept");
                 const semInput = document.getElementById("signupStudentSem");
                 const studentRollNumber = document.getElementById("signupStudentId");
-                
+
                 payload.rollnumber = studentRollNumber ? studentRollNumber.value.trim() : "N/A";
                 payload.department = deptSelect ? deptSelect.value : "";
                 payload.semester = semInput ? parseInt(semInput.value) : null;
             }
-            
+
             // teacher unique ID moved to signin page; no teacher unique in signup payload
 
             try {
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // 🟢 UPDATE LOADER TEXT ON SUCCESS
                 if (loaderText) loaderText.innerText = "Account Created! Redirecting to Gateway...";
                 if (submitBtn) submitBtn.innerText = "Created";
-                
+
                 // Redirect user to the login window to start sessions cleanly
                 setTimeout(() => window.location.href = "/signin", 900);
 

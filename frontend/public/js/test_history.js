@@ -1,11 +1,6 @@
-/**
- * @file test_history.js
- * @description Secures views pathways, queries historic assessment entries from databases,
- * and compiles layout items into structural data grid matrices dynamically.
- */
 
 // Global helper function for interactive code copy feedback animation
-window.copyInviteLink = function(element, url) {
+window.copyInviteLink = function (element, url) {
     navigator.clipboard.writeText(url).then(() => {
         const originalHTML = element.innerHTML;
         element.innerHTML = `<i class="bi bi-check-circle-fill text-success"></i> Copied Link!`;
@@ -91,9 +86,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
 
             const questionCount = test.questions ? test.questions.length : 0;
-            
+
             // 🟢 RUNTIME DATA FALLBACK: Ensures clean look for older documents missing codes
-           const renderingCode = test.testcode || `OLD-${test._id.slice(-4).toUpperCase()}`;
+            const renderingCode = test.testcode || `OLD-${test._id.slice(-4).toUpperCase()}`;
 
             cardCol.innerHTML = `
                 <div class="test-history-card">
@@ -156,7 +151,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         cardCol.remove();
                         // Remove from the local allTests array so it stays deleted during filters
                         allTests = allTests.filter(t => t._id !== test._id);
-                        
+
                         // Check if no cards are currently visible
                         if (gridContainer.children.length === 0) {
                             gridContainer.innerHTML = `
@@ -223,18 +218,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         deptOptionsList.forEach(option => {
             option.addEventListener("click", (e) => {
                 e.stopPropagation();
-                
+
                 // Toggle active classes
                 deptOptionsList.forEach(opt => opt.classList.remove("active"));
                 option.classList.add("active");
-                
+
                 // Set value and trigger label update
                 selectedDept = option.getAttribute("data-value") || "";
                 if (deptSelectValue) deptSelectValue.textContent = option.textContent;
-                
+
                 // Close options list
                 if (deptFilterDropdown) deptFilterDropdown.classList.remove("active");
-                
+
                 applyFilters();
             });
         });

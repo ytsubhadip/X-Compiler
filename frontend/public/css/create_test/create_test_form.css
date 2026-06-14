@@ -1,12 +1,3 @@
-/**
- * create_test_form.css
- * 
- * Styled specifically for the teacher "Create Test Form" dashboard.
- * Features a modern glassmorphic card design, custom styled inputs/selects,
- * dark-mode native time controls, and interactive question lists,
- * customized with a premium Green and Black theme.
- */
-
 body {
     height: auto !important;
     overflow-y: auto !important;
@@ -28,7 +19,7 @@ h1 {
     -webkit-text-fill-color: transparent;
 }
 
-body > p {
+body>p {
     font-size: 1.02rem;
     color: var(--text-muted);
     font-family: var(--font-sans);
@@ -49,8 +40,8 @@ body > p {
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 20px;
-    box-shadow: 
-        0 30px 60px rgba(0, 0, 0, 0.4), 
+    box-shadow:
+        0 30px 60px rgba(0, 0, 0, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.05);
     box-sizing: border-box;
     position: relative;
@@ -147,7 +138,8 @@ body > p {
 }
 
 .child-div select option {
-    background-color: #14161c !important; /* matches var(--bg-card) */
+    background-color: #14161c !important;
+    /* matches var(--bg-card) */
     color: var(--text-primary) !important;
     font-size: 0.9rem;
     padding: 10px;
@@ -155,7 +147,8 @@ body > p {
 
 /* Custom chevron arrow for select dropdowns built via pseudo-elements */
 .child-div::after {
-    content: "\F2E0"; /* Bootstrap icon chevron-down unicode */
+    content: "\F2E0";
+    /* Bootstrap icon chevron-down unicode */
     font-family: "bootstrap-icons" !important;
     position: absolute;
     right: 4px;
@@ -335,18 +328,26 @@ body > p {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(4px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* =========================================================================
    5. ACTION SUBMIT BUTTON
    ========================================================================= */
-form > button {
+form>button {
     width: 100%;
     padding: 12px;
     background-color: var(--accent-success, #2ec866);
-    color: #0d0f12; /* Black text color on green background for contrast */
+    color: #0d0f12;
+    /* Black text color on green background for contrast */
     border: none;
     border-radius: 8px;
     font-size: 0.95rem;
@@ -358,13 +359,13 @@ form > button {
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-form > button:hover {
+form>button:hover {
     background-color: var(--accent-success-bright, #39e57f);
     box-shadow: 0 8px 20px rgba(46, 200, 102, 0.3);
     transform: translateY(-1px);
 }
 
-form > button:active {
+form>button:active {
     transform: translateY(0);
 }
 
@@ -375,10 +376,9 @@ form > button:active {
         margin-bottom: 40px;
         border-radius: 16px;
     }
-    
+
     .form-group:has(.child-div) {
         flex-direction: column;
         gap: 22px;
     }
 }
-

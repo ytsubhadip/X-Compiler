@@ -1,8 +1,3 @@
-/**
- * @file create_test_form.js
- * @description Manages view router asserts, dynamic working transaction memory for question creation arrays,
- * and handles secure REST endpoint form serialization streams with active submission lockout integrity checks.
- */
 
 document.addEventListener("DOMContentLoaded", () => {
     // =========================================================================
@@ -15,10 +10,10 @@ document.addEventListener("DOMContentLoaded", () => {
         // Check the page history navigation record
         const navigationEntries = performance.getEntriesByType("navigation");
         const isPageNavReload = navigationEntries.length > 0 && navigationEntries[0].type === "reload";
-        
+
         // Check if the teacher is actually coming back from the "Add Question" page
-        const comingFromAddQuestionPage = document.referrer.includes("add-question") || 
-                                          document.referrer.includes("question_page");
+        const comingFromAddQuestionPage = document.referrer.includes("add-question") ||
+            document.referrer.includes("question_page");
 
         // 🧹 If they are starting fresh and NOT returning from adding a question, completely wipe the memory!
         if (!comingFromAddQuestionPage && !isPageNavReload) {
@@ -61,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 2. SESSION TRANSACTION MEMORY HOOKS (Preserve form state across links)
     // =========================================================================
     let activeDraftQuestions = JSON.parse(localStorage.getItem("currentDraftQuestions")) || [];
-    
+
     // Update count indicator badge live on screen
     if (counterLabel) {
         counterLabel.innerText = `${activeDraftQuestions.length} Selected`;
@@ -72,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (localStorage.getItem("draftTestDept")) document.getElementById("testDepartment").value = localStorage.getItem("draftTestDept");
     if (localStorage.getItem("draftTestSem")) document.getElementById("testSemester").value = localStorage.getItem("draftTestSem");
     if (localStorage.getItem("draftTestDuration")) document.getElementById("testDuration").value = localStorage.getItem("draftTestDuration");
-    
+
     // Hydrate custom entry code from memory if pre-existing
     if (localStorage.getItem("draftTestCustomCode")) {
         const customCodeField = document.getElementById("testCustomCodeInput");
@@ -86,12 +81,12 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.setItem("draftTestDept", document.getElementById("testDepartment").value);
             localStorage.setItem("draftTestSem", document.getElementById("testSemester").value);
             localStorage.setItem("draftTestDuration", document.getElementById("testDuration").value);
-            
+
             const customCodeField = document.getElementById("testCustomCodeInput");
             if (customCodeField) {
                 localStorage.setItem("draftTestCustomCode", customCodeField.value.trim().toUpperCase());
             }
-            
+
             window.location.href = "/add-question";
         });
     }
@@ -118,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 semester: parseInt(document.getElementById("testSemester").value, 10),
                 duration: parseInt(document.getElementById("testDuration").value, 10),
                 questions: activeDraftQuestions,
-                code: finalCustomCodeValue 
+                code: finalCustomCodeValue
             };
 
             const activeEditingTestId = localStorage.getItem("editingTestId");
@@ -140,18 +135,18 @@ document.addEventListener("DOMContentLoaded", () => {
                         method: "GET",
                         headers: { "Authorization": `Bearer ${token}` }
                     });
-                    
+
                     const integrityResult = await integrityCheck.json();
-                    
+
                     if (integrityResult.hasSubmissions) {
                         if (pageLoader) pageLoader.classList.remove("active");
                         alert("🔒 Modification Denied: A student has already initialized this assessment while you were editing. Edits are locked to preserve grading integrity.");
-                        
+
                         clearTransientFormLocalStorageCaches();
                         window.location.href = "/test-history";
-                        return; 
+                        return;
                     }
-                    
+
                     targetApiUrl = `/api/tests/update/${activeEditingTestId}`;
                     requestMethodType = "PUT";
                 }
@@ -160,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const response = await fetch(targetApiUrl, {
                     method: requestMethodType,
-                    headers: { 
+                    headers: {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${token}`
                     },
@@ -171,7 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!response.ok) throw new Error(data.error || "Assessment creation transaction refused by server matrix.");
 
                 if (loaderText) loaderText.innerText = "Assessment Manifest Live! Syncing Systems...";
-                
+
                 // 🟢 Trigger the structural memory cleanup block right here
                 clearTransientFormLocalStorageCaches();
 
@@ -261,7 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (selectedFileName) selectedFileName.innerText = file.name;
         if (uploadContentText) uploadContentText.style.display = "none";
         if (fileInfoDisplay) fileInfoDisplay.style.display = "flex";
-        
+
         // Add visual success outline feedback
         uploadZone.style.borderColor = "var(--accent-success, #2ec866)";
         uploadZone.style.background = "rgba(46, 200, 102, 0.05)";
@@ -271,7 +266,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (fileInput) fileInput.value = "";
         if (uploadContentText) uploadContentText.style.display = "flex";
         if (fileInfoDisplay) fileInfoDisplay.style.display = "none";
-        
+
         // Reset visual border states
         uploadZone.style.borderColor = "rgba(255, 255, 255, 0.18)";
         uploadZone.style.background = "rgba(255, 255, 255, 0.005)";
@@ -285,10 +280,10 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.removeItem("draftTestDept");
         localStorage.removeItem("draftTestSem");
         localStorage.removeItem("draftTestDuration");
-        localStorage.removeItem("draftTestCustomCode"); 
-        localStorage.removeItem("editingTestId"); 
-        
+        localStorage.removeItem("draftTestCustomCode");
+        localStorage.removeItem("editingTestId");
+
         // 🟢 THE CRITICAL HERO LINE: Wipes out previous question allocations cleanly
-        localStorage.removeItem("currentDraftQuestions"); 
+        localStorage.removeItem("currentDraftQuestions");
     }
 });

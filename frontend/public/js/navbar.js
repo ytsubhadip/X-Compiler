@@ -1,46 +1,22 @@
-/**
- * @file navbar.js
- * @description Manages dynamic, role-based navigation generation, 
- * user session verification, responsive mobile drawer hamburger events, 
- * profile context dropdown actions, and log-out state mutations.
- * * Loaded globally on all primary site layouts.
- */
+
 document.addEventListener("DOMContentLoaded", () => {
-    
+
     // =========================================================================
     // DYNAMIC ROLE-BASED NAVBAR GENERATION
     // =========================================================================
-    
-    /**
-     * Target navbar element inside DOM.
-     * @type {HTMLElement|null}
-     * 
-     */
+
+
     const navbarTarget = document.querySelector(".custom-navbar");
     if (!navbarTarget) return;
 
-    /**
-     * Authentication metadata retrieved from localStorage.
-     * @type {string|null}
-     */
     const token = localStorage.getItem("authToken");
-    
-    /**
-     * User platform level permission access context.
-     * @type {string}
-     */
+
+
     const role = localStorage.getItem("userRole") || "student";
-    
-    /**
-     * User identity name.
-     * @type {string}
-     */
+
+
     const name = localStorage.getItem("userName") || "User";
-    
-    /**
-     * Active browser path location.
-     * @type {string}
-     */
+
     const currentPath = window.location.pathname;
 
     // Configure core center navigation links accessible by everyone
@@ -143,19 +119,19 @@ document.addEventListener("DOMContentLoaded", () => {
             const trigger = e.target.closest(".profile-avatar-trigger");
             if (trigger) {
                 e.stopPropagation();
-                
+
                 // Fetch surrounding dropdown cards (supporting both Desktop and responsive views)
                 const menu = trigger.closest(".user-profile-menu");
                 const dropdown = menu?.querySelector(".profile-dropdown-card");
-                
+
                 if (dropdown) {
                     const isShown = dropdown.classList.contains("show");
-                    
+
                     // Close all active dropdown elements first to avoid overlapping stacking card glitches
                     document.querySelectorAll(".profile-dropdown-card.show").forEach((d) => {
                         d.classList.remove("show");
                     });
-                    
+
                     // Toggle targeted dropdown
                     if (!isShown) {
                         dropdown.classList.add("show");

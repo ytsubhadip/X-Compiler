@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     submitBtn.innerText = "Sign In";
                 }
                 console.error("AJAX error:", err);
-                // alert(`Login Error: ${err.message}`);
+                alert(`Login Error: ${err.message}`);
             }
         });
     }

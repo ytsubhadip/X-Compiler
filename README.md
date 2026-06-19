@@ -1,5 +1,5 @@
-# ML-compiler
-ML-compiler is an online code IDE prototype that combines a frontend editor with a backend API to analyze code. It uses:
+# X -compiler
+X -compiler is an online code IDE prototype that combines a frontend editor with a backend API to analyze code. It uses:
 
 Python + FastAPI for backend services
 Node.js + Express for frontend server functionality

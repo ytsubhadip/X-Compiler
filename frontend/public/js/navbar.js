@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
         rightActionsHTML = `
             <a href="/signin" class="btn-signin">Sign In</a>
-            <a href="/signup" class="btn-signup">Sign Up</a>
+            <a href="/signup" class="btn-signup">Create a free account</a>
         `;
         mobileActionsHTML = rightActionsHTML;
     }
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
     navbarTarget.innerHTML = `
         <div class="nav-container">
             <a class="nav-brand" href="/">
-                <i class="fa-brands fa-magento nav-logo"></i>
+                 <img src="/asset/logo.png" alt="logo" height="30ox">
                 <span class="nav-title">X compiler</span>
             </a>
             

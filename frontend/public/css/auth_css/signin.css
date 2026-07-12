@@ -1,5 +1,4 @@
-/* Autofill fixes: keep the original input appearance and avoid browser white/yellow overlay */
-/* Apply to common form controls and the `.input-control` class for higher specificity */
+/* Autofill */
 input.input-control:-webkit-autofill,
 textarea.input-control:-webkit-autofill,
 select.input-control:-webkit-autofill,
@@ -10,28 +9,22 @@ input.input-control:-webkit-autofill:hover,
 input.input-control:-webkit-autofill:focus,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
-    /* Force the autofill background to match the input's transparent style
-       The large inset box-shadow overrides Chrome's default autofill fill */
-    -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0) inset !important;
-    box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0) inset !important;
+    -webkit-box-shadow: 0 0 0 1000px var(--bg-card) inset !important;
+    box-shadow: 0 0 0 1000px var(--bg-card) inset !important;
     background-color: transparent !important;
     -webkit-text-fill-color: var(--text-primary) !important;
     color: var(--text-primary) !important;
     caret-color: var(--text-primary) !important;
     outline: none !important;
-    /* Prevent the very quick autofill flash by extending background transition */
     transition: background-color 5000s ease-in-out 0s !important;
 }
 
-/* Ensure the first-line text color is correct inside autofilled inputs (Chrome quirk) */
 input:-webkit-autofill::first-line,
 input.input-control:-webkit-autofill::first-line {
     color: var(--text-primary) !important;
 }
 
-/* =========================================================================
-   STUNNING GLASSMORPHISM BACKGROUND GLOW BLOBS
-   ========================================================================= */
+/* Background glow */
 .hero-bg-animate {
     position: absolute;
     top: 0;
@@ -47,8 +40,7 @@ input.input-control:-webkit-autofill::first-line {
     position: absolute;
     border-radius: 50%;
     filter: blur(120px);
-    opacity: 0.15;
-    mix-blend-mode: screen;
+    opacity: 0.35;
     animation: blob-float 20s infinite alternate;
 }
 
@@ -57,8 +49,7 @@ input.input-control:-webkit-autofill::first-line {
     left: 15%;
     width: 250px;
     height: 250px;
-    background: var(--accent-success);
-    /* Student Green Glow */
+    background: rgba(34, 197, 94, 0.25);
 }
 
 .blob-2 {
@@ -66,8 +57,7 @@ input.input-control:-webkit-autofill::first-line {
     right: 15%;
     width: 300px;
     height: 300px;
-    background: #3b82f6;
-    /* Teacher Blue Glow */
+    background: rgba(59, 130, 246, 0.2);
     animation-delay: -5s;
 }
 
@@ -77,39 +67,25 @@ input.input-control:-webkit-autofill::first-line {
     transform: translate(-50%, -50%);
     width: 200px;
     height: 200px;
-    background: #a855f7;
-    /* Accent Purple Glow */
+    background: rgba(168, 85, 247, 0.15);
     animation-delay: -10s;
 }
 
 .hero-grid-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    inset: 0;
+    background-image: radial-gradient(rgba(15, 23, 42, 0.04) 1px, transparent 1px);
     background-size: 24px 24px;
-    opacity: 0.3;
+    opacity: 0.5;
 }
 
 @keyframes blob-float {
-    0% {
-        transform: translate(0, 0) scale(1);
-    }
-
-    50% {
-        transform: translate(30px, -40px) scale(1.08);
-    }
-
-    100% {
-        transform: translate(-20px, 20px) scale(0.95);
-    }
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, -40px) scale(1.08); }
+    100% { transform: translate(-20px, 20px) scale(0.95); }
 }
 
-/* =========================================================================
-   AUTHENTICATION LAYOUT & GLASSMORPHISM CARD STYLES
-   ========================================================================= */
+/* Auth layout */
 .auth-wrapper {
     min-height: 100vh;
     display: flex;
@@ -125,7 +101,6 @@ input.input-control:-webkit-autofill::first-line {
 .auth-container {
     width: 100%;
     max-width: 400px;
-    /* Reduced from 440px to make it smaller & center-focused */
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -135,7 +110,6 @@ input.input-control:-webkit-autofill::first-line {
 
 .auth-container.signup-container {
     max-width: 480px;
-    /* Wider container for signup fields to avoid cramping */
 }
 
 .back-to-home-link {
@@ -160,60 +134,46 @@ input.input-control:-webkit-autofill::first-line {
 
 .auth-card {
     width: 100%;
-    background: rgba(255, 255, 255, 0.06);
-    /* Crystal clear white glass tint from image */
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    /* Bold high-end luminous glass border from image */
-    border-radius: 20px;
-    /* Matching rounded corners from image */
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
     padding: 28px 24px;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .auth-card:hover {
-    border-color: rgba(255, 255, 255, 0.32);
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    box-shadow: 0 16px 48px rgba(15, 23, 42, 0.12);
     transform: translateY(-2px);
 }
 
 .auth-header {
     text-align: center;
     margin-bottom: 20px;
-    /* Reduced from 30px */
 }
 
 .auth-header .brand-icon {
     font-size: 32px;
-    /* Reduced from 40px */
     color: var(--accent-success);
     margin-bottom: 8px;
-    /* Reduced from 12px */
-    filter: drop-shadow(0 0 10px rgba(46, 200, 102, 0.2));
 }
 
 .auth-header h2 {
     font-family: var(--font-sans);
     font-weight: 700;
     font-size: 1.45rem;
-    /* Reduced from 1.75rem */
     color: var(--text-primary);
     margin-bottom: 4px;
 }
 
 .auth-header p {
     font-size: 0.82rem;
-    /* Reduced from 0.9rem */
     color: var(--text-muted);
     margin-bottom: 0;
     line-height: 1.35;
 }
 
-/* =========================================================================
-   FORM CONTROLS & UTILITIES
-   ========================================================================= */
+/* Form controls */
 .auth-form-wrapper {
     position: relative;
     overflow: hidden;
@@ -225,13 +185,11 @@ input.input-control:-webkit-autofill::first-line {
 
 .form-group {
     margin-bottom: 14px;
-    /* Reduced from 20px to keep inputs close and clean */
 }
 
 .form-group label {
     display: block;
     font-size: 0.78rem;
-    /* Reduced from 0.85rem */
     font-weight: 600;
     color: var(--text-secondary);
     margin-bottom: 6px;
@@ -248,48 +206,40 @@ input.input-control:-webkit-autofill::first-line {
 .input-wrapper i.input-icon {
     position: absolute;
     left: 4px;
-    /* Perfectly aligned to the bottom line edge */
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-muted);
     font-size: 0.95rem;
     pointer-events: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: color 0.3s ease;
 }
 
 .input-control {
     width: 100%;
-    /* Completely transparent backing & simple bottom underline like user's reference image */
     background: transparent !important;
     border: none !important;
-    border-bottom: 1.5px solid rgba(255, 255, 255, 0.3) !important;
+    border-bottom: 1.5px solid var(--border-color) !important;
     color: var(--text-primary) !important;
     border-radius: 0 !important;
     padding: 8px 4px 8px 28px !important;
-    /* Left space for icon, aligned to bottom line */
     font-size: 0.95rem !important;
     font-family: var(--font-sans);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
     box-shadow: none !important;
 }
 
 .input-control::placeholder {
-    color: rgba(255, 255, 255, 0.5) !important;
+    color: var(--text-dark-muted) !important;
 }
 
 .input-control:focus {
-    background: transparent !important;
-    /* Soft premium neon green bottom line glow on active student mode selection */
     border-bottom-color: var(--accent-success) !important;
-    box-shadow: 0 2px 0 rgba(46, 200, 102, 0.35) !important;
+    box-shadow: 0 2px 0 rgba(22, 163, 74, 0.25) !important;
     outline: none !important;
 }
 
 .input-wrapper:focus-within i.input-icon {
     color: var(--accent-success);
-    filter: drop-shadow(0 0 6px rgba(46, 200, 102, 0.6));
-    transform: scale(1.05);
 }
 
-/* Eye Password Toggle Button */
 .toggle-password {
     position: absolute;
     right: 12px;
@@ -302,16 +252,14 @@ input.input-control:-webkit-autofill::first-line {
 }
 
 .toggle-password:hover {
-    color: #ffffff;
+    color: var(--text-primary);
 }
 
-/* Extra Form Actions */
 .form-actions {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 18px;
-    /* Reduced from 24px */
     font-size: 0.8rem;
 }
 
@@ -341,11 +289,9 @@ input.input-control:-webkit-autofill::first-line {
     color: var(--accent-success);
 }
 
-/* Auth Submit CTA Buttons */
 .btn-auth-submit {
     width: 100%;
     padding: 10px !important;
-    /* Reduced from 12px */
     border-radius: 8px !important;
     font-family: var(--font-sans);
     font-weight: 600 !important;
@@ -355,27 +301,16 @@ input.input-control:-webkit-autofill::first-line {
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-.btn-signin-submit {
-    background-color: var(--accent-success) !important;
-    color: #0d0f12 !important;
-    box-shadow: 0 4px 12px rgba(46, 200, 102, 0.15);
-}
-
-.btn-signin-submit:hover {
-    background-color: var(--accent-success-bright) !important;
-    box-shadow: 0 0 15px rgba(46, 200, 102, 0.4);
-    transform: translateY(-1px);
-}
-
+.btn-signin-submit,
 .btn-signup-submit {
     background-color: var(--accent-success) !important;
-    color: #0d0f12 !important;
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+    color: var(--text-on-accent) !important;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
 }
 
+.btn-signin-submit:hover,
 .btn-signup-submit:hover {
     background-color: var(--accent-success-bright) !important;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.35);
     transform: translateY(-1px);
 }
 
@@ -383,20 +318,16 @@ input.input-control:-webkit-autofill::first-line {
     transform: translateY(0);
 }
 
-/* =========================================================================
-   PREMIUM PERSONA SLIDER SWITCH (Student vs Teacher)
-   ========================================================================= */
+/* Persona selector */
 .persona-selector-container {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--bg-muted);
+    border: 1px solid var(--border-subtle);
     border-radius: 12px;
     display: flex;
     position: relative;
     padding: 3px;
     margin-bottom: 18px;
-    /* Reduced from 24px */
     height: 38px;
-    /* Reduced from 42px */
 }
 
 .persona-tab {
@@ -408,10 +339,9 @@ input.input-control:-webkit-autofill::first-line {
     font-family: var(--font-sans);
     font-weight: 600;
     font-size: 0.82rem;
-    /* Reduced from 0.88rem */
     cursor: pointer;
     z-index: 2;
-    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: color 0.3s ease;
     height: 100%;
     display: flex;
     align-items: center;
@@ -419,7 +349,7 @@ input.input-control:-webkit-autofill::first-line {
 }
 
 .persona-tab.active {
-    color: #ffffff;
+    color: var(--text-primary);
 }
 
 .persona-indicator {
@@ -428,75 +358,58 @@ input.input-control:-webkit-autofill::first-line {
     left: 3px;
     width: calc(50% - 3px);
     height: calc(100% - 6px);
-    background: rgba(46, 200, 102, 0.15);
-    border: 1px solid rgba(46, 200, 102, 0.3);
+    background: rgba(22, 163, 74, 0.1);
+    border: 1px solid rgba(22, 163, 74, 0.2);
     border-radius: 9px;
     z-index: 1;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease, border-color 0.3s ease;
-    box-shadow: 0 4px 10px rgba(46, 200, 102, 0.1);
+    transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 
-/* Slide to Teacher active states */
 .persona-selector-container.teacher-active .persona-indicator {
     transform: translateX(100%);
-    background: rgba(59, 130, 246, 0.15);
-    /* Translucent Blue for Teacher */
-    border-color: rgba(59, 130, 246, 0.4);
-    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.15);
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.25);
 }
 
 .persona-selector-container.teacher-active .persona-tab.active {
-    color: #3b82f6 !important;
-    /* Teacher blue text highlight */
+    color: #2563eb !important;
 }
 
-/* Dynamic slide animation for role-specific form groups */
 .form-group-dynamic {
     max-height: 0;
     opacity: 0;
     overflow: hidden;
     margin-bottom: 0;
     transform: translateY(-10px);
-    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-        opacity 0.3s ease,
-        transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-        margin-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: max-height 0.35s ease, opacity 0.3s ease, transform 0.35s ease, margin-bottom 0.35s ease;
 }
 
 .form-group-dynamic.active {
     max-height: 80px;
-    /* Expands to natural size */
     opacity: 1;
     margin-bottom: 14px;
     transform: translateY(0);
 }
 
-/* Focused input color adjust for Teacher mode */
-.persona-selector-container.teacher-active~.auth-form-wrapper .input-control:focus {
-    border-bottom-color: #3b82f6 !important;
-    /* Soft premium neon blue bottom line glow on active teacher mode selection */
-    box-shadow: 0 2px 0 rgba(59, 130, 246, 0.35) !important;
-    outline: none !important;
+.persona-selector-container.teacher-active ~ .auth-form-wrapper .input-control:focus {
+    border-bottom-color: #2563eb !important;
+    box-shadow: 0 2px 0 rgba(37, 99, 235, 0.25) !important;
 }
 
-.persona-selector-container.teacher-active~.auth-form-wrapper .input-wrapper:focus-within i.input-icon {
-    color: #3b82f6 !important;
-    filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.6)) !important;
-    transform: scale(1.05);
+.persona-selector-container.teacher-active ~ .auth-form-wrapper .input-wrapper:focus-within i.input-icon {
+    color: #2563eb !important;
 }
 
-/* Card Footer Redirect Link */
 .auth-card-footer {
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--border-subtle);
     padding-top: 14px;
-    /* Reduced from 20px */
 }
 
 .auth-redirect-link {
     color: var(--accent-success) !important;
     text-decoration: none !important;
     font-weight: 600;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease;
 }
 
 .auth-redirect-link:hover {
@@ -504,34 +417,28 @@ input.input-control:-webkit-autofill::first-line {
     text-decoration: underline !important;
 }
 
-/* Adjust Teacher mode redirect link color to blue */
-.persona-selector-container.teacher-active~.auth-card-footer .auth-redirect-link {
+.persona-selector-container.teacher-active ~ .auth-card-footer .auth-redirect-link {
+    color: #2563eb !important;
+}
+
+.persona-selector-container.teacher-active ~ .auth-card-footer .auth-redirect-link:hover {
     color: #3b82f6 !important;
 }
 
-.persona-selector-container.teacher-active~.auth-card-footer .auth-redirect-link:hover {
-    color: #60a5fa !important;
-}
-
-/* Make submit CTAs blue when Teacher persona is active */
-.persona-selector-container.teacher-active~.auth-form-wrapper .btn-signin-submit,
-.persona-selector-container.teacher-active~.auth-form-wrapper .btn-signup-submit {
-    background-color: #3b82f6 !important;
-    /* Teacher blue */
+.persona-selector-container.teacher-active ~ .auth-form-wrapper .btn-signin-submit,
+.persona-selector-container.teacher-active ~ .auth-form-wrapper .btn-signup-submit {
+    background-color: #2563eb !important;
     color: #ffffff !important;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15) !important;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2) !important;
 }
 
-.persona-selector-container.teacher-active~.auth-form-wrapper .btn-signin-submit:hover,
-.persona-selector-container.teacher-active~.auth-form-wrapper .btn-signup-submit:hover {
-    background-color: #60a5fa !important;
-    box-shadow: 0 0 15px rgba(96, 165, 250, 0.25) !important;
+.persona-selector-container.teacher-active ~ .auth-form-wrapper .btn-signin-submit:hover,
+.persona-selector-container.teacher-active ~ .auth-form-wrapper .btn-signup-submit:hover {
+    background-color: #3b82f6 !important;
     transform: translateY(-1px);
 }
 
-/* =========================================================================
-   PREMIUM CUSTOM GLASSMORPHIC SELECT DROPDOWNS & ROW ADJUSTMENTS
-   ========================================================================= */
+/* Select dropdowns */
 select.input-control {
     appearance: none;
     -webkit-appearance: none;
@@ -539,30 +446,22 @@ select.input-control {
     background: transparent !important;
     cursor: pointer;
     padding-right: 28px !important;
-    /* Leave room for custom chevron */
 }
 
-/* Styled option list container for modern dark mode appearance */
 select.input-control option {
-    background-color: #14161c !important;
-    /* Matches var(--bg-card) */
+    background-color: var(--bg-card) !important;
     color: var(--text-primary) !important;
-    font-family: var(--font-sans);
-    font-size: 0.9rem;
-    padding: 12px;
 }
 
-/* Custom dropdown chevron arrow placed inside the input-wrapper for selects */
 .input-wrapper.select-wrapper::after {
     content: "\F2E0";
-    /* Bootstrap icon chevron-down unicode */
     font-family: "bootstrap-icons" !important;
     position: absolute;
     right: 12px;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-muted);
     font-size: 0.85rem;
     pointer-events: none;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
+    transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .input-wrapper.select-wrapper:focus-within::after {
@@ -570,34 +469,26 @@ select.input-control option {
     transform: rotate(180deg);
 }
 
-/* Focused input color adjust for Teacher mode select wrapper arrow */
-.persona-selector-container.teacher-active~.auth-form-wrapper .input-wrapper.select-wrapper:focus-within::after {
-    color: #3b82f6 !important;
+.persona-selector-container.teacher-active ~ .auth-form-wrapper .input-wrapper.select-wrapper:focus-within::after {
+    color: #2563eb !important;
 }
 
-/* Adjust layout height for dual department/sem inputs dynamic slide */
 #groupStudentDept.form-group-dynamic.active {
     max-height: 90px;
-    /* Extra breathing space for labels and borders */
 }
 
-/* =========================================================================
-   DYNAMIC MOUSE CURSOR GREEN GLOW EFFECT (Outside Sign-In Box)
-   ========================================================================= */
 @media (hover: hover) {
     .cursor-glow {
         position: fixed;
         width: 450px;
         height: 450px;
-        background: radial-gradient(circle, rgba(46, 200, 102, 0.09) 0%, rgba(46, 200, 102, 0.02) 55%, transparent 75%);
+        background: radial-gradient(circle, rgba(22, 163, 74, 0.06) 0%, rgba(22, 163, 74, 0.02) 55%, transparent 75%);
         border-radius: 50%;
         pointer-events: none;
         transform: translate(-50%, -50%);
         z-index: 2;
-        /* Positioned in front of starry background, behind the login card */
         opacity: 0;
         transition: opacity 0.3s ease;
-        mix-blend-mode: screen;
         will-change: left, top;
     }
 

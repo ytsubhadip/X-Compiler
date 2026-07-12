@@ -1,60 +1,13 @@
-/* Console Dynamic States */
+/* Console states */
 .console-error-text {
-    color: #ef4444 !important;
-    /* Premium red for errors */
+    color: var(--accent-error) !important;
 }
 
 .console-success-text {
-    color: #39e57f !important;
-    /* Premium bright terminal green for output */
+    color: var(--accent-success-bright) !important;
 }
 
-/* Console Status Badge */
-.badge-status {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    padding: 3px 8px;
-    border-radius: 20px;
-    letter-spacing: 0.5px;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    border: 1px solid transparent;
-    transition: all 0.2s ease;
-}
-
-.badge-status-idle {
-    background-color: rgba(255, 255, 255, 0.05);
-    color: #9ca3af;
-    border-color: rgba(255, 255, 255, 0.08);
-}
-
-.badge-status-running {
-    background-color: rgba(245, 158, 11, 0.15);
-    color: #fbbf24;
-    border-color: rgba(245, 158, 11, 0.25);
-}
-
-.badge-status-accepted {
-    background-color: rgba(16, 185, 129, 0.15);
-    color: #34d399;
-    border-color: rgba(16, 185, 129, 0.25);
-    box-shadow: 0 0 10px rgba(16, 185, 129, 0.05);
-}
-
-.badge-status-rejected {
-    background-color: rgba(239, 68, 68, 0.15);
-    color: #f87171;
-    border-color: rgba(239, 68, 68, 0.25);
-    box-shadow: 0 0 10px rgba(239, 68, 68, 0.05);
-}
-
-
-
-/* =========================================================================
-   3. WORKSPACE LAYOUT ARCHITECTURE
-   ========================================================================= */
+/* Workspace */
 .ide-workspace {
     height: calc(100vh - 64px);
     min-height: 0;
@@ -83,33 +36,29 @@
 
 .pane-card {
     background: var(--bg-card);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-subtle);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-md);
     display: flex;
     flex-direction: column;
 }
 
-
-/* =========================================================================
-   4. LEFT PANE - PROBLEM DESCRIPTION CARD
-   ========================================================================= */
+/* Left pane */
 .left-pane {
     height: 100%;
     min-height: 0;
     padding: 0;
     overflow-y: auto;
-    background-color: #111418;
+    background-color: var(--bg-card);
 }
 
 .left-pane h2 {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #4ade80;
-    /* Explicit highlight style */
+    color: var(--accent-success);
     margin-bottom: 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid var(--border-subtle);
     padding-bottom: 10px;
 }
 
@@ -138,8 +87,8 @@
 
 .left-pane pre {
     background: var(--bg-pre);
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    color: #a7b5c9;
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
     padding: 10px 14px;
     border-radius: 8px;
     font-size: 0.9rem;
@@ -159,10 +108,7 @@
     margin-bottom: 6px;
 }
 
-
-/* =========================================================================
-   5. RIGHT PANE - INTERACTIVE EDITOR CONTROLS
-   ========================================================================= */
+/* Editor */
 .editor-pane {
     flex: 1;
     min-height: 0;
@@ -171,8 +117,8 @@
 .editor-header {
     height: 52px;
     min-height: 52px;
-    background-color: #111418;
-    border-bottom: 1px solid #1f242d;
+    background-color: var(--bg-muted);
+    border-bottom: 1px solid var(--border-subtle);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -186,7 +132,6 @@
     background-color: var(--bg-card);
 }
 
-/* Custom Extensions for CodeMirror Instance */
 .editor-body .CodeMirror {
     height: 100% !important;
     width: 100% !important;
@@ -198,14 +143,12 @@
     background-color: var(--bg-card) !important;
 }
 
-/* Custom Neon Green Cursor Styling */
 .CodeMirror-cursor {
     border-left: 2px solid var(--accent-success) !important;
 }
 
-/* Fading Ambient Typing Line Highlight */
 .active-typing-line {
-    background: rgba(46, 200, 102, 0.04) !important;
+    background: rgba(22, 163, 74, 0.06) !important;
     box-shadow: inset 3px 0 0 var(--accent-success);
     transition: background 0.1s ease, box-shadow 0.1s ease;
 }
@@ -216,15 +159,14 @@
     transition: background 0.8s ease, box-shadow 0.8s ease;
 }
 
-/* Language Context Selector dropdown */
 .custom-select-wrapper {
     width: 180px;
 }
 
 .custom-select {
     background-color: var(--bg-select) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    color: #e5e7eb !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
     font-weight: 500 !important;
     border-radius: 6px !important;
     padding: 6px 12px !important;
@@ -235,11 +177,10 @@
 }
 
 .custom-select:focus {
-    border-color: #10b981 !important;
-    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2) !important;
+    border-color: var(--accent-success) !important;
+    box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.15) !important;
 }
 
-/* Main UI Action Buttons */
 .btn-action {
     font-weight: 600 !important;
     padding: 6px 16px !important;
@@ -259,23 +200,20 @@
     transform: translateY(0);
 }
 
-
-/* =========================================================================
-   6. CONSOLE INTERFACE & METRIC BADGES
-   ========================================================================= */
+/* Console */
 .console-pane {
     height: 35%;
     max-height: 40%;
-    background-color: #0b0d10;
-    border-top: 1px solid #1f242d;
+    background-color: var(--bg-muted);
+    border-top: 1px solid var(--border-subtle);
     display: flex;
     flex-direction: column;
 }
 
 .console-header {
     height: auto;
-    background-color: #111418;
-    border-bottom: 1px solid #1f242d;
+    background-color: var(--bg-card);
+    border-bottom: 1px solid var(--border-subtle);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -302,7 +240,7 @@
 #output {
     background-color: var(--bg-terminal) !important;
     border: none !important;
-    color: #e5e7eb !important;
+    color: var(--text-primary) !important;
     font-family: var(--font-mono) !important;
     font-size: 13.5px !important;
     padding: 4px 8px !important;
@@ -315,23 +253,15 @@
     box-shadow: none !important;
 }
 
-.console-error-text {
-    color: var(--accent-error) !important;
-}
-
-.console-success-text {
-    color: var(--accent-success-bright) !important;
-}
-
 .console-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 8px 8px 0 8px;
-    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    border-top: 1px solid var(--border-subtle);
     font-size: 0.8rem;
     color: var(--text-dark-muted);
-    background-color: #0b0d10;
+    background-color: var(--bg-muted);
 }
 
 .console-stat {
@@ -341,14 +271,11 @@
 }
 
 .console-stat-value {
-    color: #10b981;
+    color: var(--accent-success);
     font-weight: 600;
 }
 
-
-/* =========================================================================
-   7. CORE STATUS BADGES & SAAS WIDGET COMPONENTS
-   ========================================================================= */
+/* Status badges */
 .badge-status {
     font-size: 0.7rem;
     font-weight: 700;
@@ -364,94 +291,37 @@
 }
 
 .badge-status-idle {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: var(--bg-muted);
     color: var(--text-muted);
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: var(--border-subtle);
 }
 
 .badge-status-running {
-    background-color: rgba(245, 158, 11, 0.15);
+    background-color: rgba(217, 119, 6, 0.1);
     color: var(--accent-warning);
-    border-color: rgba(245, 158, 11, 0.25);
+    border-color: rgba(217, 119, 6, 0.2);
 }
 
 .badge-status-accepted {
-    background-color: rgba(16, 185, 129, 0.15);
-    color: #34d399;
-    border-color: rgba(16, 185, 129, 0.25);
-    box-shadow: 0 0 10px rgba(16, 185, 129, 0.05);
+    background-color: rgba(22, 163, 74, 0.1);
+    color: var(--accent-success);
+    border-color: rgba(22, 163, 74, 0.2);
 }
 
 .badge-status-rejected {
-    background-color: rgba(239, 68, 68, 0.15);
-    color: #f87171;
-    border-color: rgba(239, 68, 68, 0.25);
-    box-shadow: 0 0 10px rgba(239, 68, 68, 0.05);
+    background-color: rgba(220, 38, 38, 0.1);
+    color: var(--accent-error);
+    border-color: rgba(220, 38, 38, 0.2);
 }
 
-
-/* =========================================================================
-   8. PREMIUM GLOBAL SCROLLBARS & MEDIA QUERIES
-   ========================================================================= */
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 10px;
-    border: 2px solid transparent;
-    background-clip: padding-box;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.16);
-    border: 2px solid transparent;
-    background-clip: padding-box;
-}
-
-@media (max-width: 991px) {
-    body {
-        height: auto !important;
-        overflow-y: auto !important;
-    }
-
-    .ide-workspace {
-        flex-direction: column;
-        overflow-y: visible;
-        height: auto !important;
-    }
-
-    .left-column,
-    .right-column {
-        height: auto;
-        min-height: 500px;
-    }
-
-    .right-column {
-        padding: 0 16px 16px 16px;
-    }
-
-    .console-pane {
-        height: 250px;
-    }
-}
-
-
-/* Absolute overlay positioning for the workspace lock gate */
+/* Auth gate */
 .auth-gate-backdrop {
     position: fixed;
-    top: 56px;
-    /* Sits perfectly below the core custom navbar element */
+    top: 64px;
     left: 0;
     width: 100%;
-    height: calc(100vh - 56px);
-    background: rgba(13, 15, 18, 0.88);
+    height: calc(100vh - 64px);
+    background: rgba(248, 250, 252, 0.85);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     z-index: 1050;
@@ -462,13 +332,13 @@
 }
 
 .auth-gate-box {
-    background: #111418;
-    border: 1px solid #1f242d;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
     border-radius: 16px;
     padding: 40px;
     max-width: 480px;
     width: 92%;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
+    box-shadow: var(--shadow-lg);
 }
 
 .workspace-blur-active {
@@ -477,9 +347,9 @@
 }
 
 .otp-digit-cell {
-    background: #0d0f12 !important;
-    border: 1px solid #2f3743 !important;
-    color: #fff !important;
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
     font-size: 1.5rem;
     width: 42px;
     height: 55px;
@@ -488,16 +358,16 @@
 }
 
 .otp-digit-cell:focus {
-    border-color: #2ec866 !important;
-    box-shadow: 0 0 0 2px rgba(46, 200, 102, 0.15) !important;
+    border-color: var(--accent-success) !important;
+    box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.15) !important;
 }
 
-/* 🟩 HackerRank style tabs */
+/* Tabs */
 .nav-tabs .nav-link {
     border: none !important;
     border-radius: 0 !important;
-    color: #94a3b8 !important;
-    transition: all 0.2s ease;
+    color: var(--text-muted) !important;
+    transition: color 0.2s ease;
     padding-bottom: 12px !important;
     font-size: 0.875rem !important;
     font-weight: 600 !important;
@@ -505,13 +375,13 @@
 }
 
 .nav-tabs .nav-link:hover {
-    color: #ffffff !important;
+    color: var(--text-primary) !important;
 }
 
 .nav-tabs .nav-link.active {
-    color: #2ec866 !important;
+    color: var(--accent-success) !important;
     background: transparent !important;
-    border-bottom: 3px solid #2ec866 !important;
+    border-bottom: 3px solid var(--accent-success) !important;
 }
 
 .console-tabs .nav-link {
@@ -520,47 +390,134 @@
 }
 
 .console-tabs .nav-link.active {
-    color: #2ec866 !important;
-    border-bottom: 2px solid #2ec866 !important;
+    color: var(--accent-success) !important;
+    border-bottom: 2px solid var(--accent-success) !important;
 }
 
-/* Action buttons styles matching HackerRank */
 #coderun.btn-action {
-    background: rgba(255, 255, 255, 0.05) !important;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    color: #ffffff !important;
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
     transition: all 0.2s ease;
 }
 
 #coderun.btn-action:hover {
-    background: rgba(255, 255, 255, 0.09) !important;
-    border-color: rgba(255, 255, 255, 0.25) !important;
+    background: var(--bg-muted) !important;
+    border-color: var(--border-color) !important;
     transform: translateY(-1px);
 }
 
 #codesubmit.btn-action {
-    background: #2ec866 !important;
-    border: 1px solid #2ec866 !important;
-    color: #0d0f12 !important;
+    background: var(--accent-success) !important;
+    border: 1px solid var(--accent-success) !important;
+    color: var(--text-on-accent) !important;
     transition: all 0.2s ease;
 }
 
 #codesubmit.btn-action:hover {
-    background: #39e57f !important;
-    border-color: #39e57f !important;
-    box-shadow: 0 0 15px rgba(46, 200, 102, 0.3) !important;
+    background: var(--accent-success-bright) !important;
+    border-color: var(--accent-success-bright) !important;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25) !important;
     transform: translateY(-1px);
 }
 
-/* 🟢 Desktop View defaults */
 .coding-test-body {
     height: 100vh;
     overflow: hidden;
     position: relative;
 }
 
-/* 📱 Mobile and Tablet Responsiveness Overrides */
+#btnVerifyRoomCode {
+    background: var(--accent-success);
+    border-color: var(--accent-success);
+    color: var(--text-on-accent);
+}
+
+#portalStatusAlertDisplay {
+    display: none;
+}
+
+.left-pane-header {
+    background-color: var(--bg-muted);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+#leftPaneTabs .nav-link {
+    font-size: 0.9rem;
+    border-radius: 0;
+}
+
+.left-pane .tab-content {
+    background-color: var(--bg-card);
+    min-height: 0;
+}
+
+.problem-title {
+    font-size: 1.5rem;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tasks-container {
+    background-color: var(--bg-muted);
+    border: 1px solid var(--border-subtle);
+}
+
+.tasks-container .class-title {
+    font-size: 0.85rem;
+}
+
+.problem-section-title {
+    font-size: 1.1rem;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 6px;
+}
+
+.code-block {
+    background-color: var(--bg-pre);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+#sub-history-panel table thead tr {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+}
+
+#submissionsLogList {
+    font-size: 0.85rem;
+}
+
+#consoleTabs {
+    margin-bottom: -9px;
+}
+
+#consoleStatus {
+    font-size: 0.7rem;
+}
+
+.console-pane .tab-content {
+    min-height: 0;
+    padding: 12px;
+    background-color: var(--bg-terminal);
+}
+
+.console-pane .tab-pane {
+    min-height: 0;
+}
+
+#customInput {
+    resize: none;
+    outline: none;
+    box-shadow: none;
+}
+
 @media (max-width: 991px) {
+    body,
     .coding-test-body {
         height: auto !important;
         overflow-y: auto !important;
@@ -568,10 +525,13 @@
 
     .ide-workspace {
         flex-direction: column !important;
+        overflow-y: visible;
         height: auto !important;
         min-height: 0 !important;
     }
 
+    .left-column,
+    .right-column,
     .left-column.h-100,
     .right-column.h-100 {
         height: auto !important;
@@ -599,7 +559,6 @@
     }
 }
 
-/* 📱 Small mobile devices adjustment (OTP & Editor Header) */
 @media (max-width: 575px) {
     .auth-gate-box {
         padding: 28px 16px !important;
@@ -639,105 +598,4 @@
         justify-content: center !important;
         padding: 8px 12px !important;
     }
-}
-}
-
-/* =========================================================================
-   9. REFACTORED INLINE CSS FROM CODING-TEST.HTML
-   ========================================================================= */
-#btnVerifyRoomCode {
-    background: #2ec866;
-    border-color: #2ec866;
-    color: #0d0f12;
-}
-
-#portalStatusAlertDisplay {
-    display: none;
-}
-
-.left-pane-header {
-    background-color: #111418;
-    border-bottom: 1px solid #1f242d;
-}
-
-#leftPaneTabs .nav-link {
-    font-size: 0.9rem;
-    border-radius: 0;
-}
-
-.left-pane .tab-content {
-    background-color: #151922;
-    min-height: 0;
-}
-
-.problem-title {
-    font-size: 1.5rem;
-    border: none;
-    padding: 0;
-    margin: 0;
-}
-
-.tasks-container {
-    background-color: #0d0f12;
-    border: 1px solid rgba(255, 255, 255, 0.04);
-}
-
-.tasks-container .class-title {
-    font-size: 0.85rem;
-}
-
-.problem-section-title {
-    font-size: 1.1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding-bottom: 6px;
-}
-
-.code-block {
-    background-color: var(--bg-pre, #0d0f12);
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    color: #a7b5c9;
-    font-size: 0.9rem;
-}
-
-.constraints-list {
-    line-height: 1.6;
-}
-
-#sub-history-panel h4 {
-    font-size: 1.15rem;
-}
-
-#sub-history-panel table thead tr {
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #a7b5c9;
-}
-
-#submissionsLogList {
-    font-size: 0.85rem;
-}
-
-#consoleTabs {
-    margin-bottom: -9px;
-}
-
-#consoleStatus {
-    font-size: 0.7rem;
-}
-
-.console-pane .tab-content {
-    min-height: 0;
-    padding: 12px;
-    background-color: #0b0d10;
-}
-
-.console-pane .tab-pane {
-    min-height: 0;
-}
-
-#customInput {
-    resize: none;
-    outline: none;
-    box-shadow: none;
 }

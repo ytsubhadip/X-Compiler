@@ -6,6 +6,7 @@ var typed = new Typed('#element', {
     loopCount: Infinity,
 });
 
+// specific redirection pages 
 const token = localStorage.getItem("authToken");
 const role = localStorage.getItem("userRole");
 const name = localStorage.getItem("userName");
@@ -41,12 +42,28 @@ document.getElementById("teacherBtn").addEventListener("click", function () {
 
 // loder
 window.addEventListener("load", () => {
-    setTimeout(() => {
-        const loader = document.getElementById("loader");
-        loader.classList.add("hide");
+    const loader = document.getElementById("loader");
+    const loaderShown = localStorage.getItem("homeLoaderShown");
 
+    if (!loader) {
+        return;
+    }
+
+    if (!loaderShown) {
         setTimeout(() => {
-            loader.remove(); // completely remove loader from DOM
-        }, 500);
-    }, 4000);
+            loader.classList.add("hide");
+            localStorage.setItem("homeLoaderShown", "true");
+
+            setTimeout(() => {
+                loader.remove(); // completely remove loader from DOM
+            }, 500);
+        }, 2000);
+    } else {
+        loader.classList.add("hide");
+        loader.remove();
+    
+    }
 });
+
+// loder specification
+

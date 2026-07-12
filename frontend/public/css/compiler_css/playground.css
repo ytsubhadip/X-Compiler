@@ -1,37 +1,36 @@
-/* IDE Main Workspace Layout */
+/* Playground IDE — uses shared theme variables from style.css */
 .ide-workspace {
     height: calc(100vh - 64px);
     min-height: 0;
     margin: 0;
     padding: 0;
     display: flex;
-    background-color: #0d0f12;
+    background-color: var(--bg-main);
+    margin-top: 70px;
 }
 
-.left-column {
-    height: 100%;
-    min-height: 0;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-}
-
+.left-column,
 .right-column {
     height: 100%;
     min-height: 0;
-    padding: 16px 16px 16px 0;
     display: flex;
     flex-direction: column;
+}
+
+.left-column {
+    padding: 16px;
+}
+
+.right-column {
+    padding: 16px 16px 16px 0;
     gap: 16px;
 }
 
-/* Premium Pane Cards */
 .pane-card {
-    background: #14161c;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
     overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-md);
     display: flex;
     flex-direction: column;
 }
@@ -46,16 +45,16 @@
 .left-pane h2 {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #4ade80;
+    color: var(--accent-success);
     margin-bottom: 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid var(--border-subtle);
     padding-bottom: 10px;
 }
 
 .left-pane h3 {
     font-size: 1.2rem;
     font-weight: 600;
-    color: #f3f4f6;
+    color: var(--text-primary);
     margin-top: 16px;
     margin-bottom: 8px;
 }
@@ -63,7 +62,7 @@
 .left-pane h4 {
     font-size: 1rem;
     font-weight: 600;
-    color: #9ca3af;
+    color: var(--text-muted);
     margin-top: 12px;
     margin-bottom: 6px;
 }
@@ -71,18 +70,18 @@
 .left-pane p {
     font-size: 0.95rem;
     line-height: 1.6;
-    color: #d1d5db;
+    color: var(--text-secondary);
     margin-bottom: 8px;
 }
 
 .left-pane pre {
-    background: #1e222b;
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    color: #a7b5c9;
+    background: var(--bg-pre);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
     padding: 10px 14px;
     border-radius: 8px;
     font-size: 0.9rem;
-    font-family: "Rubik", "Fira Code", monospace;
+    font-family: "Rubik", var(--font-mono);
     overflow-x: auto;
     margin-bottom: 10px;
 }
@@ -94,11 +93,10 @@
 
 .left-pane li {
     font-size: 0.9rem;
-    color: #9ca3af;
+    color: var(--text-muted);
     margin-bottom: 6px;
 }
 
-/* Right Pane - Code Editor Pane */
 .editor-pane {
     flex: 1;
     min-height: 0;
@@ -107,9 +105,8 @@
 .editor-header {
     height: 52px;
     min-height: 52px;
-    background-color: #111317;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 0 0 0 0;
+    background-color: var(--bg-muted);
+    border-bottom: 1px solid var(--border-subtle);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -120,7 +117,7 @@
     flex: 1;
     min-height: 0;
     position: relative;
-    background-color: #14161c;
+    background-color: var(--bg-card);
 }
 
 .editor-body .CodeMirror {
@@ -129,20 +126,19 @@
     position: absolute;
     top: 0;
     left: 0;
-    font-family: 'Consolas', 'Fira Code', 'Courier New', monospace;
+    font-family: var(--font-mono);
     font-size: 14px;
-    background-color: #14161c !important;
+    background-color: var(--bg-card) !important;
 }
 
-/* Language Dropdown Select */
 .custom-select-wrapper {
     width: 180px;
 }
 
 .custom-select {
-    background-color: #1c1e24 !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    color: #e5e7eb !important;
+    background-color: var(--bg-select) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
     font-weight: 500 !important;
     border-radius: 6px !important;
     padding: 6px 12px !important;
@@ -153,11 +149,10 @@
 }
 
 .custom-select:focus {
-    border-color: #10b981 !important;
-    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2) !important;
+    border-color: var(--accent-success) !important;
+    box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.15) !important;
 }
 
-/* Action Buttons */
 .btn-action {
     font-weight: 600 !important;
     padding: 6px 16px !important;
@@ -173,11 +168,6 @@
     transform: translateY(-1px);
 }
 
-.btn-action:active:not(:disabled) {
-    transform: translateY(0);
-}
-
-/* Right Pane - Output Console Pane */
 .console-pane {
     height: 100%;
 }
@@ -185,8 +175,8 @@
 .console-header {
     height: 52px;
     min-height: 40px;
-    background-color: #111317;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background-color: var(--bg-card);
+    border-bottom: 1px solid var(--border-subtle);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -196,7 +186,7 @@
 .console-header-title {
     font-size: 0.875rem;
     font-weight: 600;
-    color: #9ca3af;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -207,14 +197,14 @@
     display: flex;
     flex-direction: column;
     padding: 12px;
-    background-color: #0b0d10;
+    background-color: var(--bg-terminal);
 }
 
 #output {
-    background-color: #0b0d10 !important;
+    background-color: var(--bg-terminal) !important;
     border: none !important;
-    color: #e5e7eb !important;
-    font-family: 'Consolas', 'Fira Code', 'Courier New', monospace !important;
+    color: var(--text-primary) !important;
+    font-family: var(--font-mono) !important;
     font-size: 13.5px !important;
     padding: 4px 8px !important;
     resize: none !important;
@@ -231,34 +221,24 @@
     justify-content: space-between;
     align-items: center;
     padding: 8px 8px 0 8px;
-    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    border-top: 1px solid var(--border-subtle);
     font-size: 0.8rem;
-    color: #6b7280;
-}
-
-.console-stat {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    color: var(--text-dark-muted);
 }
 
 .console-stat-value {
-    color: #10b981;
+    color: var(--accent-success);
     font-weight: 600;
 }
 
-/* Console Dynamic States */
 .console-error-text {
-    color: #ef4444 !important;
-    /* Premium red for errors */
+    color: var(--accent-error) !important;
 }
 
 .console-success-text {
-    color: #39e57f !important;
-    /* Premium bright terminal green for output */
+    color: var(--accent-success-bright) !important;
 }
 
-/* Console Status Badge */
 .badge-status {
     font-size: 0.7rem;
     font-weight: 700;
@@ -270,45 +250,40 @@
     align-items: center;
     gap: 4px;
     border: 1px solid transparent;
-    transition: all 0.2s ease;
 }
 
 .badge-status-idle {
-    background-color: rgba(255, 255, 255, 0.05);
-    color: #9ca3af;
-    border-color: rgba(255, 255, 255, 0.08);
+    background-color: var(--bg-muted);
+    color: var(--text-muted);
+    border-color: var(--border-subtle);
 }
 
 .badge-status-running {
-    background-color: rgba(245, 158, 11, 0.15);
-    color: #fbbf24;
-    border-color: rgba(245, 158, 11, 0.25);
+    background-color: rgba(217, 119, 6, 0.1);
+    color: var(--accent-warning);
+    border-color: rgba(217, 119, 6, 0.2);
 }
 
 .badge-status-accepted {
-    background-color: rgba(16, 185, 129, 0.15);
-    color: #34d399;
-    border-color: rgba(16, 185, 129, 0.25);
-    box-shadow: 0 0 10px rgba(16, 185, 129, 0.05);
+    background-color: rgba(22, 163, 74, 0.1);
+    color: var(--accent-success);
+    border-color: rgba(22, 163, 74, 0.2);
 }
 
 .badge-status-rejected {
-    background-color: rgba(239, 68, 68, 0.15);
-    color: #f87171;
-    border-color: rgba(239, 68, 68, 0.25);
-    box-shadow: 0 0 10px rgba(239, 68, 68, 0.05);
+    background-color: rgba(220, 38, 38, 0.1);
+    color: var(--accent-error);
+    border-color: rgba(220, 38, 38, 0.2);
 }
 
-/* Helper rules to fill height on desktop layouts */
-.ide-workspace>.col-12 {
+.ide-workspace > .col-12 {
     height: 100%;
 }
 
-.ide-workspace>.col-12>.row {
+.ide-workspace > .col-12 > .row {
     height: 100%;
 }
 
-/* Responsive media queries for mobile viewports */
 @media (max-width: 991px) {
     body {
         height: auto !important;
@@ -321,12 +296,12 @@
         overflow-y: visible !important;
     }
 
-    .ide-workspace>.col-12 {
+    .ide-workspace > .col-12,
+    .ide-workspace > .col-12 > .row {
         height: auto !important;
     }
 
-    .ide-workspace>.col-12>.row {
-        height: auto !important;
+    .ide-workspace > .col-12 > .row {
         flex-direction: column;
     }
 

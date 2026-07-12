@@ -1,10 +1,5 @@
-body {
-    height: auto !important;
-    overflow-y: auto !important;
-}
-
 /* =========================================================================
-   1. PAGE HEADER STYLING
+   PAGE HEADER
    ========================================================================= */
 h1 {
     font-size: 2.2rem;
@@ -14,12 +9,10 @@ h1 {
     margin-top: 40px;
     margin-bottom: 8px;
     letter-spacing: -0.5px;
-    background: linear-gradient(to right, #ffffff, #e2e8f0);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--text-primary);
 }
 
-body>p {
+body > p {
     font-size: 1.02rem;
     color: var(--text-muted);
     font-family: var(--font-sans);
@@ -28,28 +21,24 @@ body>p {
 }
 
 /* =========================================================================
-   2. GLASSMORPHIC FORM CONTAINER
+   FORM CONTAINER
    ========================================================================= */
 .from-container {
     width: 100%;
     max-width: 540px;
     margin: 0 auto 60px auto;
     padding: 32px 28px;
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 20px;
-    box-shadow:
-        0 30px 60px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
     box-sizing: border-box;
     position: relative;
     z-index: 10;
 }
 
 /* =========================================================================
-   3. INPUT & FORM CONTROLS
+   INPUT & FORM CONTROLS
    ========================================================================= */
 .form-group {
     display: flex;
@@ -67,44 +56,40 @@ body>p {
     text-transform: uppercase;
 }
 
-/* Base text inputs, number inputs, and native time pickers */
 .form-group input[type="text"],
 .form-group input[type="number"],
 .form-group input[type="time"] {
     width: 100%;
     background: transparent !important;
     border: none !important;
-    border-bottom: 1.5px solid rgba(255, 255, 255, 0.25) !important;
+    border-bottom: 1.5px solid var(--border-color) !important;
     color: var(--text-primary) !important;
     border-radius: 0 !important;
     padding: 8px 4px !important;
     font-size: 0.95rem !important;
     font-family: var(--font-sans);
-    transition: all 0.3s ease !important;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
     box-shadow: none !important;
     outline: none !important;
 }
 
-/* Dark mode compatibility override for native clock picker popups */
 .form-group input[type="time"] {
-    color-scheme: dark;
+    color-scheme: light;
 }
 
 .form-group input[type="text"]::placeholder,
 .form-group input[type="number"]::placeholder {
-    color: rgba(255, 255, 255, 0.4) !important;
+    color: var(--text-dark-muted) !important;
 }
 
-/* Focus and active styles using Green theme accent */
 .form-group input[type="text"]:focus,
 .form-group input[type="number"]:focus,
 .form-group input[type="time"]:focus,
 .child-div select:focus {
-    border-bottom-color: var(--accent-success, #2ec866) !important;
-    box-shadow: 0 2px 0 rgba(46, 200, 102, 0.35) !important;
+    border-bottom-color: var(--accent-success) !important;
+    box-shadow: 0 2px 0 rgba(22, 163, 74, 0.25) !important;
 }
 
-/* Side-by-side select elements layout */
 .form-group:has(.child-div) {
     display: flex;
     flex-direction: row;
@@ -118,14 +103,13 @@ body>p {
     position: relative;
 }
 
-/* Dynamic dropdown select elements styling */
 .child-div select {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     background: transparent;
     border: none;
-    border-bottom: 1.5px solid rgba(255, 255, 255, 0.25);
+    border-bottom: 1.5px solid var(--border-color);
     border-radius: 0;
     color: var(--text-primary);
     padding: 8px 28px 8px 4px;
@@ -134,42 +118,37 @@ body>p {
     cursor: pointer;
     width: 100%;
     outline: none;
-    transition: all 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .child-div select option {
-    background-color: #14161c !important;
-    /* matches var(--bg-card) */
+    background-color: var(--bg-card) !important;
     color: var(--text-primary) !important;
-    font-size: 0.9rem;
-    padding: 10px;
 }
 
-/* Custom chevron arrow for select dropdowns built via pseudo-elements */
 .child-div::after {
     content: "\F2E0";
-    /* Bootstrap icon chevron-down unicode */
     font-family: "bootstrap-icons" !important;
     position: absolute;
     right: 4px;
     bottom: 10px;
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--text-muted);
     font-size: 0.8rem;
     pointer-events: none;
     transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .child-div:focus-within::after {
-    color: var(--accent-success, #2ec866);
+    color: var(--accent-success);
     transform: rotate(180deg);
 }
 
 /* =========================================================================
-   4. QUESTION BUILDER SECTION
+   QUESTION BUILDER
    ========================================================================= */
 .question-group {
-    background: rgba(255, 255, 255, 0.01);
-    border: 1px solid rgba(255, 255, 255, 0.04);
+    background: var(--bg-muted);
+    border: 1px solid var(--border-subtle);
     border-radius: 12px;
     padding: 18px;
     margin-top: 8px;
@@ -195,26 +174,24 @@ body>p {
     font-size: 0.78rem;
     font-weight: 600;
     font-family: var(--font-sans);
-    color: var(--accent-success, #2ec866);
-    background: rgba(46, 200, 102, 0.12);
-    border: 1px solid rgba(46, 200, 102, 0.25);
+    color: var(--accent-success);
+    background: rgba(22, 163, 74, 0.08);
+    border: 1px solid rgba(22, 163, 74, 0.2);
     padding: 3px 10px;
     border-radius: 20px;
 }
 
-/* Actions list layout */
 .question-actions {
     display: flex;
     flex-direction: column;
     gap: 14px;
 }
 
-/* Add Question button */
 .question-actions .action-btn {
     width: 100%;
     padding: 12px;
-    background: transparent;
-    border: 1px dashed rgba(255, 255, 255, 0.18);
+    background: var(--bg-card);
+    border: 1px dashed var(--border-color);
     color: var(--text-muted);
     border-radius: 8px;
     font-size: 0.88rem;
@@ -228,34 +205,32 @@ body>p {
 }
 
 .question-actions .action-btn:hover {
-    border-color: var(--accent-success, #2ec866);
-    color: var(--accent-success, #2ec866);
-    background: rgba(46, 200, 102, 0.05);
+    border-color: var(--accent-success);
+    color: var(--accent-success);
+    background: rgba(22, 163, 74, 0.04);
 }
 
-/* Drag and Drop Upload Zone */
 .upload-zone {
     width: 100%;
-    border: 1px dashed rgba(255, 255, 255, 0.18);
+    border: 1px dashed var(--border-color);
     border-radius: 8px;
     padding: 20px;
     text-align: center;
     cursor: pointer;
-    background: rgba(255, 255, 255, 0.005);
+    background: var(--bg-card);
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    position: relative;
     box-sizing: border-box;
 }
 
 .upload-zone:hover,
 .upload-zone.dragover {
-    border-color: var(--accent-success, #2ec866);
-    background: rgba(46, 200, 102, 0.03);
+    border-color: var(--accent-success);
+    background: rgba(22, 163, 74, 0.03);
 }
 
 .upload-zone.dragover .upload-icon {
     transform: translateY(-4px);
-    color: var(--accent-success, #2ec866);
+    color: var(--accent-success);
 }
 
 .upload-content {
@@ -267,7 +242,7 @@ body>p {
 
 .upload-icon {
     font-size: 1.6rem;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-muted);
     transition: transform 0.3s ease, color 0.3s ease;
 }
 
@@ -282,13 +257,12 @@ body>p {
     color: var(--text-dark-muted);
 }
 
-/* Selected File Display */
 .file-info {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: rgba(46, 200, 102, 0.08);
-    border: 1px solid rgba(46, 200, 102, 0.2);
+    background: rgba(22, 163, 74, 0.06);
+    border: 1px solid rgba(22, 163, 74, 0.15);
     border-radius: 6px;
     padding: 8px 12px;
     animation: fadeIn 0.3s ease;
@@ -296,7 +270,7 @@ body>p {
 
 .file-info .file-icon {
     font-size: 1.1rem;
-    color: var(--accent-success, #2ec866);
+    color: var(--accent-success);
     margin-right: 8px;
 }
 
@@ -324,57 +298,47 @@ body>p {
 }
 
 .remove-file-btn:hover {
-    color: var(--accent-error, #ef4444);
+    color: var(--accent-error);
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(4px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* =========================================================================
-   5. ACTION SUBMIT BUTTON
+   SUBMIT BUTTON
    ========================================================================= */
-form>button {
+form > button {
     width: 100%;
     padding: 12px;
-    background-color: var(--accent-success, #2ec866);
-    color: #0d0f12;
-    /* Black text color on green background for contrast */
+    background-color: var(--accent-success);
+    color: var(--text-on-accent);
     border: none;
     border-radius: 8px;
     font-size: 0.95rem;
     font-weight: 600;
     font-family: var(--font-sans);
-    text-transform: capitalize;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(46, 200, 102, 0.15);
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-form>button:hover {
-    background-color: var(--accent-success-bright, #39e57f);
-    box-shadow: 0 8px 20px rgba(46, 200, 102, 0.3);
+form > button:hover {
+    background-color: var(--accent-success-bright);
+    box-shadow: 0 8px 20px rgba(22, 163, 74, 0.25);
     transform: translateY(-1px);
 }
 
-form>button:active {
+form > button:active {
     transform: translateY(0);
 }
 
-/* Responsive media queries for mobile viewports */
 @media (max-width: 768px) {
     .from-container {
         padding: 24px 16px;
         margin-bottom: 40px;
-        border-radius: 16px;
+        border-radius: 12px;
     }
 
     .form-group:has(.child-div) {

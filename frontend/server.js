@@ -170,9 +170,6 @@ app.get("/test-history", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "pages", "create_test", "test_history.html"));
 });
 
-app.get("/dashboard", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "student-dash", "student-dash.html"));
-});
 
 app.get("/add-question", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "pages", "create_test", "question_page.html"));

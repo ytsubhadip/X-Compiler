@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const homeBtn = document.getElementById("btnBackHome");
   if (homeBtn) {
     homeBtn.addEventListener("click", () => {
-      window.location.href = role === "teacher" ? "/create-test" : "/dashboard";
+      window.location.href = role === "teacher" ? "/create-test" : "/";
     });
   }
 

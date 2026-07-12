@@ -11,7 +11,7 @@
 h1 {
     font-size: 2.2rem;
     font-weight: 700;
-    color: #ffffff !important;
+    color: var(--text-primary) !important;
     letter-spacing: -0.5px;
 }
 
@@ -45,13 +45,13 @@ p.text-muted {
    2. GLASSMORPHIC TEST HISTORY CARD
    ========================================================================= */
 .test-history-card {
-    background: rgba(20, 22, 28, 0.5) !important;
+    background: var(--bg-card) !important;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid var(--border-subtle) !important;
     border-radius: 16px !important;
     padding: 24px !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+    box-shadow: var(--shadow-md) !important;
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
     position: relative;
     overflow: hidden;
@@ -65,7 +65,7 @@ p.text-muted {
     transform: translateY(-6px);
     border-color: rgba(46, 200, 102, 0.35) !important;
     box-shadow: 0 12px 40px rgba(46, 200, 102, 0.12), 0 0 20px rgba(46, 200, 102, 0.06) !important;
-    background: rgba(20, 22, 28, 0.75) !important;
+    background: var(--bg-card) !important;
 }
 
 /* =========================================================================
@@ -82,7 +82,7 @@ p.text-muted {
 .test-title {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--text-primary);
     margin: 0;
     line-height: 1.4;
     text-overflow: ellipsis;
@@ -142,7 +142,7 @@ p.text-muted {
 
 .invite-code-pill {
     background: rgba(255, 255, 255, 0.03) !important;
-    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid var(--border-subtle) !important;
     color: var(--text-secondary) !important;
     padding: 6px 12px !important;
     border-radius: 8px !important;
@@ -159,13 +159,13 @@ p.text-muted {
 .invite-code-pill:hover {
     background: rgba(46, 200, 102, 0.08) !important;
     border-color: rgba(46, 200, 102, 0.3) !important;
-    color: #ffffff !important;
+    color: var(--text-primary) !important;
 }
 
 .invite-code-pill.copied {
     background: rgba(46, 200, 102, 0.15) !important;
     border-color: rgba(46, 200, 102, 0.4) !important;
-    color: #ffffff !important;
+    color: var(--text-primary) !important;
     animation: copyScale 0.3s ease;
 }
 
@@ -274,7 +274,7 @@ p.text-muted {
 }
 
 .btn-tasks-view {
-    color: #ffffff !important;
+    color: var(--text-primary) !important;
     background: rgba(255, 255, 255, 0.04) !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
@@ -431,7 +431,7 @@ p.text-muted {
 .glass-input-control {
     background: none !important;
     border: none !important;
-    color: #ffffff !important;
+    color: var(--text-primary) !important;
     width: 100%;
     height: 100%;
     outline: none !important;
@@ -509,7 +509,7 @@ p.text-muted {
 }
 
 .glass-select-trigger #deptSelectValue {
-    color: #ffffff;
+    color: var(--text-primary);
     font-size: 0.95rem;
     font-weight: 500;
 }
@@ -563,7 +563,7 @@ p.text-muted {
 
 .glass-select-option:hover {
     background: rgba(255, 255, 255, 0.06) !important;
-    color: #ffffff !important;
+    color: var(--text-primary) !important;
 }
 
 .glass-select-option.active {
@@ -613,11 +613,11 @@ p.text-muted {
     padding: 8px 16px !important;
     border-radius: 8px !important;
     background: rgba(255, 255, 255, 0.03) !important;
-    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid var(--border-subtle) !important;
 }
 
 .btn-back:hover {
-    color: #ffffff !important;
+    color: var(--text-primary) !important;
     background: rgba(255, 255, 255, 0.08) !important;
     border-color: rgba(255, 255, 255, 0.15) !important;
     transform: translateX(-3px);
@@ -643,7 +643,7 @@ p.text-muted {
 }
 
 .btn-delete-test:hover {
-    color: #ffffff !important;
+    color: var(--text-primary) !important;
     background: #ef4444 !important;
     border-color: #ef4444 !important;
     box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3) !important;

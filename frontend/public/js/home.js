@@ -1,6 +1,6 @@
 // typing.js
 var typed = new Typed('#element', {
-    strings: ['python', 'javascripts', 'c', 'cpp', 'java'],
+    strings: ['python', 'javascript', 'c', 'cpp', 'java'],
     typeSpeed: 130,
     loop: true,
     loopCount: Infinity,
@@ -35,7 +35,7 @@ document.getElementById("teacherBtn").addEventListener("click", function () {
             window.location.href = '/signin#teacher'
         }
     }
-    else {
+    else {  
         window.location.href = '/signin#teacher'
     }
 });

@@ -94,7 +94,7 @@ function initializeLanguageWorkspaceEngine() {
         } else if (currentLang === 'java') {
             window.wpCodeEditorInstance.setOption("mode", "text/x-java");
         } else if (currentLang === 'javascript') {
-            window.wpCodeEditorInstance.setOption("mode", "text/javascript");
+            window.wpCodeEditorInstance.setOption("mode", "text/javascripts");
         }
 
         // Guard fallback: stream default configurations if cached data fields return empty rows

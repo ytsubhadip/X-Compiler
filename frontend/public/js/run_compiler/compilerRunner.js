@@ -201,6 +201,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 1000);
     }
 
+    const clearConsoleBtn = document.querySelector('.clear-console');
+    if (clearConsoleBtn) {
+        clearConsoleBtn.addEventListener('click', () => {
+            const output = document.getElementById('output');
+            const inputEl = document.getElementById('customInput');
+            if (output) output.value = '';
+            if (inputEl) inputEl.value = '';
+            if (output) output.focus();
+        });
+    }
+
     // Mount initial idle pet state cleanly
     updateConsolePet('idle');
     if (localStorage.getItem("activeExamTestId")) {

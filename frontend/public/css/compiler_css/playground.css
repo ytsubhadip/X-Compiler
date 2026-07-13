@@ -1,12 +1,26 @@
 /* Playground IDE — uses shared theme variables from style.css */
+
+:root {
+    --console-slate: 148, 163, 184;   /* border/text slate tone used throughout console */
+    --console-green: 134, 239, 172;   /* mint-green accent used on select/toggle */
+    --console-green-strong: 34, 197, 94;
+}
+
+/* ---------- Layout ---------- */
+
 .ide-workspace {
     height: calc(100vh - 64px);
     min-height: 0;
     margin: 0;
+    margin-top: 65px;
     padding: 0;
     display: flex;
     background-color: var(--bg-main);
-    margin-top: 70px;
+}
+
+.ide-workspace > .col-12,
+.ide-workspace > .col-12 > .row {
+    height: 100%;
 }
 
 .left-column,
@@ -27,13 +41,15 @@
 }
 
 .pane-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-subtle);
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-md);
 }
+
+/* ---------- Left pane (instructions/docs) ---------- */
 
 .left-pane {
     height: 100%;
@@ -43,59 +59,59 @@
 }
 
 .left-pane h2 {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--accent-success);
-    margin-bottom: 20px;
     border-bottom: 1px solid var(--border-subtle);
-    padding-bottom: 10px;
 }
 
 .left-pane h3 {
+    margin: 16px 0 8px;
     font-size: 1.2rem;
     font-weight: 600;
     color: var(--text-primary);
-    margin-top: 16px;
-    margin-bottom: 8px;
 }
 
 .left-pane h4 {
+    margin: 12px 0 6px;
     font-size: 1rem;
     font-weight: 600;
     color: var(--text-muted);
-    margin-top: 12px;
-    margin-bottom: 6px;
 }
 
 .left-pane p {
+    margin-bottom: 8px;
     font-size: 0.95rem;
     line-height: 1.6;
     color: var(--text-secondary);
-    margin-bottom: 8px;
 }
 
 .left-pane pre {
+    margin-bottom: 10px;
+    padding: 10px 14px;
+    font-family: "Rubik", var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
     background: var(--bg-pre);
     border: 1px solid var(--border-subtle);
-    color: var(--text-secondary);
-    padding: 10px 14px;
     border-radius: 8px;
-    font-size: 0.9rem;
-    font-family: "Rubik", var(--font-mono);
     overflow-x: auto;
-    margin-bottom: 10px;
 }
 
 .left-pane ul {
-    padding-left: 20px;
     margin-bottom: 10px;
+    padding-left: 20px;
 }
 
 .left-pane li {
+    margin-bottom: 6px;
     font-size: 0.9rem;
     color: var(--text-muted);
-    margin-bottom: 6px;
 }
+
+/* ---------- Code editor ---------- */
 
 .editor-pane {
     flex: 1;
@@ -105,12 +121,12 @@
 .editor-header {
     height: 52px;
     min-height: 52px;
-    background-color: var(--bg-muted);
-    border-bottom: 1px solid var(--border-subtle);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 16px;
+    background-color: #0e1628;
+    border-bottom: 1px solid var(--border-subtle);
 }
 
 .editor-body {
@@ -121,46 +137,81 @@
 }
 
 .editor-body .CodeMirror {
-    height: 100% !important;
-    width: 100% !important;
     position: absolute;
     top: 0;
     left: 0;
+    width: 100% !important;
+    height: 100% !important;
     font-family: var(--font-mono);
     font-size: 14px;
-    background-color: var(--bg-card) !important;
+    color: white !important;
+    background-color: #0f172a !important;
 }
 
+/* Language select dropdown */
+
 .custom-select-wrapper {
-    width: 180px;
+    width: 210px;
+}
+
+.custom-select-shell {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.custom-select-icon {
+    position: absolute;
+    left: 12px;
+    z-index: 2;
+    font-size: 0.95rem;
+    color: #86efac;
+    pointer-events: none;
 }
 
 .custom-select {
-    background-color: var(--bg-select) !important;
-    border: 1px solid var(--border-color) !important;
-    color: var(--text-primary) !important;
-    font-weight: 500 !important;
-    border-radius: 6px !important;
-    padding: 6px 12px !important;
+    width: 100%;
+    padding: 8px 12px 8px 38px !important;
     font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    color: #f8fafc !important;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95)) !important;
+    border: 1px solid rgba(var(--console-green), 0.25) !important;
+    border-radius: 999px !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
     cursor: pointer;
-    box-shadow: none !important;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.custom-select:hover {
+    border-color: rgba(var(--console-green), 0.45) !important;
+    transform: translateY(-1px);
 }
 
 .custom-select:focus {
-    border-color: var(--accent-success) !important;
-    box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.15) !important;
+    border-color: #22c55e !important;
+    box-shadow: 0 0 0 3px rgba(var(--console-green-strong), 0.18) !important;
+    outline: none;
 }
 
+.custom-select option {
+    color: #f8fafc;
+    background: #111827;
+}
+
+/* Buttons */
+
 .btn-action {
-    font-weight: 600 !important;
-    padding: 6px 16px !important;
-    border-radius: 6px !important;
-    font-size: 0.875rem !important;
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    padding: 6px 16px !important;
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    border-radius: 6px !important;
     transition: transform 0.1s, background-color 0.2s;
 }
 
@@ -168,27 +219,73 @@
     transform: translateY(-1px);
 }
 
+.theme-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #f8fafc;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95));
+    border: 1px solid rgba(var(--console-green), 0.25);
+    border-radius: 999px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+    border-color: rgba(var(--console-green), 0.45);
+    box-shadow: 0 0 0 3px rgba(var(--console-green-strong), 0.16);
+    transform: translateY(-1px);
+}
+
+/* ---------- Console (output + input) ---------- */
+
 .console-pane {
     height: 100%;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.96));
+    border: 1px solid rgba(var(--console-slate), 0.18);
+    border-radius: 0;
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.22);
 }
 
 .console-header {
-    height: 52px;
-    min-height: 40px;
-    background-color: var(--bg-card);
-    border-bottom: 1px solid var(--border-subtle);
+    height: 54px;
+    min-height: 54px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 16px;
+    background: rgba(15, 23, 42, 0.9);
+    border-bottom: 1px solid rgba(var(--console-slate), 0.16);
 }
 
 .console-header-title {
     font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--text-muted);
+    font-weight: 700;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    color: #e2e8f0;
+}
+
+.clear-console {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    color: #e2e8f0;
+    background: rgba(var(--console-slate), 0.14);
+    border: none;
+    border-radius: 999px;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.clear-console:hover {
+    background: rgba(var(--console-slate), 0.22);
+    transform: translateY(-1px);
 }
 
 .console-body {
@@ -196,39 +293,98 @@
     min-height: 0;
     display: flex;
     flex-direction: column;
+    gap: 12px;
     padding: 12px;
-    background-color: var(--bg-terminal);
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.98), rgba(2, 6, 23, 0.96));
+}
+
+.console-panel {
+    flex: 1.2;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: rgba(15, 23, 42, 0.72);
+    border: 1px solid rgba(var(--console-slate), 0.18);
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+}
+
+.console-panel.input-panel {
+    flex: 0.75;
+    min-height: 140px;
+}
+
+.console-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 12px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #cbd5e1;
+    background: rgba(30, 41, 59, 0.72);
+    border-bottom: 1px solid rgba(var(--console-slate), 0.16);
+}
+
+.console-panel-badge {
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #86efac;
+    background: rgba(var(--console-green-strong), 0.18);
+    border-radius: 999px;
+}
+
+.console-panel-badge.subtle {
+    color: #93c5fd;
+    background: rgba(59, 130, 246, 0.16);
+}
+
+#output,
+#customInput {
+    width: 100% !important;
+    padding: 12px 14px !important;
+    font-family: var(--font-mono) !important;
+    font-size: 0.92rem !important;
+    line-height: 1.6;
+    color: #f8fafc !important;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    resize: none !important;
 }
 
 #output {
-    background-color: var(--bg-terminal) !important;
-    border: none !important;
-    color: var(--text-primary) !important;
-    font-family: var(--font-mono) !important;
-    font-size: 13.5px !important;
-    padding: 4px 8px !important;
-    resize: none !important;
-    outline: none !important;
     flex: 1 !important;
     min-height: 0;
-    width: 100% !important;
-    line-height: 1.5;
-    box-shadow: none !important;
+    overflow: auto;
+}
+
+#customInput {
+    min-height: 112px;
+}
+
+#customInput::placeholder,
+#output::placeholder {
+    color: #64748b;
 }
 
 .console-footer {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 8px 8px 0 8px;
-    border-top: 1px solid var(--border-subtle);
+    justify-content: space-between;
+    padding: 8px 4px 2px;
     font-size: 0.8rem;
-    color: var(--text-dark-muted);
+    color: #cbd5e1;
 }
 
 .console-stat-value {
-    color: var(--accent-success);
     font-weight: 600;
+    color: #86efac;
 }
 
 .console-error-text {
@@ -239,50 +395,46 @@
     color: var(--accent-success-bright) !important;
 }
 
+/* Status badges */
+
 .badge-status {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    padding: 3px 8px;
-    border-radius: 20px;
-    letter-spacing: 0.5px;
     display: inline-flex;
     align-items: center;
     gap: 4px;
+    padding: 3px 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
     border: 1px solid transparent;
+    border-radius: 20px;
 }
 
 .badge-status-idle {
-    background-color: var(--bg-muted);
     color: var(--text-muted);
+    background-color: var(--bg-muted);
     border-color: var(--border-subtle);
 }
 
 .badge-status-running {
-    background-color: rgba(217, 119, 6, 0.1);
     color: var(--accent-warning);
+    background-color: rgba(217, 119, 6, 0.1);
     border-color: rgba(217, 119, 6, 0.2);
 }
 
 .badge-status-accepted {
-    background-color: rgba(22, 163, 74, 0.1);
     color: var(--accent-success);
+    background-color: rgba(22, 163, 74, 0.1);
     border-color: rgba(22, 163, 74, 0.2);
 }
 
 .badge-status-rejected {
-    background-color: rgba(220, 38, 38, 0.1);
     color: var(--accent-error);
+    background-color: rgba(220, 38, 38, 0.1);
     border-color: rgba(220, 38, 38, 0.2);
 }
 
-.ide-workspace > .col-12 {
-    height: 100%;
-}
-
-.ide-workspace > .col-12 > .row {
-    height: 100%;
-}
+/* ---------- Responsive ---------- */
 
 @media (max-width: 991px) {
     body {

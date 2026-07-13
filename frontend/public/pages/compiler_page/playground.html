@@ -31,7 +31,7 @@
   <link rel="stylesheet" href="/css/navbar.css">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/compiler_css/playground.css">
-  <link rel="stylesheet" href="/css/animated-Element/code_theam_mode.css">
+  
 </head>
 
 <body class="landing-page d-flex flex-column" style="height: 100vh; overflow: hidden;">
@@ -46,25 +46,27 @@
             <div class="editor-header">
               <div class="custom-select-wrapper">
                 <label class="visually-hidden" for="inlineFormSelectPref">Language</label>
-                <select class="form-select custom-select" id="inlineFormSelectPref">
-                  <option selected value="noL">Choose Language</option>
-                  <option value="python">Python</option>
-                  <option value="javascript">JavaScript</option>
-                  <option value="cpp">C++</option>
-                  <option value="c">C</option>
-                  <option value="java">Java</option>
-                </select>
+                <div class="custom-select-shell">
+                  <i class="bi bi-code-slash custom-select-icon"></i>
+                  
+                  <select class="form-select custom-select" id="inlineFormSelectPref">
+                    <option selected value="noL">Choose Language</option>
+                    <option value="python">Python</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="cpp">C++</option>
+                    <option value="c">C</option>
+                    <option value="java">Java</option>
+                  </select>
+
+                </div>
               </div>
 
-
+              <button type="button" class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle editor theme">
+                <i class="bi bi-moon-stars-fill"></i>
+                <span>Theme</span>
+              </button>
 
               <div class="d-flex gap-4">
-
-                <!-- <div class="container">
-                  <input type="checkbox" name="checkbox" id="checkbox" />
-                  <label for="checkbox" class="label"> </label>
-                </div> -->
-
                 <button type="button" class="btn btn-success btn-action" id="coderun">
                   <i class="bi bi-play-fill"></i> Run Code
                 </button>
@@ -84,14 +86,34 @@
         <div class="col-12 col-lg-6 d-flex">
           <div class="pane-card console-pane d-flex flex-column w-100">
             <div class="console-header">
-              <span class="console-header-title"><i class="bi bi-terminal-fill me-2"></i>Console Output</span>
+              <span class="console-header-title"><i class="bi bi-terminal-fill me-2"></i>Compiler Console</span>
+
+              <button type="button" class="clear-console">
+                <i class="bi bi-trash3"></i>
+                <span>Clear</span>
+              </button>
             </div>
 
             <div class="console-body flex-grow-1 d-flex flex-column" style="min-height:0">
-              <textarea class="form-control flex-grow-1" id="output" readonly
-                placeholder="Output will appear here after compiling..."></textarea>
+              <div class="console-panel">
+                <div class="console-panel-header">
+                  <span><i class="bi bi-box-arrow-right me-2"></i>Output</span>
+                  <span class="console-panel-badge">Live</span>
+                </div>
+                <textarea class="console-output" id="output" readonly
+                  placeholder="Output will appear here after compiling..."></textarea>
+              </div>
 
-              <div class="console-footer mt-2">
+              <div class="console-panel input-panel">
+                <div class="console-panel-header">
+                  <span><i class="bi bi-keyboard-fill me-2"></i>Input</span>
+                  <span class="console-panel-badge subtle">stdin</span>
+                </div>
+                <textarea id="customInput" class="console-input" spellcheck="false"
+                  placeholder="Provide input for your program (optional)..."></textarea>
+              </div>
+
+              <div class="console-footer">
                 <div class="console-stat">
                   <span>Execution Time:</span>
                   <span class="console-stat-value"><span id="execTime">-</span> ms</span>
@@ -111,7 +133,7 @@
   <script>
     var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
       mode: "text/x-c++src",
-      theme: "darcula",
+      theme: "night",
       lineNumbers: true,
       autoCloseBrackets: true
     });
@@ -121,7 +143,7 @@
   <script src="/js/navbar.js"></script>
   <script src="/js/run_compiler/compilerRunner.js"></script>
   <script src="/js/language.js"></script>
-  <script src="/js/inspect_off.js"></script>
+  <!-- <script src="/js/inspect_off.js"></script> -->
 
 </body>
 

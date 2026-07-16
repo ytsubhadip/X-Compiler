@@ -86,6 +86,24 @@ input.input-control:-webkit-autofill::first-line {
 }
 
 /* Auth layout */
+.login-loder {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-main);
+    backdrop-filter: blur(6px);
+    z-index: 50;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.login-loder.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
 .auth-wrapper {
     min-height: 100vh;
     display: flex;
@@ -96,6 +114,14 @@ input.input-control:-webkit-autofill::first-line {
     position: relative;
     z-index: 10;
     box-sizing: border-box;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.auth-wrapper.is-visible {
+    opacity: 1;
+    visibility: visible;
 }
 
 .auth-container {

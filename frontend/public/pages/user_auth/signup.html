@@ -24,24 +24,28 @@
     <link rel="stylesheet" href="/css/animated-Element/star_background.css">
 </head>
 
-<body class="landing-page d-flex flex-column" style="min-height: 100vh; height: auto !important; overflow-y: auto !important; overflow-x: hidden;">
-    <div class="loader-wrapper">
-        <div class="loader"></div>
+<body class="landing-page d-flex flex-column">
+    <div class="login-loder">
+        <div class="loader">
+            <span><span></span><span></span><span></span><span></span></span>
+            <div class="base">
+                <span></span>
+                <div class="face"></div>
+            </div>
+        </div>
+        <div class="longfazers">
+            <span></span><span></span><span></span><span></span>
+        </div>
     </div>
 
-    <div class="starry-background-canvas">
-        <div id="stars"></div>
-        <div id="stars2"></div>
-        <div id="stars3"></div>
-    </div>
 
-    <main class="auth-wrapper">
-        <div class="auth-container signup-container" style="position: relative; z-index: 10;">
+    <main class="auth-wrapper" id="authWrapper">
+        <div class="auth-container signup-container" id="authContainer" style="position: relative; z-index: 10;">
             <a href="/" class="back-to-home-link"><i class="bi bi-arrow-left"></i> Back to Home</a>
 
             <div class="auth-card">
                 <div class="auth-header">
-                    <i class="fa-brands fa-magento brand-icon"></i>
+                    <img src="../asset/logo.png" class="fa-brands fa-magento brand-icon" alt="brand logo">
                     <h2 id="authTitle">Join X Compiler</h2>
                     <p id="authSubtitle">Create an account to track your progress and compete globally as a student.</p>
                 </div>
@@ -138,14 +142,14 @@
                 </div>
 
                 <div class="auth-card-footer mt-4 text-center">
-                    <p class="mb-0 text-white" style="font-size: 0.9rem;">
+                    <p class="mb-0" style="font-size: 0.9rem;">
                         Already have an account? <a href="/signin" class="auth-redirect-link">Sign In</a>
                     </p>
                 </div>
             </div>
         </div>
     </main>
-    
+
     <script>
         const btnTabStudent = document.getElementById('btnTabStudent');
         const btnTabTeacher = document.getElementById('btnTabTeacher');
@@ -212,14 +216,11 @@
         }
     </script>
 
-    <div id="globalPageLoader">
-        <div class="loader"></div>
-        <div id="globalLoaderText">Processing...</div>
-    </div>
+   
     <script src="/js/user_auth/signup.js"></script>
     <script src="/js/loder.js"></script>
     <script src="/js/inspect_off.js"></script>
-    <!-- <script src="/js/googleFromConnect.js"></script> -->
+    <script src="/js/googleFromConnect.js"></script>
 </body>
 
 </html>

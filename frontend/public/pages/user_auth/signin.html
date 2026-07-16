@@ -19,30 +19,33 @@
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/auth_css/signin.css">
     <link rel="stylesheet" href="/css/loder/loder.css">
-    <link rel="stylesheet" href="/css/animated-Element/star_background.css">
 </head>
 
 <body class="landing-page d-flex flex-column">
-    <div class="loader-wrapper">
-        <div class="loader"></div>
+  
+    <div class="login-loder">
+
+        <div class="loader">
+            <span><span></span><span></span><span></span><span></span></span>
+            <div class="base">
+                <span></span>
+                <div class="face"></div>
+            </div>
+        </div>
+        <div class="longfazers">
+            <span></span><span></span><span></span><span></span>
+        </div>
     </div>
 
-    <div class="starry-background-canvas">
-        <div id="stars"></div>
-        <div id="stars2"></div>
-        <div id="stars3"></div>
-    </div>
-
-    <main class="auth-wrapper">
-        <div id="authContainer" class="auth-container" style="position: relative; z-index: 10; display: none;">
+    <main class="auth-wrapper" id="authWrapper">
+        <div id="authContainer" class="auth-container" style="position: relative; z-index: 10;">
             <a href="/" class="back-to-home-link"><i class="bi bi-arrow-left"></i> Back to Home</a>
 
             <div class="auth-card">
                 <div class="auth-header">
-                    <i class="fa-brands fa-magento brand-icon"></i>
+                     <img src="../asset/logo.png" class="fa-brands fa-magento brand-icon" alt="brand logo">
                     <h2 id="authTitle">Welcome Back</h2>
                     <p id="authSubtitle">Log in to X Compiler to compile and run your solutions as a student.</p>
                 </div>
@@ -84,8 +87,7 @@
                             <label for="signinTeacherUid">Teacher Unique ID</label>
                             <div class="input-wrapper">
                                 <i class="bi bi-shield-lock-fill input-icon"></i>
-                                <input class="input-control" type="text" id="signinTeacherUid"
-                                    placeholder="TCH-10029">
+                                <input class="input-control" type="text" id="signinTeacherUid" placeholder="TCH-10029">
                             </div>
                         </div>
 
@@ -101,13 +103,14 @@
                 </div>
 
                 <div class="auth-card-footer mt-4 text-center">
-                    <p class="mb-0 text-white" style="font-size: 0.9rem;">
+                    <p class="mb-0 " style="font-size: 0.9rem;">
                         Don't have an account? <a href="/signup" class="auth-redirect-link">Sign Up</a>
                     </p>
                 </div>
             </div>
         </div>
     </main>
+
     <script>
 
         const btnTabStudent = document.getElementById('btnTabStudent');
@@ -124,7 +127,7 @@
             personaSelectorContainer.classList.remove('teacher-active');
             btnSubmitSignin.className = "btn-auth-submit btn-signin-submit";
             btnSubmitSignin.removeAttribute('style');
-            
+
             const groupTeacherUid = document.getElementById('groupTeacherUid');
             const signinTeacherUid = document.getElementById('signinTeacherUid');
             if (groupTeacherUid && signinTeacherUid) {
@@ -143,7 +146,7 @@
             btnSubmitSignin.style.borderColor = "#3b82f6";
             btnSubmitSignin.style.color = "#ffffff";
             btnSubmitSignin.style.boxShadow = "0 4px 12px rgba(59, 130, 246, 0.15)";
-            
+
             const groupTeacherUid = document.getElementById('groupTeacherUid');
             const signinTeacherUid = document.getElementById('signinTeacherUid');
             if (groupTeacherUid && signinTeacherUid) {
@@ -187,16 +190,13 @@
         });
 
     </script>
-    <div id="globalPageLoader">
-        <div class="loader"></div>
-        <div id="globalLoaderText">Processing...</div>
-    </div>
+   
 
     <script src="/js/user_auth/signin.js"></script>
     <script src="/js/loder.js"></script>
     <script src="/js/inspect_off.js"></script>
-    
-    
+
+
 </body>
 
 </html>

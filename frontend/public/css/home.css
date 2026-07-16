@@ -276,6 +276,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
     width: 100%;
     gap: 1.5rem;
 }
@@ -284,19 +285,82 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 110px;
+    height: 110px;
     padding: 1.25rem;
     border-radius: 20px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 16px 35px rgba(0, 0, 0, 0.12);
-
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Apply idle wave-bob animation */
+    animation: wave-bob 3.2s ease-in-out infinite;
 }
 
 .img1 img {
-    width: min(240px, 100%);
-    height: auto;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
     display: block;
+    transition: transform 0.3s ease;
+}
+
+/* Stagger the animation start for each logo to create a fluid wave effect */
+.languange-img .img1:nth-child(1) { animation-delay: 0s; }
+.languange-img .img1:nth-child(2) { animation-delay: 0.15s; }
+.languange-img .img1:nth-child(3) { animation-delay: 0.3s; }
+.languange-img .img1:nth-child(4) { animation-delay: 0.45s; }
+.languange-img .img1:nth-child(5) { animation-delay: 0.6s; }
+
+/* Interactive Hover States - pause wave, lift up, scale and add color-branded neon shadows */
+.img1:hover {
+    animation-play-state: paused;
+    transform: translateY(-16px) scale(1.15) !important;
+    background: #ffffff;
+}
+
+.img1:hover img {
+    transform: scale(1.05);
+}
+
+/* C Glow */
+.languange-img .img1:nth-child(1):hover {
+    border-color: #a8b9cc;
+    box-shadow: 0 20px 40px rgba(168, 185, 204, 0.3), 0 0 15px rgba(168, 185, 204, 0.15);
+}
+
+/* C++ Glow */
+.languange-img .img1:nth-child(2):hover {
+    border-color: #00599c;
+    box-shadow: 0 20px 40px rgba(0, 89, 156, 0.25), 0 0 15px rgba(0, 89, 156, 0.15);
+}
+
+/* Java Glow */
+.languange-img .img1:nth-child(3):hover {
+    border-color: #ed8b00;
+    box-shadow: 0 20px 40px rgba(237, 139, 0, 0.25), 0 0 15px rgba(237, 139, 0, 0.15);
+}
+
+/* JavaScript Glow */
+.languange-img .img1:nth-child(4):hover {
+    border-color: #f7df1e;
+    box-shadow: 0 20px 40px rgba(247, 223, 30, 0.25), 0 0 15px rgba(247, 223, 30, 0.15);
+}
+
+/* Python Glow */
+.languange-img .img1:nth-child(5):hover {
+    border-color: #3776ab;
+    box-shadow: 0 20px 40px rgba(55, 118, 171, 0.25), 0 0 15px rgba(55, 118, 171, 0.15);
+}
+
+@keyframes wave-bob {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(1deg);
+    }
 }
 
 /* student community */

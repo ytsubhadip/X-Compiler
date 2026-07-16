@@ -3,10 +3,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const signinForm = document.getElementById("formSignin");
     const submitBtn = document.getElementById("btnSubmitSignin");
+    const authWrapper = document.getElementById("authWrapper");
+    const loginLoader = document.querySelector(".login-loder");
 
     // Shared references for the global dynamic domino loader
     const pageLoader = document.getElementById("globalPageLoader");
     const loaderText = document.getElementById("globalLoaderText");
+
+    if (authWrapper && loginLoader) {
+        authWrapper.classList.remove("is-visible");
+        loginLoader.classList.remove("is-hidden");
+        setTimeout(() => {
+            loginLoader.classList.add("is-hidden");
+            authWrapper.classList.add("is-visible");
+        }, 1500);
+    }
 
     if (signinForm) {
 

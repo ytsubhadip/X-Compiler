@@ -26,21 +26,26 @@
 </head>
 
 <body>
-    <div class="loader-wrapper">
-        <div class="loader"></div>
+    <div class="login-loder">
+        <div class="loader">
+            <span><span></span><span></span><span></span><span></span></span>
+            <div class="base">
+                <span></span>
+                <div class="face"></div>
+            </div>
+        </div>
+        <div class="longfazers">
+            <span></span><span></span><span></span><span></span>
+        </div>
     </div>
-    <div class="starry-background-canvas">
-        <div id="stars"></div>
-        <div id="stars2"></div>
-        <div id="stars3"></div>
-    </div>
-    <main class="auth-wrapper">
-        <div class="auth-container" style="position: relative; z-index: 10;">
+
+    <main class="auth-wrapper" id="authWrapper">
+        <div class="auth-container" id="authContainer" style="position: relative; z-index: 10;">
             <a href="/" class="back-to-home-link"><i class="bi bi-arrow-left"></i> Back to Home</a>
 
             <div class="auth-card">
                 <div class="auth-header">
-                    <i class="fa-brands fa-magento brand-icon"></i>
+                     <img src="../asset/logo.png" class="fa-brands fa-magento brand-icon" alt="brand logo">
                     <h2 id="authTitle">Forgot Password</h2>
                 </div>
 

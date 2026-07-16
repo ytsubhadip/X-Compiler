@@ -79,6 +79,7 @@ body {
         opacity: 0;
         transform: translateY(24px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -310,7 +311,7 @@ body {
     position: relative;
     overflow: hidden;
     box-sizing: border-box;
-  
+
 }
 
 .div-container {
@@ -320,7 +321,7 @@ body {
     gap: 5rem;
     width: 100%;
     padding: 1.5rem;
-   
+
 }
 
 .hero-student .student-desc {
@@ -384,17 +385,199 @@ body {
     background-size: cover;
 }
 
-.lernmore-redirect{
+.lernmore-redirect {
     display: inline-block;
     width: fit-content;
-    padding: 0.75rem 1.25rem;
-    border-radius: 999px;
-    background: linear-gradient(90deg, #16a34a 0%, #22c55e 100%)    ;
-    color: #fff;
+    padding: 0.75rem 0rem;
+    color: var(--text-primary);
     text-decoration: none;
     font-weight: 600;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+/* join teacher and student community css */
+
+.hero-bottom-user-login {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 5rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+}
+
+.hero-bottom-user-login>div {
+    position: relative;
+    overflow: hidden;
+    padding: 2rem 2rem 2.25rem;
+    border-radius: 10px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 290px;
+}
+
+
+
+.hero-bottom-user-login .login-for-studentbox {
+    background: linear-gradient(135deg, #fffdf8 0%, #f7efe2 100%);
+}
+
+.hero-bottom-user-login .login-for-teacher {
+    background: linear-gradient(135deg, #f8fbff 0%, #ebf2ff 100%);
+}
+
+.hero-bottom-user-login h2 {
+    font-size: 1.75rem;
+    margin: 0 0 0.75rem;
+    color: #111827;
+}
+
+.hero-bottom-user-login p {
+    margin: 0 0 1.5rem;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #475569;
+    max-width: 480px;
+}
+
+.hero-bottom-user-login .community-btn {
+    margin-top: auto;
+    border: 2px solid #111827;
+    background: #ffffff;
+    color: #111827;
+    padding: 0.9rem 1.25rem;
+    border-radius: 999px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 6px 6px 0 #111827;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hero-bottom-user-login .community-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0 #111827;
+}
+
+@media (max-width: 768px) {
+    .hero-bottom-user-login {
+        grid-template-columns: 1fr;
+        padding: 3rem 1.25rem 4rem;
+        gap: 1.25rem;
+    }
+
+    .hero-bottom-user-login>div {
+        min-height: auto;
+        padding: 1.5rem;
+    }
+}
+
+/* footer css */
+
+.site-footer {
+    background: #111827;
+    color: #f8fafc;
+    padding: 4rem 1.5rem 2rem;
+    /* margin-top: 4rem; */
+}
+
+.footer-top {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 2rem;
+}
+
+.footer-brand p {
+    margin-top: 1rem;
+    color: #cbd5e1;
+    line-height: 1.8;
+    max-width: 380px;
+}
+
+.footer-logo img {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+}
+
+.footer-logo {
+    text-decoration: none;
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+
+
+}
+
+.footer-title {
+    font-size: 2rem;
+    color: #ffffff;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+
+
+}
+
+.footer-links h4,
+.footer-social h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.08rem;
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.6rem;
+}
+
+.footer-links a,
+.footer-social a {
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover,
+.footer-social a:hover {
+    color: #ffffff;
+}
+
+.social-icons {
+    display: flex;
+    gap: 1rem;
+    font-size: 1.2rem;
+}
+
+.footer-bottom {
+    max-width: 1200px;
+    margin: 2rem auto 0;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    text-align: center;
+    color: #94a3b8;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 780px) {
+    .footer-top {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-brand p {
+        max-width: none;
+    }
+}
+
 @media (max-width: 768px) {
     .hero-student {
         padding: 2rem 1rem 2.5rem;

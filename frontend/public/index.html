@@ -28,30 +28,9 @@
 </head>
 
 <body>
-    <!-- loder -->
-     <!--- 
-    <div class="terminal-loader" id="loader">
-        <div class="terminal-loader" id="loader">
-            <div class="loader-box">
-                <div class="terminal-header">
-                    <div class="terminal-title">Status</div>
-                    <div class="terminal-controls">
-                        <div class="control close"></div>
-                        <div class="control minimize"></div>
-                        <div class="control maximize"></div>
-                    </div>
-                </div>
-                <div class="text">Loading...</div>
-            </div>
-        </div>
 
-        <div class="text">Loading...</div>
-    </div>
-    -->
-    <!-- loder -->
-    <nav class="custom-navbar">
 
-    </nav>
+    <nav class="custom-navbar"></nav>
 
     <div class="hero">
         <a href="#" class="chatbot-logo" aria-label="Chat bot assistant">
@@ -75,7 +54,7 @@
             <div class="brand-logo">
                 <img src="../asset/images.jpg" alt="ilead logo">
             </div>
-        </div>  
+        </div>
     </div>
 
     <div class="our-compiler">
@@ -128,11 +107,10 @@
                 </div>
                 <h2 class="student-desc-title">Student System</h2>
                 <p class="student-description">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos cumque aspernatur reiciendis
-                    laborum expedita placeat omnis labore tenetur vel asperiores alias ab, voluptatum quaerat? Quia
-                    dolore repudiandae fugit mollitia minima?
+                    Empower students with interactive coding challenges, instant feedback, and personalized learning
+                    paths designed to build confidence and practical skills in real-world programming.
                 </p>
-                 <a href="/" class="lernmore-redirect">Learn more <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="/coding-test" class="lernmore-redirect">Learn more <i class="fa-solid fa-arrow-right"></i></a>
             </div>
             <div class="stundet-video">
                 <video src="../asset/video.mp4" autoplay loop muted></video>
@@ -151,23 +129,76 @@
                 </div>
                 <h2 class="student-desc-title">Teacher System</h2>
                 <p class="student-description">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos cumque aspernatur reiciendis
-                    laborum expedita placeat omnis labore tenetur vel asperiores alias ab, voluptatum quaerat? Quia
-                    dolore repudiandae fugit mollitia minima?
+                    Equip educators with streamlined tools to design assessments, monitor class progress, and deliver
+                    meaningful feedback. Our teacher system simplifies lesson planning and helps foster student success.
                 </p>
 
-                <a href="#" class="lernmore-redirect">Learn more <i class="fa-solid fa-arrow-right"></i></a>
-                
-            </div>  
-            
+                <a href="/create-test" class="lernmore-redirect">Learn more <i class="fa-solid fa-arrow-right"></i></a>
+
+            </div>
+
+        </div>
+        <div class="hero-bottom-user-login">
+            <div class="login-for-studentbox">
+                <h2 class="studentbox-title">For Student</h2>
+                <p class="studentbox-description">
+                    Build confidence with guided practice, real challenges, and a community that supports your growth
+                    from day one.
+                </p>
+                <button type="button" class="community-btn">
+                    Join the Community
+                </button>
+            </div>
+            <div class="login-for-teacher">
+                <h2 class="teacherbox-title">For Teacher</h2>
+                <p class="teacherbox-desctiption">
+                    Create engaging assessments, monitor progress, and inspire learners with a cleaner teaching
+                    workflow.
+                </p>
+                <button type="button" class="community-btn" onclick="window.location.href='/signin#teacher'">
+                    Join the Community
+                </button>
+            </div>
         </div>
     </div>
 
 
-    <div class="for-student">
 
-    </div>
-    </div>
+    <footer class="site-footer">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <a href="/" class="footer-logo">
+                    <img src="/asset/logo.png" alt="ML Compiler logo">
+                    <span class="footer-title">X compiler</span>
+                </a>
+
+            </div>
+
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/playground">Playground</a></li>
+                    <li><a href="#">Our Team</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-social">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            © 2026 X Compiler. All rights reserved.
+        </div>
+    </footer>
+
+
 
     <script src="/js/navbar.js"></script>
     <script src="https://unpkg.com/typed.js@3.0.0/dist/typed.umd.js"></script>

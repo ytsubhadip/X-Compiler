@@ -47,9 +47,39 @@
               <div class="custom-select-wrapper">
                 <label class="visually-hidden" for="inlineFormSelectPref">Language</label>
                 <div class="custom-select-shell">
-                  <i class="bi bi-code-slash custom-select-icon"></i>
+                  <div class="custom-dropdown" id="customLanguageDropdown">
+                    <button type="button" class="custom-dropdown-btn" id="customDropdownBtn" aria-haspopup="listbox" aria-expanded="false">
+                      <span class="custom-dropdown-btn-content">
+                        <i class="bi bi-code-slash custom-dropdown-icon" id="customDropdownIcon"></i>
+                        <span class="custom-dropdown-label" id="customDropdownLabel">Choose Language</span>
+                      </span>
+                      <i class="bi bi-chevron-down custom-dropdown-chevron"></i>
+                    </button>
+                    <ul class="custom-dropdown-menu" id="customDropdownMenu" role="listbox">
+                      <li data-value="python" class="custom-dropdown-item" role="option">
+                        <img src="/asset/python.png" alt="Python Logo" class="dropdown-lang-logo">
+                        <span>Python</span>
+                      </li>
+                      <li data-value="javascript" class="custom-dropdown-item" role="option">
+                        <img src="/asset/js.png" alt="JavaScript Logo" class="dropdown-lang-logo">
+                        <span>JavaScript</span>
+                      </li>
+                      <li data-value="cpp" class="custom-dropdown-item" role="option">
+                        <img src="/asset/cpp.png" alt="C++ Logo" class="dropdown-lang-logo">
+                        <span>C++</span>
+                      </li>
+                      <li data-value="c" class="custom-dropdown-item" role="option">
+                        <img src="/asset/c.png" alt="C Logo" class="dropdown-lang-logo">
+                        <span>C</span>
+                      </li>
+                      <li data-value="java" class="custom-dropdown-item" role="option">
+                        <img src="/asset/java.png" alt="Java Logo" class="dropdown-lang-logo">
+                        <span>Java</span>
+                      </li>
+                    </ul>
+                  </div>
                   
-                  <select class="form-select custom-select" id="inlineFormSelectPref">
+                  <select class="form-select custom-select" id="inlineFormSelectPref" style="display: none !important;">
                     <option selected value="noL">Choose Language</option>
                     <option value="python">Python</option>
                     <option value="javascript">JavaScript</option>
@@ -57,7 +87,6 @@
                     <option value="c">C</option>
                     <option value="java">Java</option>
                   </select>
-
                 </div>
               </div>
 
@@ -66,7 +95,7 @@
                 <span>Theme</span>
               </button>
 
-              <div class="d-flex gap-4">
+              <div class="editor-actions-wrapper">
                 <button type="button" class="btn btn-success btn-action" id="coderun">
                   <i class="bi bi-play-fill"></i> Run Code
                 </button>
@@ -131,13 +160,50 @@
   </div>
 
   <script>
+    // Initialize theme state from localStorage (default is light theme)
+    var preferredTheme = localStorage.getItem('playground-theme') || 'light';
+    var editorTheme = preferredTheme === 'dark' ? 'night' : 'default';
+
     var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
       mode: "text/x-c++src",
-      theme: "night",
+      theme: editorTheme,
       lineNumbers: true,
       autoCloseBrackets: true
     });
     window.wpCodeEditorInstance = editor;
+
+    // Apply theme changes to DOM and CodeMirror instance
+    var themeToggleBtn = document.getElementById('themeToggleBtn');
+    
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        document.body.classList.add('dark-theme');
+        editor.setOption('theme', 'night');
+        if (themeToggleBtn) {
+          themeToggleBtn.innerHTML = '<i class="bi bi-sun-fill"></i> <span>Light Theme</span>';
+        }
+        localStorage.setItem('playground-theme', 'dark');
+      } else {
+        document.body.classList.remove('dark-theme');
+        editor.setOption('theme', 'default');
+        if (themeToggleBtn) {
+          themeToggleBtn.innerHTML = '<i class="bi bi-moon-stars-fill"></i> <span>Dark Theme</span>';
+        }
+        localStorage.setItem('playground-theme', 'light');
+      }
+    }
+
+    // Initialize layout theme state
+    applyTheme(preferredTheme);
+
+    // Set up toggle click event
+    if (themeToggleBtn) {
+      themeToggleBtn.addEventListener('click', function() {
+        var currentTheme = localStorage.getItem('playground-theme') || 'light';
+        var nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+        applyTheme(nextTheme);
+      });
+    }
   </script>
 
   <script src="/js/navbar.js"></script>

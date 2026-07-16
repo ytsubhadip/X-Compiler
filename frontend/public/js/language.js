@@ -60,6 +60,87 @@ function initializeLanguageWorkspaceEngine() {
         currentLang = initialLang;
     }
 
+    // 🟢 CUSTOM DROPDOWN INTERACTION LOGIC
+    const customDropdown = document.getElementById('customLanguageDropdown');
+    if (customDropdown) {
+        const customDropdownBtn = document.getElementById('customDropdownBtn');
+        const customDropdownMenu = document.getElementById('customDropdownMenu');
+        const customDropdownLabel = document.getElementById('customDropdownLabel');
+        const dropdownItems = customDropdownMenu.querySelectorAll('.custom-dropdown-item');
+
+        function syncCustomDropdown() {
+            const val = optionL.value;
+            const currentIcon = document.getElementById('customDropdownIcon');
+            
+            let itemFound = false;
+            dropdownItems.forEach(item => {
+                if (item.getAttribute('data-value') === val) {
+                    itemFound = true;
+                    item.classList.add('selected');
+                    // Update button label & icon
+                    customDropdownLabel.textContent = item.querySelector('span').textContent;
+                    const img = item.querySelector('img').cloneNode(true);
+                    img.className = 'custom-dropdown-logo-selected';
+                    img.id = 'customDropdownIcon';
+                    if (currentIcon) {
+                        currentIcon.replaceWith(img);
+                    }
+                } else {
+                    item.classList.remove('selected');
+                }
+            });
+            
+            if (!itemFound || val === 'noL') {
+                customDropdownLabel.textContent = 'Choose Language';
+                const icon = document.createElement('i');
+                icon.className = 'bi bi-code-slash custom-dropdown-icon';
+                icon.id = 'customDropdownIcon';
+                if (currentIcon) {
+                    currentIcon.replaceWith(icon);
+                }
+            }
+        }
+
+        // Toggle dropdown open/close
+        customDropdownBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const isOpen = customDropdown.classList.contains('open');
+            if (isOpen) {
+                customDropdown.classList.remove('open');
+                customDropdownBtn.setAttribute('aria-expanded', 'false');
+            } else {
+                customDropdown.classList.add('open');
+                customDropdownBtn.setAttribute('aria-expanded', 'true');
+            }
+        });
+
+        // Handle item selection
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const val = this.getAttribute('data-value');
+                optionL.value = val;
+                optionL.dispatchEvent(new Event('change'));
+                customDropdown.classList.remove('open');
+                customDropdownBtn.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // Close on click outside
+        document.addEventListener('click', function() {
+            customDropdown.classList.remove('open');
+            customDropdownBtn.setAttribute('aria-expanded', 'false');
+        });
+
+        // Listen for native select change to keep custom UI in sync
+        optionL.addEventListener('change', function() {
+            syncCustomDropdown();
+        });
+
+        // Run initial sync
+        syncCustomDropdown();
+    }
+
     // Dropdown change listener block definitions
     optionL.addEventListener('change', function () {
         let selectedLang = optionL.value.toLowerCase().trim();

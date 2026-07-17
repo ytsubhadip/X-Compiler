@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                        <span class="invite-code-pill" 
                              onclick="copyInviteLink(this, '${window.location.origin}/join-test?code=${renderingCode}')"
                              title="Click to copy student invite link">
-                            <i class="bi bi-share-fill"></i> Invite Code: <strong class="text-white">${renderingCode}</strong>
+                            <i class="bi bi-share-fill"></i> Invite Code: <strong class="text-dark">${renderingCode}</strong>
                         </span>
                     </div>
 

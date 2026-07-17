@@ -20,26 +20,24 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet" href="/css/animated-Element/star_background.css">
     
     <!-- 🟢 LINKED EXTERNAL STYLE SHEET WITH FORCE CACHE-BUSTING QUERY STRINGS -->
     <link rel="stylesheet" href="/css/create_test/test_history.css?v=1.0.3">
 </head>
 
-<body style="min-height: 100vh; background-color: #0d0f12; color: #fff; overflow-x: hidden;">
+<body style="min-height: 100vh; overflow-x: hidden;">
 
     <nav class="custom-navbar"></nav>
 
-    <div class="starry-background-canvas">
-        <div id="stars"></div>
-        <div id="stars2"></div>
-        <div id="stars3"></div>
+    <div class="glowing-orbs-container">
+        <div class="glowing-orb orb-1"></div>
+        <div class="glowing-orb orb-2"></div>
     </div>
 
     <div class="container py-5" style="position: relative; z-index: 10;">
         <!-- Back Navigation -->
         <div class="mb-4">
-            <a href="/create-test" class="btn-back">
+            <a href="/teacher/dashboard" class="btn-back">
                 <i class="bi bi-arrow-left"></i> Back to Dashboard
             </a>
         </div>
@@ -49,7 +47,7 @@
                 <i class="bi bi-clock-history text-success h2 m-0 animate-pulse-glow"></i>
                 <h1 class="m-0 fw-bold font-sans">Assessment History</h1>
             </div>
-            <a href="/test-form" class="btn-header-create-test">
+            <a href="/teacher/test-form" class="btn-header-create-test">
                 <i class="bi bi-plus-lg"></i> Create Test
             </a>
         </div>
@@ -98,6 +96,6 @@
 
     <script src="/js/test_history.js"></script>
     <script src="/js/navbar.js"></script>
-    <script src="/js/inspect_off.js"></script>
+    <!-- <script src="/js/inspect_off.js"></script> -->
 </body>
 </html>

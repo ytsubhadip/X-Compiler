@@ -20,7 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentPath = window.location.pathname;
 
     // Configure core center navigation links accessible by everyone
-    let centerLinks = `<li><a href="/" class="nav-link ${currentPath === '/' ? 'active' : ''}">Home</a></li>`;
+    let centerLinks = "";
+    if (!token) {
+        centerLinks += `<li><a href="/" class="nav-link ${currentPath === '/' ? 'active' : ''}">Home</a></li>`;
+    }
     centerLinks += `<li><a href="/playground" class="nav-link ${currentPath === '/playground' ? 'active' : ''}">Compiler</a></li>`;
 
     // =========================================================================

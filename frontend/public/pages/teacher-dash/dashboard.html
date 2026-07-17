@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +15,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
     integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -26,34 +29,41 @@
   <link rel="stylesheet" href="/css/animated-Element/create_button.css">
 </head>
 
-<body style="height: 100vh; overflow: hidden; background-color: #0d0f12;">
+<body>
 
   <nav class="custom-navbar"></nav>
-
+  <!-- 
   <div class="starry-background-canvas">
     <div id="stars"></div>
     <div id="stars2"></div>
     <div id="stars3"></div>
-  </div>
-
-  <!-- <div class="glowing-orbs-container">
-    <div class="glowing-orb orb-1"></div>
-    <div class="glowing-orb orb-2"></div>
   </div> -->
 
+  <div class="glowing-orbs-container">
+    <div class="glowing-orb orb-1"></div>
+    <div class="glowing-orb orb-2"></div>
+  </div>
+
   <section class="container">
-    <i class="fa-solid fa-file-circle-plus animate-fade-in-up delay-1" style="color: rgb(254, 254, 254); transform: translateZ(30px);"></i>
-    <h2 class="animate-fade-in-up delay-2" style="transform: translateZ(20px);">Ready to create test?</h2>
-    <p class="animate-fade-in-up delay-3" style="transform: translateZ(10px);">Step 1: Set up structural test fields, generate your question canvas, and deploy it live to evaluate coding telemetry.</p>
-    
-    <div class="button-group animate-fade-in-up delay-4" id="createTestBtn" style="transform: translateZ(25px);">
+    <i class="fa-solid fa-file-circle-plus animate-fade-in-up delay-1"></i>
+
+    <h2 class="animate-fade-in-up delay-2">Ready to create test?</h2>
+
+    <p class="animate-fade-in-up delay-3">Step 1: Set up structural test fields, generate your question canvas, and
+      deploy it live to evaluate coding telemetry.</p>
+
+    <div class="button-group animate-fade-in-up delay-4" id="createTestBtn">
+
+      <!-- create test button  -->
       <button class="continue-application" id="btnLaunchForm">
         <div>
           <div class="pencil"></div>
           <div class="folder">
             <div class="top">
               <svg viewBox="0 0 24 27">
-                <path d="M1,0 L23,0 C23.5522847,-1.01453063e-16 24,0.44771525 24,1 L24,8.17157288 C24,8.70200585 23.7892863,9.21071368 23.4142136,9.58578644 L20.5857864,12.4142136 C20.2107137,12.7892863 20,13.2979941 20,13.8284271 L20,26 C20,26.5522847 19.5522847,27 19,27 L1,27 C0.44771525,27 6.76353751e-17,26.5522847 0,26 L0,1 C-6.76353751e-17,0.44771525 0.44771525,1.01453063e-16 1,0 Z"></path>
+                <path
+                  d="M1,0 L23,0 C23.5522847,-1.01453063e-16 24,0.44771525 24,1 L24,8.17157288 C24,8.70200585 23.7892863,9.21071368 23.4142136,9.58578644 L20.5857864,12.4142136 C20.2107137,12.7892863 20,13.2979941 20,13.8284271 L20,26 C20,26.5522847 19.5522847,27 19,27 L1,27 C0.44771525,27 6.76353751e-17,26.5522847 0,26 L0,1 C-6.76353751e-17,0.44771525 0.44771525,1.01453063e-16 1,0 Z">
+                </path>
               </svg>
             </div>
             <div class="paper"></div>
@@ -62,22 +72,29 @@
         CREATE TEST
       </button>
 
+      <!-- test history button  -->
       <button class="animated-button" id="historyBtn">
         <svg viewBox="0 0 24 24" class="arr-2" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
+          <path
+            d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z">
+          </path>
         </svg>
         <span class="text">View &nbsp;History</span>
         <span class="circle"></span>
         <svg viewBox="0 0 24 24" class="arr-1" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
+          <path
+            d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z">
+          </path>
         </svg>
       </button>
+
     </div>
   </section>
 
-  <script src="/js/create_test_landing.js"></script>
+  <script src="/js/teacher_dashboard.js"></script>
   <script src="/js/navbar.js"></script>
-  <script src="/js/inspecct_off.js"></script>
+  <script src="/js/inspect_off.js"></script>
 
 </body>
+
 </html>

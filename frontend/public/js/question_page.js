@@ -352,7 +352,7 @@ function initializeFormActions() {
             if (activeEditingTestId) {
                 window.location.href = `/view-test-tasks?id=${activeEditingTestId}`;
             } else {
-                window.location.href = "/test-form";
+                window.location.href = "/teacher/test-form";
             }
         });
     }
@@ -453,7 +453,7 @@ function initializeFormActions() {
                     localStorage.removeItem("editingTestId");
 
                     // 🚀 Force clean page routing delivery back into histories panel
-                    window.location.href = "/test-history";
+                    window.location.href = "/teacher/test-history";
                     return;
 
                 } catch (err) {
@@ -465,7 +465,7 @@ function initializeFormActions() {
             }
             // ⚡ CASE B: FRESH CREATION -> GO BACK TO BLANK FORM LAYOUTS
             else {
-                window.location.href = "/test-form";
+                window.location.href = "/teacher/test-form";
             }
         });
     }

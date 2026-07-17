@@ -278,9 +278,9 @@ body {
     align-items: center;
     flex-wrap: wrap;
     width: 100%;
-    gap: 1.5rem;
+    gap: 3.5rem;
+    margin-top: 3rem;
 }
-
 .img1 {
     display: flex;
     justify-content: center;

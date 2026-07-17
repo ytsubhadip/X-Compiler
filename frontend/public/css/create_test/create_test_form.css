@@ -6,7 +6,7 @@ h1 {
     font-weight: 800;
     font-family: var(--font-sans);
     text-align: center;
-    margin-top: 40px;
+    margin-top: 87px;
     margin-bottom: 8px;
     letter-spacing: -0.5px;
     color: var(--text-primary);
@@ -103,44 +103,132 @@ body > p {
     position: relative;
 }
 
-.child-div select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+.glass-custom-select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.visually-hidden-select {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.glass-custom-select-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     background: transparent;
     border: none;
     border-bottom: 1.5px solid var(--border-color);
     border-radius: 0;
     color: var(--text-primary);
-    padding: 8px 28px 8px 4px;
+    padding: 8px 4px;
     font-size: 0.95rem;
     font-family: var(--font-sans);
     cursor: pointer;
     width: 100%;
     outline: none;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
 }
 
-.child-div select option {
-    background-color: var(--bg-card) !important;
-    color: var(--text-primary) !important;
+.glass-custom-select-trigger:hover {
+    border-bottom-color: rgba(22, 163, 74, 0.4);
 }
 
-.child-div::after {
-    content: "\F2E0";
-    font-family: "bootstrap-icons" !important;
-    position: absolute;
-    right: 4px;
-    bottom: 10px;
+.glass-custom-select-wrapper.active .glass-custom-select-trigger {
+    border-bottom-color: var(--accent-success) !important;
+    box-shadow: 0 2px 0 rgba(22, 163, 74, 0.25) !important;
+}
+
+.glass-custom-select-trigger .chevron-icon {
     color: var(--text-muted);
     font-size: 0.8rem;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
     pointer-events: none;
-    transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.child-div:focus-within::after {
-    color: var(--accent-success);
+.glass-custom-select-wrapper.active .chevron-icon {
     transform: rotate(180deg);
+    color: var(--accent-success);
+}
+
+.glass-custom-select-trigger span.placeholder-active {
+    color: var(--text-dark-muted) !important;
+}
+
+.glass-custom-select-options {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px) scale(0.98);
+    pointer-events: none;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s;
+    z-index: 1000;
+    padding: 6px;
+    max-height: 240px;
+    overflow-y: auto;
+}
+
+.glass-custom-select-wrapper.active .glass-custom-select-options {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.glass-custom-select-option {
+    padding: 10px 14px;
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.glass-custom-select-option:hover {
+    background: rgba(22, 163, 74, 0.05);
+    color: var(--accent-success);
+}
+
+.glass-custom-select-option.active {
+    background: rgba(22, 163, 74, 0.1);
+    color: var(--accent-success);
+    font-weight: 600;
+}
+
+/* Custom Scrollbar for Options Dropdown */
+.glass-custom-select-options::-webkit-scrollbar {
+    width: 6px;
+}
+
+.glass-custom-select-options::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.glass-custom-select-options::-webkit-scrollbar-thumb {
+    background: rgba(15, 23, 42, 0.08);
+    border-radius: 4px;
+}
+
+.glass-custom-select-options::-webkit-scrollbar-thumb:hover {
+    background: rgba(15, 23, 42, 0.15);
 }
 
 /* =========================================================================

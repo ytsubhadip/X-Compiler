@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (sanitizedRole === "teacher") {
             // Teachers see the creation panel endpoint mapping
-            centerLinks += `<li><a href="/create-test" class="nav-link ${currentPath === '/create-test' ? 'active' : ''}">Create Test</a></li>`;
+            centerLinks += `<li><a href="/teacher/dashboard" class="nav-link ${currentPath === '/teacher/dashboard' ? 'active' : ''}">Create Test</a></li>`;
         } else {
             // Students see the interactive exam entry portal path (Spelling fixed!)
             centerLinks += `<li><a href="/coding-test" class="nav-link ${currentPath === '/coding-test' ? 'active' : ''}">Coding Test</a></li>`;
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let rightActionsHTML = "";
     let mobileActionsHTML = "";
 
-    if (token) {
+    if (token) {    
         // Create gorgeous uppercase avatar characters based on profile metadata
         const savedAvatar = localStorage.getItem("userAvatar");
         const initialChar = name.trim().charAt(0).toUpperCase();

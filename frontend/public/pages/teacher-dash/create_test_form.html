@@ -21,10 +21,10 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/navbar.css">
     <link rel="stylesheet" href="/css/create_test/create_test_form.css">
-    <link rel="stylesheet" href="/css/loder/loder.css">
+    <!-- <link rel="stylesheet" href="/css/loder/loder.css"> -->
 </head>
 
-<body style="min-height: 100vh; overflow-y: auto; background-color: #0d0f12;">
+<body>
 
         <nav class="custom-navbar"></nav>
         <h1>Create Test</h1>
@@ -41,25 +41,54 @@
                 <div class="form-group">
                     <div class="child-div">
                         <label for="testDepartment">Department</label>
-                        <select id="testDepartment" required>
-                            <option value="Bsc Data Science">Bsc Data Science</option>
-                            <option value="Bsc Cyber Security">Bsc Cyber Security</option>
-                            <option value="BCA">BCA</option>
-                        </select>
+                        <div class="glass-custom-select-wrapper" id="deptDropdownContainer">
+                            <div class="glass-custom-select-trigger" id="deptSelectTrigger">
+                                <span id="deptSelectValue">Select Department</span>
+                                <i class="bi bi-chevron-down chevron-icon"></i>
+                            </div>
+                            <div class="glass-custom-select-options" id="deptSelectOptions">
+                                <div class="glass-custom-select-option" data-value="Bsc Data Science">Bsc Data Science</div>
+                                <div class="glass-custom-select-option" data-value="Bsc Cyber Security">Bsc Cyber Security</div>
+                                <div class="glass-custom-select-option" data-value="BCA">BCA</div>
+                            </div>
+                            <select id="testDepartment" required class="visually-hidden-select">
+                                <option value="" disabled selected hidden>Select Department</option>
+                                <option value="Bsc Data Science">Bsc Data Science</option>
+                                <option value="Bsc Cyber Security">Bsc Cyber Security</option>
+                                <option value="BCA">BCA</option>
+                            </select>
+                        </div>
                     </div>
                 
                     <div class="child-div">
                         <label for="testSemester">Semester</label>
-                        <select id="testSemester" required>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                        </select>
+                        <div class="glass-custom-select-wrapper" id="semDropdownContainer">
+                            <div class="glass-custom-select-trigger" id="semSelectTrigger">
+                                <span id="semSelectValue">Select Semester</span>
+                                <i class="bi bi-chevron-down chevron-icon"></i>
+                            </div>
+                            <div class="glass-custom-select-options" id="semSelectOptions">
+                                <div class="glass-custom-select-option" data-value="1">1</div>
+                                <div class="glass-custom-select-option" data-value="2">2</div>
+                                <div class="glass-custom-select-option" data-value="3">3</div>
+                                <div class="glass-custom-select-option" data-value="4">4</div>
+                                <div class="glass-custom-select-option" data-value="5">5</div>
+                                <div class="glass-custom-select-option" data-value="6">6</div>
+                                <div class="glass-custom-select-option" data-value="7">7</div>
+                                <div class="glass-custom-select-option" data-value="8">8</div>
+                            </div>
+                            <select id="testSemester" required class="visually-hidden-select">
+                                <option value="" disabled selected hidden>Select Semester</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             
@@ -81,8 +110,8 @@
                         <button type="button" id="addQuestionBtn" class="action-btn">
                             <i class="bi bi-plus-circle"></i> Add Question Manually
                         </button>
-                            <span style="text-align: center; font-size: 0.7rem;">OR</span>
-                        <div class="upload-zone" id="questionUploadZone">
+                            <!-- <span style="text-align: center; font-size: 0.7rem;">OR</span> -->
+                        <!-- <div class="upload-zone" id="questionUploadZone">
                             <input type="file" id="questionFileInput" accept=".pdf,.xlsx,.xls,.doc,.docx" style="display: none;">
                             <div class="upload-content" id="uploadContentText">
                                 <i class="bi bi-cloud-arrow-up upload-icon"></i>
@@ -96,7 +125,7 @@
                                     <i class="bi bi-x"></i>
                                 </button>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             
@@ -107,15 +136,13 @@
             </form>
         </div>
 
-        <div id="globalPageLoader">
-            <div class="loader"></div>
-            <div id="globalLoaderText">Processing...</div>
-        </div>
+       
         <script>
             document.getElementById("btnBack").addEventListener('click', (e)=>{
-                window.location.href = "/create-test"
+                window.location.href = "/teacher/dashboard"
             })
         </script>
+
         <script src="/js/create_test_form.js"></script>
         <script src="/js/navbar.js"></script>
         <script src="/js/inspect_off.js"></script>

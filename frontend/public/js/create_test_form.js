@@ -74,6 +74,95 @@ document.addEventListener("DOMContentLoaded", () => {
         if (customCodeField) customCodeField.value = localStorage.getItem("draftTestCustomCode");
     }
 
+    // =========================================================================
+    // 2.1 CUSTOM GLASSMORPHIC DROPDOWN CONTROLLER
+    // =========================================================================
+    function initCustomDropdown(selectId, wrapperId, triggerId, valueId, optionsId) {
+        const selectEl = document.getElementById(selectId);
+        const wrapperEl = document.getElementById(wrapperId);
+        const triggerEl = document.getElementById(triggerId);
+        const valueEl = document.getElementById(valueId);
+        const optionsEl = document.getElementById(optionsId);
+        if (!selectEl || !wrapperEl || !triggerEl || !valueEl || !optionsEl) return null;
+
+        const optionsList = optionsEl.querySelectorAll(".glass-custom-select-option");
+
+        function syncUI() {
+            const currentValue = selectEl.value;
+            let found = false;
+            optionsList.forEach(opt => {
+                if (opt.getAttribute("data-value") === currentValue) {
+                    opt.classList.add("active");
+                    valueEl.textContent = opt.textContent;
+                    valueEl.classList.remove("placeholder-active");
+                    found = true;
+                } else {
+                    opt.classList.remove("active");
+                }
+            });
+
+            if (!found) {
+                const placeholderOpt = selectEl.querySelector("option[disabled]");
+                valueEl.textContent = placeholderOpt ? placeholderOpt.textContent : "Select Option";
+                valueEl.classList.add("placeholder-active");
+            }
+        }
+
+        triggerEl.addEventListener("click", (e) => {
+            e.stopPropagation();
+            document.querySelectorAll(".glass-custom-select-wrapper").forEach(w => {
+                if (w !== wrapperEl) w.classList.remove("active");
+            });
+            wrapperEl.classList.toggle("active");
+        });
+
+        optionsList.forEach(opt => {
+            opt.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const val = opt.getAttribute("data-value");
+                selectEl.value = val;
+                selectEl.dispatchEvent(new Event("change"));
+                syncUI();
+                wrapperEl.classList.remove("active");
+            });
+        });
+
+        // Sync initially
+        syncUI();
+
+        return syncUI;
+    }
+
+    const syncDeptDropdown = initCustomDropdown(
+        "testDepartment",
+        "deptDropdownContainer",
+        "deptSelectTrigger",
+        "deptSelectValue",
+        "deptSelectOptions"
+    );
+
+    const syncSemDropdown = initCustomDropdown(
+        "testSemester",
+        "semDropdownContainer",
+        "semSelectTrigger",
+        "semSelectValue",
+        "semSelectOptions"
+    );
+
+    document.addEventListener("click", () => {
+        document.querySelectorAll(".glass-custom-select-wrapper").forEach(w => {
+            w.classList.remove("active");
+        });
+    });
+
+    function updateCustomDropdowns() {
+        if (syncDeptDropdown) syncDeptDropdown();
+        if (syncSemDropdown) syncSemDropdown();
+    }
+
+    // Call update to sync custom dropdowns with the hydrated select values
+    updateCustomDropdowns();
+
     // Cache typed parameters into memory whenever a user taps the "Add Question" redirect button
     if (addQuestionBtn) {
         addQuestionBtn.addEventListener("click", () => {
@@ -87,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 localStorage.setItem("draftTestCustomCode", customCodeField.value.trim().toUpperCase());
             }
 
-            window.location.href = "/add-question";
+            window.location.href = "/teacher/add-question";
         });
     }
 
@@ -143,7 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         alert("🔒 Modification Denied: A student has already initialized this assessment while you were editing. Edits are locked to preserve grading integrity.");
 
                         clearTransientFormLocalStorageCaches();
-                        window.location.href = "/test-history";
+                        window.location.href = "/teacher/test-history";
                         return;
                     }
 
@@ -171,7 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 clearTransientFormLocalStorageCaches();
 
                 setTimeout(() => {
-                    window.location.href = "/test-history";
+                    window.location.href = "/teacher/test-history";
                 }, 900);
 
             } catch (err) {

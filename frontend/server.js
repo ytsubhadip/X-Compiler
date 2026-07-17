@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, "public")));
 const UserSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true, lowercase: true },
-    password: { type: String, required: true }, 
+    password: { type: String, required: true },
     role: { type: String, enum: ['student', 'teacher'], default: 'student' },
     rollnumber: { type: String, default: "N/A" },
     department: { type: String, default: "" },
@@ -40,7 +40,7 @@ const User = mongoose.models.User || mongoose.model('User', UserSchema);
 // ASSESSMENT SCHEMA BLUEPRINT
 // =========================================================================
 const TestSchema = new mongoose.Schema({
-    testcode: { type: String, required: true, uppercase: true, trim: true }, 
+    testcode: { type: String, required: true, uppercase: true, trim: true },
     title: { type: String, required: true },
     department: { type: String, required: true },
     semester: { type: Number, required: true },
@@ -112,9 +112,9 @@ app.post("/api/tests/submit-evaluation", async (req, res) => {
 
         console.log("✅ [DB SUCCESS]: Record saved beautifully! ID:", newRecord._id);
 
-        return res.status(200).json({ 
-            success: true, 
-            message: "Successfully logged code data to Atlas cluster!" 
+        return res.status(200).json({
+            success: true,
+            message: "Successfully logged code data to Atlas cluster!"
         });
 
     } catch (routeErr) {
@@ -154,29 +154,29 @@ app.get("/password-formate", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "pages", "user_auth", "formate.html"));
 });
 
-app.get("/create-test", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "create_test", "create_test_langing_page.html"));
+app.get("/teacher/dashboard", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "pages", "teacher-dash", "dashboard.html"));
 });
 
 app.get("/profile", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages","user_profile", "profile.html"));
+    res.sendFile(path.join(__dirname, "public", "pages", "user_profile", "profile.html"));
 });
 
-app.get("/test-form", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "create_test", "create_test_form.html"));
+app.get("/teacher/test-form", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "pages", "teacher-dash", "create_test_form.html"));
 });
 
-app.get("/test-history", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "create_test", "test_history.html"));
+app.get("/teacher/test-history", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "pages", "teacher-dash", "test_history.html"));
 });
 
 
-app.get("/add-question", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "create_test", "question_page.html"));
+app.get("/teacher/add-question", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "pages", "teacher-dash", "question_page.html"));
 });
 
 app.get("/view-test-tasks", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "create_test", "view-test-tasks.html"));
+    res.sendFile(path.join(__dirname, "public", "pages", "teacher-dash", "view-test-tasks.html"));
 });
 
 app.get("/join-test", (req, res) => {
@@ -184,13 +184,13 @@ app.get("/join-test", (req, res) => {
 });
 
 app.get('/favicon.ico', (req, res) => res.status(204).end());
-
+    
 app.get("/forgot-password", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "pages", "auth", "formate.html"));
 });
 
 app.get("/coding-test", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "compiler_page", "coding-test.html"));
+    res.sendFile(path.join(__dirname, "public", "pages", "student-dash", "coding-test.html"));
 });
 
 app.get("/status", (req, res) => {
@@ -249,8 +249,8 @@ app.post("/signin", async (req, res) => {
 
         return res.status(200).json({
             message: "Authentication successful.",
-            name: userProfile.name,     
-            role: userProfile.role,      
+            name: userProfile.name,
+            role: userProfile.role,
             token: "session-auth-token-" + userProfile._id
         });
 
@@ -304,15 +304,15 @@ app.post("/api/tests/create", async (req, res) => {
         let { title, department, semester, duration, questions, code } = req.body;
 
         if (!title || !department || !semester || !duration || !questions || questions.length === 0) {
-            return res.status(400).json({ 
-                success: false, 
-                error: "Missing required parameters to construct assessment manifest." 
+            return res.status(400).json({
+                success: false,
+                error: "Missing required parameters to construct assessment manifest."
             });
         }
 
         // 🟢 AUTO 6-DIGIT GENERATION VECTOR: Fallback loop if no code is provided
         let finalTestRoomCode = code || req.body.testcode || "";
-        
+
         if (!finalTestRoomCode || finalTestRoomCode.trim() === "") {
             // Generates a random high-entropy 6-character alphanumeric string (e.g., 'VAHPY7')
             finalTestRoomCode = Math.random().toString(36).substring(2, 8);
@@ -338,7 +338,7 @@ app.post("/api/tests/create", async (req, res) => {
 
         // Create the record directly inside your Atlas database tests collection
         const newTestAssessment = await Test.create({
-            testcode: finalTestRoomCode, 
+            testcode: finalTestRoomCode,
             title: title.trim(),
             department: department,
             semester: parsedSemester,
@@ -348,18 +348,18 @@ app.post("/api/tests/create", async (req, res) => {
 
         console.log(`✨ New Examination Created Cleanly! Room Code: ${finalTestRoomCode}`);
 
-        return res.status(201).json({ 
+        return res.status(201).json({
             success: true,
-            message: "Assessment deployed live successfully!", 
+            message: "Assessment deployed live successfully!",
             testId: newTestAssessment._id,
             code: finalTestRoomCode // Returns the 6-digit code back to the client panel interface
         });
 
     } catch (err) {
         console.error("Test creation write crash:", err);
-        return res.status(500).json({ 
-            success: false, 
-            error: `Internal server failure: ${err.message || err}` 
+        return res.status(500).json({
+            success: false,
+            error: `Internal server failure: ${err.message || err}`
         });
     }
 });
@@ -429,9 +429,9 @@ app.post("/api/tests/join", async (req, res) => {
         console.log("🔍 DATABASE RETRIEVAL MATRIX:", targetTest);
 
         if (!targetTest) {
-            return res.status(404).json({ 
-                success: false, 
-                error: "Access Denied: Specified validation room code could not be found." 
+            return res.status(404).json({
+                success: false,
+                error: "Access Denied: Specified validation room code could not be found."
             });
         }
 
@@ -441,7 +441,7 @@ app.post("/api/tests/join", async (req, res) => {
             title: targetTest.title,
             department: targetTest.department,
             duration: targetTest.duration,
-            questions: targetTest.questions 
+            questions: targetTest.questions
         });
 
     } catch (err) {
@@ -461,24 +461,24 @@ app.post("/api/auth/reset-password", async (req, res) => {
             return res.status(200).json({ success: false, error: "All validation fields are strictly required." });
         }
 
-        const userInstance = await User.findOne({ 
+        const userInstance = await User.findOne({
             email: email.trim().toLowerCase(),
-            rollnumber: rollNumber.trim() 
+            rollnumber: rollNumber.trim()
         });
 
         if (!userInstance) {
-            return res.status(200).json({ 
-                success: false, 
-                error: "Authentication Failed: Provided credentials do not match our academic database records." 
+            return res.status(200).json({
+                success: false,
+                error: "Authentication Failed: Provided credentials do not match our academic database records."
             });
         }
 
-        userInstance.password = password; 
+        userInstance.password = password;
         await userInstance.save();
 
-        return res.status(200).json({ 
-            success: true, 
-            message: "Password updated successfully! Redirecting..." 
+        return res.status(200).json({
+            success: true,
+            message: "Password updated successfully! Redirecting..."
         });
 
     } catch (err) {
@@ -497,9 +497,9 @@ app.put("/api/tests/update/:id", async (req, res) => {
 
         const targetTest = await Test.findById(testId);
         if (!targetTest) {
-            return res.status(404).json({ 
-                success: false, 
-                error: "Target assessment record could not be found inside the cluster database." 
+            return res.status(404).json({
+                success: false,
+                error: "Target assessment record could not be found inside the cluster database."
             });
         }
 
@@ -532,7 +532,7 @@ app.put("/api/tests/update/:id", async (req, res) => {
                     department: cleanDept,
                     semester: cleanSem,
                     duration: cleanDuration,
-                    testcode: cleanCode, 
+                    testcode: cleanCode,
                     questions: sanitizedQuestions
                 }
             },
@@ -550,9 +550,9 @@ app.put("/api/tests/update/:id", async (req, res) => {
 
     } catch (err) {
         console.error("❌ Critical Backend Update System Crash:", err);
-        return res.status(500).json({ 
-            success: false, 
-            error: `Internal system mutation processing engine fault block: ${err.message || err}` 
+        return res.status(500).json({
+            success: false,
+            error: `Internal system mutation processing engine fault block: ${err.message || err}`
         });
     }
 });
@@ -573,7 +573,7 @@ async function launchBackendEngine() {
         console.log("Attempting MongoDB Atlas handshake...");
         await mongoose.connect(dbURI);
         console.log("Database connected cleanly to Atlas cluster!");
-        
+
         app.listen(PORT, () => {
             console.log(`Server running live on port http://localhost:${PORT}`);
         });

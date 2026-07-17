@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const testId = new URLSearchParams(window.location.search).get("id");
 
     if (!testId) {
-        window.location.href = "/test-history";
+        window.location.href = "/teacher/test-history";
         return;
     }
 
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <button type="button" id="btnCloneToDraftTriggerAction" class="btn-action-panel btn-tasks-explorer">
                     <i class="bi bi-copy"></i> Clone to New Draft
                 </button>
-                <a href="/test-history" class="btn-action-panel btn-records-audit">
+                <a href="/teacher/test-history" class="btn-action-panel btn-records-audit">
                     <i class="bi bi-arrow-left" style="transition: transform 0.2s ease;"></i> Back
                 </a>
             `;
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <button type="button" id="btnRedirectToEditor" class="btn-action-panel btn-tasks-explorer">
                     <i class="bi bi-pencil-square"></i> Edit Assessment Questions
                 </button>
-                <a href="/test-history" class="btn-action-panel btn-records-audit">
+                <a href="/teacher/test-history" class="btn-action-panel btn-records-audit">
                     <i class="bi bi-arrow-left" style="transition: transform 0.2s ease;"></i> Back
                 </a>
             `;
@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <h6 class="text-white m-0 fw-bold">${index + 1}. ${q.title}</h6>
                 <span class="badge bg-difficulty-${q.difficulty.toLowerCase()}" style="border-radius:4px;">${q.difficulty}</span>
             </div>
-            <p class="small text-muted mb-0" style="white-space: pre-wrap; color: #cbd5e1 !important;">${q.description}</p>
+            <p class="small text-muted mb-0" style="white-space: pre-wrap;">${q.description}</p>
             
             ${q.tags && q.tags.length > 0 ? `<div class="mt-2">${q.tags.map(t => `<span class="badge bg-dark border border-secondary me-1" style="font-size:0.7rem; padding: 4px 6px;">${t}</span>`).join('')}</div>` : ''}
             
@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Save the test ID so your builder page knows it's updating an existing test instead of creating a new one
         localStorage.setItem("editingTestId", testObject._id);
 
-        window.location.href = "/add-question";
+        window.location.href = "/teacher/add-question";
     }
 
     // Flow 2: Clone everything as an independent new draft string
@@ -154,6 +154,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Remove editing token so it treats it as a brand new test submission
         localStorage.removeItem("editingTestId");
 
-        window.location.href = "/add-question";
+        window.location.href = "/teacher/add-question";
     }
 });

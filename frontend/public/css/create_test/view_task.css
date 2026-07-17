@@ -1,73 +1,114 @@
- /* 🌌 Stars Canvas adjustment */
- .starry-background-canvas {
-     z-index: 1 !important;
- }
+/* =========================================================================
+   0. GLOWING ORBS BACKGROUND (DASHBOARD-MATCHED STYLE)
+   ========================================================================= */
+.glowing-orbs-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 1;
+    pointer-events: none;
+}
 
- /* 🌟 Main container alignment */
- .container {
-     position: relative;
-     z-index: 10;
- }
+.glowing-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.3;
+    animation: orbFloat 20s infinite alternate ease-in-out;
+}
 
- /* 🔒 Lockout Warning Alert Banner styling */
- .lockout-banner {
-     background: rgba(239, 68, 68, 0.08) !important;
-     border: 1px solid rgba(239, 68, 68, 0.2) !important;
-     color: #fca5a5 !important;
-     border-radius: 12px;
-     padding: 18px 24px;
-     font-weight: 600;
-     font-size: 0.95rem;
-     box-shadow: 0 10px 30px rgba(239, 68, 68, 0.05);
-     backdrop-filter: blur(12px);
-     -webkit-backdrop-filter: blur(12px);
-     display: none;
-     /* Controlled by engine state */
-     transition: all 0.3s ease;
- }
+.orb-1 {
+    top: -10%;
+    left: 10%;
+    width: 450px;
+    height: 450px;
+    background: rgba(34, 197, 94, 0.35);
+    animation-duration: 25s;
+}
 
- /* 💎 Premium title header text styling */
- h1#viewTestTitleDisplay {
-     font-size: 2.4rem;
-     font-weight: 800;
-     background: linear-gradient(135deg, #ffffff 40%, #a7f3d0 100%);
-     -webkit-background-clip: text;
-     -webkit-text-fill-color: transparent;
-     letter-spacing: -0.8px;
-     margin: 0;
- }
+.orb-2 {
+    bottom: -10%;
+    right: 15%;
+    width: 500px;
+    height: 500px;
+    background: rgba(34, 197, 94, 0.25);
+    animation-duration: 30s;
+}
 
- /* 📦 History Specs and Components Cards overhaul */
- .history-card {
-     background: var(--bg-card) !important;
-     backdrop-filter: blur(20px);
-     -webkit-backdrop-filter: blur(20px);
-     border: 1px solid rgba(255, 255, 255, 0.05) !important;
-     border-radius: 18px !important;
-     padding: 28px !important;
-     box-shadow: var(--shadow-lg) !important;
-     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-     width: 100% !important;
- }
+@keyframes orbFloat {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(100px, 80px) scale(1.2); }
+}
 
- .history-card:hover {
-     transform: translateY(-2px);
-     border-color: rgba(46, 200, 102, 0.15) !important;
-     box-shadow: 0 20px 50px rgba(46, 200, 102, 0.05), 0 0 25px rgba(46, 200, 102, 0.02) !important;
- }
+/* 🌟 Main container alignment */
+.container {
+    position: relative;
+    z-index: 10;
+    margin-top: 50px;
+}
 
- .history-card h5 {
-     font-size: 1.15rem;
-     font-weight: 700;
-     letter-spacing: 0.5px;
-     text-transform: uppercase;
- }
+/* 🔒 Lockout Warning Alert Banner styling */
+.lockout-banner {
+    background: rgba(239, 68, 68, 0.06) !important;
+    border: 1px solid rgba(239, 68, 68, 0.15) !important;
+    color: #dc2626 !important;
+    border-radius: 12px;
+    padding: 18px 24px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: none;
+    /* Controlled by engine state */
+    transition: all 0.3s ease;
+}
 
- /* 🏷️ Inputs inside cards styling */
+/* 💎 Premium title header text styling */
+h1#viewTestTitleDisplay {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--text-primary) !important;
+    background: none !important;
+    -webkit-text-fill-color: initial !important;
+    letter-spacing: -0.8px;
+    margin: 0;
+}
+
+/* 📦 History Specs and Components Cards overhaul */
+.history-card {
+    background: var(--bg-card) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color) !important;
+    border-radius: 18px !important;
+    padding: 28px !important;
+    box-shadow: var(--shadow-sm) !important;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    width: 100% !important;
+}
+
+.history-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-success) !important;
+    box-shadow: 0 10px 30px rgba(22, 163, 74, 0.08) !important;
+}
+
+.history-card h5 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* 🏷️ Inputs inside cards styling */
  .inspect-input {
-     background: rgba(0, 0, 0, 0.25) !important;
-     border: 1px solid rgba(255, 255, 255, 0.08) !important;
-     color: #f1f5f9 !important;
+     background: var(--bg-card) !important;
+     border: 1px solid var(--border-color) !important;
+     color: var(--text-primary) !important;
      border-radius: 10px !important;
      padding: 12px 16px !important;
      font-size: 0.95rem;
@@ -77,32 +118,32 @@
  }
 
  .inspect-input:disabled {
-     color: #cbd5e1 !important;
-     background-color: rgba(255, 255, 255, 0.01) !important;
-     border-color: rgba(255, 255, 255, 0.03) !important;
-     opacity: 0.85 !important;
+     color: var(--text-secondary) !important;
+     background-color: var(--bg-muted) !important;
+     border-color: var(--border-subtle) !important;
+     opacity: 0.95 !important;
      cursor: not-allowed;
  }
 
  /* 📋 Question Inspect Pod Cards overhaul */
  .question-inspect-pod {
-     background: rgba(255, 255, 255, 0.01) !important;
-     border: 1px solid rgba(255, 255, 255, 0.05) !important;
-     border-left: 4px solid rgba(255, 255, 255, 0.12) !important;
+     background: var(--bg-card) !important;
+     border: 1px solid var(--border-color) !important;
+     border-left: 4px solid var(--border-color) !important;
      border-radius: 12px;
      padding: 24px;
      margin-bottom: 20px;
      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
      position: relative;
      overflow: hidden;
-     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+     box-shadow: var(--shadow-sm);
  }
 
  .question-inspect-pod:hover {
-     background: rgba(255, 255, 255, 0.02) !important;
-     border-color: rgba(255, 255, 255, 0.1) !important;
+     background: var(--bg-card) !important;
+     border-color: rgba(15, 23, 42, 0.15) !important;
      transform: translateY(-2px);
-     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+     box-shadow: var(--shadow-md) !important;
  }
 
  /* Dynamic difficulty indicator left borders using modern CSS selector nesting */
@@ -111,11 +152,11 @@
  }
 
  .question-inspect-pod:has(.bg-difficulty-medium) {
-     border-left-color: #fbbf24 !important;
+     border-left-color: #d97706 !important;
  }
 
  .question-inspect-pod:has(.bg-difficulty-hard) {
-     border-left-color: #ef4444 !important;
+     border-left-color: #dc2626 !important;
  }
 
  /* 🏷️ Badge aesthetics */
@@ -127,6 +168,7 @@
  .question-inspect-pod p {
      line-height: 1.6;
      font-size: 0.92rem;
+        color: #111111 !important;
  }
 
  .badge {
@@ -140,70 +182,69 @@
 
  /* Difficulty specific badge configurations */
  .bg-difficulty-easy {
-     background: rgba(46, 200, 102, 0.1) !important;
-     border: 1px solid rgba(46, 200, 102, 0.25) !important;
+     background: rgba(46, 200, 102, 0.08) !important;
+     border: 1px solid rgba(46, 200, 102, 0.2) !important;
      color: #2ec866 !important;
  }
 
  .bg-difficulty-medium {
-     background: rgba(251, 191, 36, 0.1) !important;
-     border: 1px solid rgba(251, 191, 36, 0.25) !important;
-     color: #fbbf24 !important;
+     background: rgba(217, 119, 6, 0.08) !important;
+     border: 1px solid rgba(217, 119, 6, 0.2) !important;
+     color: #d97706 !important;
  }
 
  .bg-difficulty-hard {
-     background: rgba(239, 68, 68, 0.1) !important;
-     border: 1px solid rgba(239, 68, 68, 0.25) !important;
-     color: #ef4444 !important;
+     background: rgba(220, 38, 38, 0.08) !important;
+     border: 1px solid rgba(220, 38, 38, 0.2) !important;
+     color: #dc2626 !important;
  }
 
  /* 🏷️ Tag chips styling inside pods */
  .question-inspect-pod .bg-dark {
-     background-color: rgba(255, 255, 255, 0.03) !important;
-     border: 1px solid rgba(255, 255, 255, 0.08) !important;
-     color: rgba(255, 255, 255, 0.7) !important;
+     background-color: var(--bg-muted) !important;
+     border: 1px solid var(--border-subtle) !important;
+     color: var(--text-secondary) !important;
  }
 
  /* Collapsible examples trigger link aesthetics */
  .question-inspect-pod a[data-bs-toggle="collapse"] {
-     color: #4ade80 !important;
+     color: var(--accent-success) !important;
      font-size: 0.85rem !important;
      font-weight: 600;
      transition: all 0.2s ease;
  }
 
  .question-inspect-pod a[data-bs-toggle="collapse"]:hover {
-     color: #39e57f !important;
-     text-shadow: 0 0 8px rgba(46, 200, 102, 0.3);
+     color: var(--accent-success-bright) !important;
  }
 
  /* Code snippets example containers */
  .question-inspect-pod div[style*="background"] {
-     background-color: rgba(0, 0, 0, 0.25) !important;
-     border: 1px solid rgba(255, 255, 255, 0.05) !important;
+     background-color: var(--bg-muted) !important;
+     border: 1px solid var(--border-subtle) !important;
      border-radius: 10px !important;
      padding: 14px !important;
      font-family: var(--font-mono) !important;
  }
 
  .question-inspect-pod div[style*="background"] strong.text-warning {
-     color: #fcd34d !important;
+     color: var(--accent-warning) !important;
      font-size: 0.78rem !important;
      text-transform: uppercase;
      letter-spacing: 0.5px;
  }
 
  .question-inspect-pod div[style*="background"] .text-white-50 {
-     color: #e2e8f0 !important;
+     color: var(--text-primary) !important;
      font-size: 0.88rem;
  }
 
  .question-inspect-pod div[style*="background"] .text-muted {
-     color: rgba(255, 255, 255, 0.4) !important;
+     color: var(--text-muted) !important;
      font-weight: 500;
  }
 
- /* 🟢 Action buttons styling & interactive animations */
+/* 🟢 Action buttons styling & interactive animations */
  .btn-action-panel {
      display: inline-flex;
      align-items: center;
@@ -222,17 +263,17 @@
 
  /* Edit / Explorer button style */
  .btn-tasks-explorer {
-     color: #0d0f12 !important;
-     background: #2ec866 !important;
-     border-color: #2ec866 !important;
-     box-shadow: 0 4px 12px rgba(46, 200, 102, 0.2);
+     color: var(--text-on-accent) !important;
+     background: var(--accent-success) !important;
+     border-color: var(--accent-success) !important;
+     box-shadow: 0 4px 12px rgba(22, 163, 74, 0.15) !important;
  }
 
  .btn-tasks-explorer:hover {
-     color: #0d0f12 !important;
-     background: #39e57f !important;
-     border-color: #39e57f !important;
-     box-shadow: 0 8px 20px rgba(46, 200, 102, 0.4), 0 0 0 3px rgba(46, 200, 102, 0.15);
+     color: var(--text-on-accent) !important;
+     background: var(--accent-success-bright) !important;
+     border-color: var(--accent-success-bright) !important;
+     box-shadow: 0 8px 20px rgba(22, 163, 74, 0.25), 0 0 0 3px rgba(22, 163, 74, 0.1) !important;
      transform: translateY(-2px) scale(1.02);
  }
 
@@ -242,31 +283,32 @@
 
  /* Clone button variant when assessment is locked */
  #btnCloneToDraftTriggerAction {
-     color: var(--text-primary) !important;
-     background: #3b82f6 !important;
-     border-color: #3b82f6 !important;
-     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+     color: var(--text-on-accent) !important;
+     background: #2563eb !important;
+     border-color: #2563eb !important;
+     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15) !important;
  }
 
  #btnCloneToDraftTriggerAction:hover {
-     background: #60a5fa !important;
-     border-color: #60a5fa !important;
-     box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4), 0 0 0 3px rgba(59, 130, 246, 0.15);
+     color: var(--text-on-accent) !important;
+     background: #3b82f6 !important;
+     border-color: #3b82f6 !important;
+     box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25), 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
      transform: translateY(-2px) scale(1.02);
  }
 
  /* Back Button style */
  .btn-records-audit {
-     color: #94a3b8 !important;
-     background: rgba(255, 255, 255, 0.03) !important;
-     border: 1px solid rgba(255, 255, 255, 0.08) !important;
+     color: var(--text-secondary) !important;
+     background: var(--bg-muted) !important;
+     border: 1px solid var(--border-subtle) !important;
  }
 
  .btn-records-audit:hover {
      color: var(--text-primary) !important;
-     background: rgba(255, 255, 255, 0.08) !important;
-     border-color: rgba(255, 255, 255, 0.18) !important;
-     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+     background: rgba(15, 23, 42, 0.06) !important;
+     border-color: rgba(15, 23, 42, 0.12) !important;
+     box-shadow: var(--shadow-sm) !important;
      transform: translateY(-1px);
  }
 

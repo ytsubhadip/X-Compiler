@@ -135,7 +135,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/ide", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "compiler_page", "testCompiler.html"));
+    res.sendFile(path.join(__dirname, "public", "pages", "student-dash", "coding-test.html"));
 });
 
 app.get("/playground", (req, res) => {

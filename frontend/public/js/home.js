@@ -14,7 +14,7 @@ const name = localStorage.getItem("userName");
 document.getElementById("studentBtn").addEventListener("click", function () {
     if (token) {
         if (role == 'student') {
-            window.location.href = '/coding-test'
+            window.location.href = '/student-dash'
         }
         else {
             window.location.href = '/signin'

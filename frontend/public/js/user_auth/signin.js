@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // Navigate users based on permission levels
                 const roleAfter = (data.role || currentRole || '').toString().toLowerCase();
-                const dest = roleAfter === 'teacher' ? '/teacher/dashboard' : '/coding-test';
+                const dest = roleAfter === 'teacher' ? '/teacher/dashboard' : '/student-dash';
                 setTimeout(() => window.location.href = dest, 600);
 
             } catch (err) {

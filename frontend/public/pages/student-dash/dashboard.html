@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - X-Compiler</title>
+    <link rel="icon" type="image/png" href="/asset/magento-brands-solid-full.svg">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    
+    <!-- Icons & Fonts -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" rel="stylesheet"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/student_dashboard.css">
+</head>
+<body style="min-height: 100vh; background-color: #f8fafc;">
+    <!-- Fixed Navigation Bar -->
+    <nav class="custom-navbar"></nav>
+
+    <!-- Glowing Background Orbs (matching theme style) -->
+    <div class="glowing-orbs-container">
+        <div class="glowing-orb orb-1"></div>
+        <div class="glowing-orb orb-2"></div>
+    </div>
+
+    <!-- Student Dashboard Layout -->
+    <div class="container py-4 dashboard-main-content">
+        <!-- Welcome Message -->
+      
+
+        <!-- Upcoming Exams Section -->
+        <div class="dashboard-section mb-5">
+            <h2 class="section-title mb-4">Upcoming Exams</h2>
+            <div class="row g-4" id="upcomingExamsContainer">
+                <!-- Skeleton Loading State -->
+                <div class="col-12 text-center text-muted py-4">
+                    <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+                    Syncing upcoming assessments...
+                </div>
+            </div>
+        </div>
+
+        <!-- Recently Attended Section -->
+        <div class="dashboard-section">
+            <h2 class="section-title mb-4">Recently Attended</h2>
+            <div class="row g-4" id="recentlyAttendedContainer">
+                <!-- Skeleton Loading State -->
+                <div class="col-12 text-center text-muted py-4">
+                    <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+                    Syncing completed assessments...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/navbar.js"></script>
+    <!-- <script src="/js/inspect_off.js"></script> -->
+    <script src="/js/student_dashboard.js"></script>
+</body>
+</html>

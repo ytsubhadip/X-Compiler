@@ -138,6 +138,10 @@ app.get("/ide", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "pages", "student-dash", "coding-test.html"));
 });
 
+app.get("/teacher/student-records", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "pages", "teacher-dash", "student_result.html"));
+});
+
 app.get("/playground", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "pages", "compiler_page", "playground.html"));
 });
@@ -166,6 +170,10 @@ app.get("/teacher/test-form", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "pages", "teacher-dash", "create_test_form.html"));
 });
 
+app.get("/exam-portal", (req, res)=>{
+    res.sendFile(path.join(__dirname, "public", "pages", "student-dash", "coding-test.html"));
+})
+
 app.get("/teacher/test-history", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "pages", "teacher-dash", "test_history.html"));
 });
@@ -189,8 +197,8 @@ app.get("/forgot-password", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "pages", "auth", "formate.html"));
 });
 
-app.get("/coding-test", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "student-dash", "coding-test.html"));
+app.get("/student-dash", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "pages", "student-dash", "dashboard.html"));
 });
 
 app.get("/status", (req, res) => {

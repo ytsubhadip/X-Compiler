@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         <a href="/view-test-tasks?id=${test._id}" class="action-btn btn-tasks-view">
                             <i class="bi bi-code-square me-1"></i> View Tasks
                         </a>
-                        <a href="/student-records?id=${test._id}" class="action-btn btn-records-view">
+                        <a href="/teacher/student-records" class="action-btn btn-records-view">
                             <i class="bi bi-graph-up-arrow me-1"></i> Results
                         </a>
                         <button class="action-btn btn-delete-test" title="Delete Assessment">

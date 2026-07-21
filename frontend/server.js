@@ -427,7 +427,7 @@ app.get("/api/tests/details/:id", async (req, res) => {
 // =========================================================================
 app.post("/api/tests/join", async (req, res) => {
     try {
-        console.log("📥 INBOUND HANDSHAKE BODY:", req.body);
+        console.log("INBOUND HANDSHAKE BODY:", req.body);
         const { code } = req.body;
         if (!code) {
             return res.status(400).json({ success: false, error: "Validation token missing." });

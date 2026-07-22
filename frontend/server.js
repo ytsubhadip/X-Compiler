@@ -131,7 +131,7 @@ app.use("/", compileRoutes);
 // EXPRESS ROUTE CONTROLLERS (VIEW ENGINE INJECTIONS)
 // =========================================================================
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "user_auth", "signin.html"));
+    res.sendFile(path.join(__dirname, "public", "pages",  "index.html"));
 });
 
 app.get("/ide", (req, res) => {

@@ -9,7 +9,9 @@
 body {
     margin: 0;
     background: linear-gradient(135deg, #ffffff 0%, #fff9fc 40%, #ffe8f1 70%, #f9cfe0 100%);
+    /* background:#FFFAFD; */
     min-height: 100%;
+    padding:20px 30px
 }
 
 .hero {
@@ -389,7 +391,7 @@ body {
     margin: 4rem auto 0;
     padding: 60px clamp(1.2rem, 5vw, 8rem);
     width: 100%;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 241, 247, 0.95) 45%, rgba(249, 207, 224, 0.85) 100%);
+    background: transparent;
     position: relative;
     overflow: hidden;
     box-sizing: border-box;
@@ -559,26 +561,22 @@ body {
 /* footer css */
 
 .site-footer {
-    background: #111827;
-    color: #f8fafc;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    /* color: #f8fafc; */
     padding: 4rem 1.5rem 2rem;
     /* margin-top: 4rem; */
+    border-radius: 24px;
 }
 
 .footer-top {
     max-width: 1200px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 2rem;
 }
 
-.footer-brand p {
-    margin-top: 1rem;
-    color: #cbd5e1;
-    line-height: 1.8;
-    max-width: 380px;
-}
+
 
 .footer-logo img {
     width: 50px;
@@ -597,9 +595,10 @@ body {
 
 .footer-title {
     font-size: 2rem;
-    color: #ffffff;
+      color: var(--text-primary);
     font-family: 'Outfit', sans-serif;
     font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 
 
 }
@@ -609,7 +608,7 @@ body {
     font-size: 1rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    color: #ffffff;
+    color: black;
     text-transform: uppercase;
     letter-spacing: 0.08rem;
 }
@@ -624,14 +623,14 @@ body {
 
 .footer-links a,
 .footer-social a {
-    color: #cbd5e1;
+    color: #0f22395b;
     text-decoration: none;
     transition: color 0.2s ease;
 }
 
 .footer-links a:hover,
 .footer-social a:hover {
-    color: #ffffff;
+    color: #070707;
 }
 
 .social-icons {
@@ -644,10 +643,11 @@ body {
     max-width: 1200px;
     margin: 2rem auto 0;
     padding-top: 1.25rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-top: 2px solid #94a3b8;
     text-align: center;
-    color: #94a3b8;
+    color: black;
     font-size: 0.95rem;
+    border-radius: 100rem;
 }
 
 @media (max-width: 780px) {

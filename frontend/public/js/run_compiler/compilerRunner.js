@@ -40,9 +40,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!pet) {
             pet = document.createElement('div');
             pet.id = 'ide-pet';
-            pet.style.cssText = `margin-left: auto; margin-right: 16px; display: flex; align-items: center; gap: 10px; padding: 6px 14px; border-radius: 12px; background: #1a1d24; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.4s ease;`;
+
+            // mark console pet background color
+            pet.style.cssText = `margin-left: auto; margin-right: 16px; display: flex; align-items: center; gap: 10px; padding: 6px 14px; border-radius: 12px; background: rgba(var(--console-slate), 0.1);; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.4s ease;`;
             const statusEl = document.getElementById('consoleStatus');
-            consoleHeader.insertBefore(pet, statusEl);
+            consoleHeader.insertBefore(pet, statusEl);  
         }
 
         if (!pet.innerHTML) {

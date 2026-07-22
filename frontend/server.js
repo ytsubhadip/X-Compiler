@@ -248,7 +248,13 @@ app.post("/signup", async (req, res) => {
             return res.status(201).json({ message: "Application submitted! Awaiting Admin approval.", userId: newUser._id });
         }
 
-        return res.status(201).json({ message: "Registration successful!", userId: newUser._id });
+        return res.status(201).json({
+            message: "Registration successful!",
+            userId: newUser._id,
+            name: newUser.name,
+            role: newUser.role,
+            token: "session-auth-token-" + newUser._id
+        });
 
     } catch (err) {
         console.error("Database mutation error:", err);

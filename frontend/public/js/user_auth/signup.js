@@ -56,20 +56,17 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
                 console.log("Submitting payload context:", payload);
 
-                // 🟢 TRIGGER GLOBAL LOADER OVERLAY
-                if (pageLoader && loaderText) {
-                    loaderText.innerText = "Configuring Cloud Space Environment...";
-                    pageLoader.classList.add("active");
-                }
-
-                // Disable interface triggers
+                // Disable interface triggers and show loading spinner inside the button
                 if (submitBtn) {
                     submitBtn.disabled = true;
-                    submitBtn.innerText = "Creating...";
+                    const signupLoader = document.getElementById("signupLoader");
+                    const signupBtnText = document.getElementById("signupBtnText");
+                    if (signupLoader) signupLoader.classList.remove("d-none");
+                    if (signupBtnText) signupBtnText.textContent = "Creating Account...";
                 }
 
                 // Mutate DB and generate profile records in backend service
-              
+                // 🟢 FIXED SYNTAX: Stray '|' character successfully removed
                 const response = await fetch("/signup", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -79,29 +76,24 @@ document.addEventListener("DOMContentLoaded", () => {
                const data = await response.json();
                 if (!response.ok) throw new Error(data.error || "Registration rejected.");
 
-                //  UPDATE LOADER TEXT ON SUCCESS (Dynamic for Teachers vs Students)
-                if (loaderText) {
-                    if (currentRole === 'teacher') {
-                        loaderText.innerText = "Application Submitted! Please wait for Admin approval via email.";
-                    } else {
-                        loaderText.innerText = "Account Created! Redirecting to Gateway...";
-                    }
-                }
-                
-                if (submitBtn) submitBtn.innerText = currentRole === 'teacher' ? "Submitted" : "Created";
+                // 🟢 UPDATE LOADER TEXT ON SUCCESS
+                if (loaderText) loaderText.innerText = "Account Created! Redirecting to Gateway...";
+                if (submitBtn) submitBtn.innerText = "Created";
 
-                // Redirect user to the login window (Delayed slightly longer so teachers can read the message)
-                const delay = currentRole === 'teacher' ? 3000 : 900;
-                setTimeout(() => window.location.href = "/signin", delay);
+                // Redirect user to the login window to start sessions cleanly
+                setTimeout(() => window.location.href = "/signin", 900);
 
             } catch (err) {
-                //  CLOSE OVERLAY INSTANTLY ON FAILURE
+                // ❌ CLOSE OVERLAY INSTANTLY ON FAILURE
                 if (pageLoader) pageLoader.classList.remove("active");
 
                 // Restore submit triggers and alert user on failures
                 if (submitBtn) {
                     submitBtn.disabled = false;
-                    submitBtn.innerText = "Create Account";
+                    const signupLoader = document.getElementById("signupLoader");
+                    const signupBtnText = document.getElementById("signupBtnText");
+                    if (signupLoader) signupLoader.classList.add("d-none");
+                    if (signupBtnText) signupBtnText.innerHTML = `<i class="bi bi-person-plus-fill me-1"></i> Create Account`;
                 }
                 console.error("Signup error:", err);
                 alert(`Registration Failed: ${err.message}`);

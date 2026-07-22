@@ -69,25 +69,33 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 // Mutate DB and generate profile records in backend service
-                // 🟢 FIXED SYNTAX: Stray '|' character successfully removed
+              
                 const response = await fetch("/signup", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload)
                 });
 
-                const data = await response.json();
+               const data = await response.json();
                 if (!response.ok) throw new Error(data.error || "Registration rejected.");
 
-                // 🟢 UPDATE LOADER TEXT ON SUCCESS
-                if (loaderText) loaderText.innerText = "Account Created! Redirecting to Gateway...";
-                if (submitBtn) submitBtn.innerText = "Created";
+                //  UPDATE LOADER TEXT ON SUCCESS (Dynamic for Teachers vs Students)
+                if (loaderText) {
+                    if (currentRole === 'teacher') {
+                        loaderText.innerText = "Application Submitted! Please wait for Admin approval via email.";
+                    } else {
+                        loaderText.innerText = "Account Created! Redirecting to Gateway...";
+                    }
+                }
+                
+                if (submitBtn) submitBtn.innerText = currentRole === 'teacher' ? "Submitted" : "Created";
 
-                // Redirect user to the login window to start sessions cleanly
-                setTimeout(() => window.location.href = "/signin", 900);
+                // Redirect user to the login window (Delayed slightly longer so teachers can read the message)
+                const delay = currentRole === 'teacher' ? 3000 : 900;
+                setTimeout(() => window.location.href = "/signin", delay);
 
             } catch (err) {
-                // ❌ CLOSE OVERLAY INSTANTLY ON FAILURE
+                //  CLOSE OVERLAY INSTANTLY ON FAILURE
                 if (pageLoader) pageLoader.classList.remove("active");
 
                 // Restore submit triggers and alert user on failures

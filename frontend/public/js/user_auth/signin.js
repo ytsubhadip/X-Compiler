@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 currentRole = "teacher";
             }
 
+           
             // Construct payload configuration object
             const payload = {
                 email: emailField.value.trim(),
@@ -46,12 +47,13 @@ document.addEventListener("DOMContentLoaded", () => {
             if (currentRole === "teacher") {
                 const uidField = document.getElementById("signinTeacherUid");
                 if (uidField) {
-                    payload.teacherUid = uidField.value.trim();
+                    //  FIXED: Changed from teacherUid to teacherId to match server.js
+                    payload.teacherId = uidField.value.trim();
                 }
             }
 
             try {
-                // 🟢 Trigger the global domino loading overlay screen
+                //  Trigger the global domino loading overlay screen
                 if (pageLoader && loaderText) {
                     loaderText.innerText = "Verifying Security Credentials...";
                     pageLoader.classList.add("active");
@@ -85,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 setTimeout(() => window.location.href = dest, 600);
 
             } catch (err) {
-                // ❌ Close loader overlay instantly on execution crashes so user can retry
+                //  Close loader overlay instantly on execution crashes so user can retry
                 if (pageLoader) pageLoader.classList.remove("active");
 
                 // Restore button triggers and notify user of auth exceptions

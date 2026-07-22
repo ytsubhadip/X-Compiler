@@ -1,6 +1,7 @@
 const path = require('path');
 const mongoose = require('mongoose');
 const express = require("express");
+const nodemailer = require('nodemailer'); // 🟢 ADDED: Nodemailer for Headless Admin
 
 require('dotenv').config();
 
@@ -21,6 +22,17 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname, "public")));
 
 // =========================================================================
+// 🟢 NODEMAILER CONFIGURATION (ADMIN APPROVAL SYSTEM)
+// =========================================================================
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_APP_PASSWORD
+    }
+});
+
+// =========================================================================
 // MONGODB USER SCHEMA CONFIGURATION
 // =========================================================================
 const UserSchema = new mongoose.Schema({
@@ -28,6 +40,11 @@ const UserSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true, lowercase: true },
     password: { type: String, required: true },
     role: { type: String, enum: ['student', 'teacher'], default: 'student' },
+    
+    // 🟢 ADDED: Admin Approval Fields
+    teacherId: { type: String, default: null }, 
+    status: { type: String, enum: ['Pending', 'Active', 'Rejected'], default: 'Active' },
+    
     rollnumber: { type: String, default: "N/A" },
     department: { type: String, default: "" },
     semester: { type: Number, default: null },
@@ -66,9 +83,6 @@ const TestSchema = new mongoose.Schema({
 const Test = mongoose.models.Test || mongoose.model('Test', TestSchema);
 
 // =========================================================================
-// INLINE SUBMISSION MONGOOSE SCHEMA
-// =========================================================================
-// =========================================================================
 // INLINE SUBMISSION MONGOOSE SCHEMA (UPGRADED FOR DASHBOARD)
 // =========================================================================
 const submissionSchema = new mongoose.Schema({
@@ -100,21 +114,16 @@ const submissionSchema = new mongoose.Schema({
 const Submission = mongoose.models.Submission || mongoose.model("Submission", submissionSchema, "submissions");
 
 // =========================================================================
-// 🟢 LIVE PRODUCTION EVALUATION RECEIVER (SITS AT TOP OF THE INTERCEPT ROUTE)
-// =========================================================================
-// =========================================================================
 // 🟢 LIVE PRODUCTION EVALUATION RECEIVER (UPDATED FOR DASHBOARD)
 // =========================================================================
 app.post("/api/tests/submit-evaluation", async (req, res) => {
     console.log("📥 [ROUTE HIT] Submittal endpoint reached perfectly!");
     try {
-        // 1. Extract Student ID from their active Auth Token
         const authHeader = req.headers.authorization;
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
             return res.status(401).json({ success: false, error: "Missing authentication credentials." });
         }
         
-        // Strip out your custom token prefix to get the raw Mongo User ID
         const token = authHeader.split(" ")[1];
         const studentId = token.replace("session-auth-token-", ""); 
 
@@ -133,7 +142,7 @@ app.post("/api/tests/submit-evaluation", async (req, res) => {
         console.log("💾 [DB WRITE]: Attempting Atlas insertion with Student Data...");
         const newRecord = await Submission.create({
             testId: convertedTestId,
-            studentId: convertedStudentId, // Links directly to the User profile
+            studentId: convertedStudentId,
             submissions: submissions,
             status: 'Pending',
             score: 0
@@ -159,83 +168,28 @@ app.use("/", compileRoutes);
 // =========================================================================
 // EXPRESS ROUTE CONTROLLERS (VIEW ENGINE INJECTIONS)
 // =========================================================================
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages",  "index.html"));
-});
-
-app.get("/ide", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "student-dash", "coding-test.html"));
-});
-
-app.get("/teacher/student-records", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "teacher-dash", "student_result.html"));
-});
-
-app.get("/playground", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "compiler_page", "playground.html"));
-});
-
-app.get("/signin", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "user_auth", "signin.html"));
-});
-
-app.get("/signup", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "user_auth", "signup.html"));
-});
-
-app.get("/password-formate", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "user_auth", "formate.html"));
-});
-
-app.get("/teacher/dashboard", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "teacher-dash", "dashboard.html"));
-});
-
-app.get("/profile", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "user_profile", "profile.html"));
-});
-
-app.get("/teacher/test-form", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "teacher-dash", "create_test_form.html"));
-});
-
-app.get("/exam-portal", (req, res)=>{
-    res.sendFile(path.join(__dirname, "public", "pages", "student-dash", "coding-test.html"));
-})
-
-app.get("/teacher/test-history", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "teacher-dash", "test_history.html"));
-});
-
-
-app.get("/teacher/add-question", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "teacher-dash", "question_page.html"));
-});
-
-app.get("/view-test-tasks", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "teacher-dash", "view-test-tasks.html"));
-});
-
-app.get("/join-test", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "student-dash", "join_intercept.html"));
-});
-
+app.get("/", (req, res) => res.sendFile(path.join(__dirname, "public", "pages",  "index.html")));
+app.get("/ide", (req, res) => res.sendFile(path.join(__dirname, "public", "pages", "student-dash", "coding-test.html")));
+app.get("/teacher/student-records", (req, res) => res.sendFile(path.join(__dirname, "public", "pages", "teacher-dash", "student_result.html")));
+app.get("/playground", (req, res) => res.sendFile(path.join(__dirname, "public", "pages", "compiler_page", "playground.html")));
+app.get("/signin", (req, res) => res.sendFile(path.join(__dirname, "public", "pages", "user_auth", "signin.html")));
+app.get("/signup", (req, res) => res.sendFile(path.join(__dirname, "public", "pages", "user_auth", "signup.html")));
+app.get("/password-formate", (req, res) => res.sendFile(path.join(__dirname, "public", "pages", "user_auth", "formate.html")));
+app.get("/teacher/dashboard", (req, res) => res.sendFile(path.join(__dirname, "public", "pages", "teacher-dash", "dashboard.html")));
+app.get("/profile", (req, res) => res.sendFile(path.join(__dirname, "public", "pages", "user_profile", "profile.html")));
+app.get("/teacher/test-form", (req, res) => res.sendFile(path.join(__dirname, "public", "pages", "teacher-dash", "create_test_form.html")));
+app.get("/exam-portal", (req, res) => res.sendFile(path.join(__dirname, "public", "pages", "student-dash", "coding-test.html")));
+app.get("/teacher/test-history", (req, res) => res.sendFile(path.join(__dirname, "public", "pages", "teacher-dash", "test_history.html")));
+app.get("/teacher/add-question", (req, res) => res.sendFile(path.join(__dirname, "public", "pages", "teacher-dash", "question_page.html")));
+app.get("/view-test-tasks", (req, res) => res.sendFile(path.join(__dirname, "public", "pages", "teacher-dash", "view-test-tasks.html")));
+app.get("/join-test", (req, res) => res.sendFile(path.join(__dirname, "public", "pages", "student-dash", "join_intercept.html")));
 app.get('/favicon.ico', (req, res) => res.status(204).end());
-    
-app.get("/forgot-password", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "auth", "formate.html"));
-});
-
-app.get("/student-dash", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pages", "student-dash", "dashboard.html"));
-});
-
-app.get("/status", (req, res) => {
-    res.json({ status: "ok", uptime: process.uptime() });
-});
+app.get("/forgot-password", (req, res) => res.sendFile(path.join(__dirname, "public", "pages", "auth", "formate.html")));
+app.get("/student-dash", (req, res) => res.sendFile(path.join(__dirname, "public", "pages", "student-dash", "dashboard.html")));
+app.get("/status", (req, res) => res.json({ status: "ok", uptime: process.uptime() }));
 
 // =========================================================================
-// REST ENDPOINT: USER REGISTRATION LIFECYCLE
+// REST ENDPOINT: USER REGISTRATION LIFECYCLE (UPDATED FOR HEADLESS ADMIN)
 // =========================================================================
 app.post("/signup", async (req, res) => {
     try {
@@ -250,15 +204,49 @@ app.post("/signup", async (req, res) => {
             return res.status(400).json({ error: "An account with this email already exists." });
         }
 
+        const isTeacher = role === 'teacher';
+
         const newUser = await User.create({
             name,
             email,
             password,
             role: role || 'student',
+            teacherId: null, 
+            status: isTeacher ? 'Pending' : 'Active', // 🟢 Students bypass, Teachers wait
             rollnumber: rollnumber || "N/A",
             department: department || "",
             semester: semester || null
         });
+
+        // 🟢 IF TEACHER: EMAIL THE ADMIN FOR APPROVAL
+        if (isTeacher) {
+            const mailOptions = {
+                from: process.env.EMAIL_USER,
+                to: process.env.ADMIN_EMAIL,
+                subject: `🚨 New Teacher Request: ${name}`,
+                html: `
+                    <div style="font-family: sans-serif; max-width: 600px;">
+                        <h3>New X-Compiler Teacher Request</h3>
+                        <p><strong>Name:</strong> ${name}</p>
+                        <p><strong>Email:</strong> ${email}</p>
+                        <br>
+                        <a href="${process.env.BASE_URL || 'http://localhost:8000'}/admin/verify/${newUser._id}" 
+                           style="background: #2ec866; color: #111; padding: 10px 20px; text-decoration: none; font-weight: bold; border-radius: 5px; display: inline-block;">
+                           Review & Approve Application
+                        </a>
+                    </div>
+                `
+            };
+            
+            try {
+                await transporter.sendMail(mailOptions);
+                console.log(`Admin alert email dispatched for ${email}`);
+            } catch (mailErr) {
+                console.error("Failed to send admin email alert:", mailErr);
+            }
+
+            return res.status(201).json({ message: "Application submitted! Awaiting Admin approval.", userId: newUser._id });
+        }
 
         return res.status(201).json({ message: "Registration successful!", userId: newUser._id });
 
@@ -269,11 +257,11 @@ app.post("/signup", async (req, res) => {
 });
 
 // =========================================================================
-// REST ENDPOINT: PLATFORM CREDENTIAL AUTHORIZATION
+// REST ENDPOINT: PLATFORM CREDENTIAL AUTHORIZATION (UPDATED FOR TEACHER IDS)
 // =========================================================================
 app.post("/signin", async (req, res) => {
     try {
-        const { email, password, role } = req.body;
+        const { email, password, role, teacherId } = req.body; // teacherId sent from frontend
 
         if (!email || !password) {
             return res.status(400).json({ error: "Email and password are required." });
@@ -282,6 +270,21 @@ app.post("/signin", async (req, res) => {
         const userProfile = await User.findOne({ email: email.toLowerCase(), role: role });
         if (!userProfile || userProfile.password !== password) {
             return res.status(401).json({ error: "Invalid credentials or account role mismatch." });
+        }
+
+        // 🟢 BLOCK PENDING ACCOUNTS
+        if (userProfile.status === 'Pending') {
+            return res.status(401).json({ error: "Your account is awaiting Admin approval. Check your email." });
+        }
+
+        // 🟢 STRICT TEACHER ID VERIFICATION
+        if (role === 'teacher') {
+            if (!teacherId) {
+                return res.status(401).json({ error: "Teacher Unique ID is required to login." });
+            }
+            if (userProfile.teacherId !== teacherId.trim()) {
+                return res.status(401).json({ error: "Invalid Teacher Unique ID." });
+            }
         }
 
         return res.status(200).json({
@@ -331,10 +334,7 @@ app.get("/api/auth/me", async (req, res) => {
 });
 
 // =========================================================================
-// REST ENDPOINT: ENFORCE CUSTOM ASSESSMENT CODES EXCLUSIVELY
-// =========================================================================
-// =========================================================================
-// REST ENDPOINT: SAVE ASSESSMENTS TO MONGODB (WITH AUTO 6-DIGIT GENERATOR)
+// REST ENDPOINT: SAVE ASSESSMENTS TO MONGODB 
 // =========================================================================
 app.post("/api/tests/create", async (req, res) => {
     try {
@@ -347,15 +347,12 @@ app.post("/api/tests/create", async (req, res) => {
             });
         }
 
-        // 🟢 AUTO 6-DIGIT GENERATION VECTOR: Fallback loop if no code is provided
         let finalTestRoomCode = code || req.body.testcode || "";
 
         if (!finalTestRoomCode || finalTestRoomCode.trim() === "") {
-            // Generates a random high-entropy 6-character alphanumeric string (e.g., 'VAHPY7')
             finalTestRoomCode = Math.random().toString(36).substring(2, 8);
         }
 
-        // Clean formatting: enforce strict uppercase strings inside the indices layout profiles
         finalTestRoomCode = finalTestRoomCode.trim().toUpperCase();
 
         const parsedSemester = parseInt(semester, 10);
@@ -373,7 +370,6 @@ app.post("/api/tests/create", async (req, res) => {
             })) : []
         }));
 
-        // Create the record directly inside your Atlas database tests collection
         const newTestAssessment = await Test.create({
             testcode: finalTestRoomCode,
             title: title.trim(),
@@ -389,7 +385,7 @@ app.post("/api/tests/create", async (req, res) => {
             success: true,
             message: "Assessment deployed live successfully!",
             testId: newTestAssessment._id,
-            code: finalTestRoomCode // Returns the 6-digit code back to the client panel interface
+            code: finalTestRoomCode 
         });
 
     } catch (err) {
@@ -413,8 +409,8 @@ app.get("/api/tests/history", async (req, res) => {
             tests: deployedTestLogHistory
         });
     } catch (err) {
-        console.error("Test history cluster fetch execution breakdown failure:", err);
-        return res.status(500).json({ error: "Internal service data collection engine query constraint block." });
+        console.error("Test history fetch failure:", err);
+        return res.status(500).json({ error: "Internal service data collection constraint block." });
     }
 });
 
@@ -430,7 +426,7 @@ app.get("/api/tests/details/:id", async (req, res) => {
 
         const testDetails = await Test.findById(testId);
         if (!testDetails) {
-            return res.status(404).json({ error: "Requested assessment manifest record not found in system index." });
+            return res.status(404).json({ error: "Requested assessment manifest record not found." });
         }
 
         let submissionCount = 0;
@@ -446,8 +442,8 @@ app.get("/api/tests/details/:id", async (req, res) => {
         });
 
     } catch (err) {
-        console.error("Single test details collection fetch trace malfunction:", err);
-        return res.status(500).json({ error: "Internal database query runtime evaluation constraint failure." });
+        console.error("Single test details failure:", err);
+        return res.status(500).json({ error: "Internal database query constraint failure." });
     }
 });
 
@@ -456,14 +452,12 @@ app.get("/api/tests/details/:id", async (req, res) => {
 // =========================================================================
 app.post("/api/tests/join", async (req, res) => {
     try {
-        console.log("INBOUND HANDSHAKE BODY:", req.body);
         const { code } = req.body;
         if (!code) {
             return res.status(400).json({ success: false, error: "Validation token missing." });
         }
 
         const targetTest = await Test.findOne({ testcode: code.trim().toUpperCase() });
-        console.log("🔍 DATABASE RETRIEVAL MATRIX:", targetTest);
 
         if (!targetTest) {
             return res.status(404).json({
@@ -482,7 +476,7 @@ app.post("/api/tests/join", async (req, res) => {
         });
 
     } catch (err) {
-        console.error("Critical Room Token Verification Error:", err);
+        console.error("Room Token Verification Error:", err);
         return res.status(500).json({ success: false, error: "Internal server processing failure." });
     }
 });
@@ -525,38 +519,23 @@ app.post("/api/auth/reset-password", async (req, res) => {
 });
 
 // =========================================================================
-// REST ENDPOINT: SECURE MUTATION PUT PIPELINE (WITH SUBMISSION GUARD CHECK)
-// =========================================================================
-// =========================================================================
 // REST ENDPOINT: DELETE AN ASSESSMENT FROM MONGODB
 // =========================================================================
 app.delete("/api/tests/:id", async (req, res) => {
     try {
         const testId = req.params.id;
-
-        // Perform the hard delete in MongoDB Atlas
         const deletedTest = await Test.findByIdAndDelete(testId);
 
         if (!deletedTest) {
-            return res.status(404).json({ 
-                success: false, 
-                error: "Assessment not found in database records." 
-            });
+            return res.status(404).json({ success: false, error: "Assessment not found in database records." });
         }
 
         console.log(`🗑️ Test successfully deleted from DB: ${testId}`);
-
-        return res.status(200).json({ 
-            success: true, 
-            message: "Assessment permanently removed from cluster records." 
-        });
+        return res.status(200).json({ success: true, message: "Assessment permanently removed from cluster records." });
 
     } catch (err) {
-        console.error("Failed to delete assessment from DB:", err);
-        return res.status(500).json({ 
-            success: false, 
-            error: "Server error occurred while attempting to delete test." 
-        });
+        console.error("Failed to delete assessment:", err);
+        return res.status(500).json({ success: false, error: "Server error occurred while attempting to delete test." });
     }
 });
 
@@ -567,10 +546,7 @@ app.put("/api/tests/update/:id", async (req, res) => {
 
         const targetTest = await Test.findById(testId);
         if (!targetTest) {
-            return res.status(404).json({
-                success: false,
-                error: "Target assessment record could not be found inside the cluster database."
-            });
+            return res.status(404).json({ success: false, error: "Target assessment record could not be found." });
         }
 
         const cleanTitle = title ? title.trim() : targetTest.title;
@@ -609,8 +585,6 @@ app.put("/api/tests/update/:id", async (req, res) => {
             { new: true, runValidators: true }
         );
 
-        console.log(`🎉 Sync Complete: Assessment Document Profile [${testId}] modified successfully!`);
-
         return res.status(200).json({
             success: true,
             message: "Assessment profiles modified cleanly.",
@@ -620,10 +594,101 @@ app.put("/api/tests/update/:id", async (req, res) => {
 
     } catch (err) {
         console.error("❌ Critical Backend Update System Crash:", err);
-        return res.status(500).json({
-            success: false,
-            error: `Internal system mutation processing engine fault block: ${err.message || err}`
-        });
+        return res.status(500).json({ success: false, error: `Internal fault block: ${err.message || err}` });
+    }
+});
+
+// =========================================================================
+// 🟢 HEADLESS ADMIN ROUTES: EMAIL-BASED TEACHER APPROVAL
+// =========================================================================
+
+// 1. Bot-Proof Confirmation UI for the Admin
+app.get("/admin/verify/:id", async (req, res) => {
+    try {
+        const targetId = req.params.id;
+        const teacher = await User.findById(targetId);
+
+        if (!teacher || teacher.status === 'Active') {
+            return res.send("<h1 style='color: white; font-family: sans-serif; text-align: center; padding-top: 50px; background: #0a0c10;'>Error: Teacher not found or already approved.</h1>");
+        }
+
+        res.send(`
+            <body style="background: #0a0c10; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding-top: 100px;">
+                <div style="background: #161b22; max-width: 400px; margin: 0 auto; padding: 40px; border-radius: 12px; border: 1px solid #30363d; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                    <h2 style="margin-top: 0;">Approve Teacher Access</h2>
+                    <p style="color: #8b949e; margin-bottom: 5px;">Name: <strong style="color: #fff;">${teacher.name}</strong></p>
+                    <p style="color: #8b949e; margin-bottom: 30px;">Email: <strong style="color: #fff;">${teacher.email}</strong></p>
+                    
+                    <form action="/api/admin/approve-teacher/${teacher._id}" method="POST">
+                        <button type="submit" style="background: #2ec866; color: #0d1117; padding: 14px 24px; font-size: 1rem; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; width: 100%; transition: 0.2s;">
+                            Generate Code & Approve
+                        </button>
+                    </form>
+                </div>
+            </body>
+        `);
+    } catch (err) {
+        res.status(500).send("Server Error");
+    }
+});
+
+// 2. The Final Approval Engine (Mutates DB and Emails Teacher)
+app.post("/api/admin/approve-teacher/:id", async (req, res) => {
+    try {
+        const targetId = req.params.id;
+        
+        // Generate the strict TCH- ID
+        const randomNum = Math.floor(10000 + Math.random() * 90000);
+        const generatedTeacherId = "TCH-" + randomNum;
+
+        // Update MongoDB Profile
+        const updatedTeacher = await User.findByIdAndUpdate(targetId, {
+            status: 'Active',
+            teacherId: generatedTeacherId
+        }, { new: true });
+
+        if (!updatedTeacher) {
+            return res.status(404).send("Target teacher profile lost during transaction.");
+        }
+
+        // Email the Teacher their credentials
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: updatedTeacher.email,
+            subject: `✅ Welcome to X-Compiler! Your Teacher Account is Approved`,
+            html: `
+                <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
+                    <h2>Welcome to the X-Compiler Platform, ${updatedTeacher.name}!</h2>
+                    <p>The Administrator has reviewed and verified your account request.</p>
+                    <div style="background: #f4f6f8; padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid #2ec866;">
+                        <p style="margin: 0; color: #555; font-size: 0.9rem; text-transform: uppercase; font-weight: bold;">Your Teacher Unique ID</p>
+                        <p style="margin: 5px 0 0 0; font-size: 1.8rem; color: #000; font-weight: 900; letter-spacing: 1px;">${generatedTeacherId}</p>
+                    </div>
+                    <p>You can now log in to the dashboard using your Email, Password, and this Unique ID.</p>
+                </div>
+            `
+        };
+        
+        try {
+            await transporter.sendMail(mailOptions);
+        } catch (mailErr) {
+            console.error("Failed to send approval email to teacher:", mailErr);
+        }
+        
+        res.send(`
+            <body style="background: #0a0c10; color: #fff; font-family: 'Segoe UI', sans-serif; text-align: center; padding-top: 100px;">
+                <div style="background: #161b22; max-width: 450px; margin: 0 auto; padding: 40px; border-radius: 12px; border: 1px solid #30363d;">
+                    <h1 style='color: #2ec866; font-size: 3rem; margin: 0 0 10px 0;'>✓</h1>
+                    <h2 style="margin-top: 0;">Teacher Approved</h2>
+                    <p style="color: #8b949e;">ID <strong>${generatedTeacherId}</strong> generated securely.</p>
+                    <p style="color: #8b949e;">Credentials dispatched to ${updatedTeacher.email}.</p>
+                </div>
+            </body>
+        `);
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to approve teacher pipeline.");
     }
 });
 

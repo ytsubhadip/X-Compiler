@@ -68,9 +68,18 @@ const Test = mongoose.models.Test || mongoose.model('Test', TestSchema);
 // =========================================================================
 // INLINE SUBMISSION MONGOOSE SCHEMA
 // =========================================================================
+// =========================================================================
+// INLINE SUBMISSION MONGOOSE SCHEMA (UPGRADED FOR DASHBOARD)
+// =========================================================================
 const submissionSchema = new mongoose.Schema({
     testId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'Test',
+        required: true
+    },
+    studentId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     },
     submissions: [
@@ -79,6 +88,9 @@ const submissionSchema = new mongoose.Schema({
             submittedCode: { type: String, required: true }
         }
     ],
+    score: { type: Number, default: 0 },
+    status: { type: String, enum: ['Pending', 'Graded'], default: 'Pending' },
+    timeSpentMins: { type: Number, default: 0 },
     submittedAt: {
         type: Date,
         default: Date.now
@@ -90,24 +102,41 @@ const Submission = mongoose.models.Submission || mongoose.model("Submission", su
 // =========================================================================
 // 🟢 LIVE PRODUCTION EVALUATION RECEIVER (SITS AT TOP OF THE INTERCEPT ROUTE)
 // =========================================================================
+// =========================================================================
+// 🟢 LIVE PRODUCTION EVALUATION RECEIVER (UPDATED FOR DASHBOARD)
+// =========================================================================
 app.post("/api/tests/submit-evaluation", async (req, res) => {
     console.log("📥 [ROUTE HIT] Submittal endpoint reached perfectly!");
     try {
+        // 1. Extract Student ID from their active Auth Token
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({ success: false, error: "Missing authentication credentials." });
+        }
+        
+        // Strip out your custom token prefix to get the raw Mongo User ID
+        const token = authHeader.split(" ")[1];
+        const studentId = token.replace("session-auth-token-", ""); 
+
         const { testId, submissions } = req.body;
-        console.log("📦 [PAYLOAD RAW DATA]:", { testId, submissions });
+        console.log("📦 [PAYLOAD RAW DATA]:", { testId, studentId, submissions });
 
         if (!testId || !submissions || submissions.length === 0) {
             console.log("⚠️ [VALIDATION FAILED]: Missing data metrics!");
             return res.status(400).json({ success: false, error: "Incomplete payload parameters." });
         }
 
-        console.log("🔄 [CASTING]: Converting test ID string to Mongoose ObjectId...");
+        console.log("🔄 [CASTING]: Converting IDs to Mongoose ObjectIds...");
         const convertedTestId = new mongoose.Types.ObjectId(testId);
+        const convertedStudentId = new mongoose.Types.ObjectId(studentId);
 
-        console.log("💾 [DB WRITE]: Attempting Atlas insertion...");
+        console.log("💾 [DB WRITE]: Attempting Atlas insertion with Student Data...");
         const newRecord = await Submission.create({
             testId: convertedTestId,
-            submissions: submissions
+            studentId: convertedStudentId, // Links directly to the User profile
+            submissions: submissions,
+            status: 'Pending',
+            score: 0
         });
 
         console.log("✅ [DB SUCCESS]: Record saved beautifully! ID:", newRecord._id);
@@ -498,6 +527,39 @@ app.post("/api/auth/reset-password", async (req, res) => {
 // =========================================================================
 // REST ENDPOINT: SECURE MUTATION PUT PIPELINE (WITH SUBMISSION GUARD CHECK)
 // =========================================================================
+// =========================================================================
+// REST ENDPOINT: DELETE AN ASSESSMENT FROM MONGODB
+// =========================================================================
+app.delete("/api/tests/:id", async (req, res) => {
+    try {
+        const testId = req.params.id;
+
+        // Perform the hard delete in MongoDB Atlas
+        const deletedTest = await Test.findByIdAndDelete(testId);
+
+        if (!deletedTest) {
+            return res.status(404).json({ 
+                success: false, 
+                error: "Assessment not found in database records." 
+            });
+        }
+
+        console.log(`🗑️ Test successfully deleted from DB: ${testId}`);
+
+        return res.status(200).json({ 
+            success: true, 
+            message: "Assessment permanently removed from cluster records." 
+        });
+
+    } catch (err) {
+        console.error("Failed to delete assessment from DB:", err);
+        return res.status(500).json({ 
+            success: false, 
+            error: "Server error occurred while attempting to delete test." 
+        });
+    }
+});
+
 app.put("/api/tests/update/:id", async (req, res) => {
     try {
         const testId = req.params.id;

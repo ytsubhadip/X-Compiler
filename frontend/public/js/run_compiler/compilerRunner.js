@@ -289,8 +289,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     output.classList.add("console-error-text");
                     if (statusEl) { statusEl.textContent = "Rejected"; statusEl.className = "badge-status badge-status-rejected"; }
                     updateConsolePet('error');
-                    typeConsoleOutput(output, con.error, 4);
-                    showModernToast("Execution halted: Structural bugs discovered.", false);
+                    
+                    // 🟢 CUSTOM EOF ERROR INTERCEPTOR
+                    if (con.error.includes("EOFError: EOF when reading a line") || con.error.includes("EOFError")) {
+                        const friendlyMessage = "Error: Your code is waiting for input!\n\nPlease type your input in the bottom 'INPUT (STDIN)' box BEFORE clicking Run Code.";
+                        typeConsoleOutput(output, friendlyMessage, 4);
+                        showModernToast("Missing Input: Provide STDIN values below.", false);
+                    } else {
+                        // Standard error output
+                        typeConsoleOutput(output, con.error, 4);
+                        showModernToast("Execution halted: Structural bugs discovered.", false);
+                    }
+                    
                     addSubmissionToHistoryTable('Rejected', con.time);
                 } else {
                     output.classList.remove("console-error-text");
@@ -310,7 +320,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 runBtn.innerHTML = `<i class="bi bi-play-fill"></i> Run Code`;
             }
         }
-
         // 2️⃣ INTERCEPT SUBMIT EXAM BUTTON ACTION (RAISES BEAUTIFUL MODAL PROMPT)
         if (target && (target.id === "codesubmit" || target.closest("#codesubmit"))) {
             event.preventDefault();

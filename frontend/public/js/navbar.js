@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let rightActionsHTML = "";
     let mobileActionsHTML = "";
 
-    if (token) {    
+    if (token) {
         // Create gorgeous uppercase avatar characters based on profile metadata
         const savedAvatar = localStorage.getItem("userAvatar");
         const initialChar = name.trim().charAt(0).toUpperCase();

@@ -3,8 +3,10 @@
    ========================================================================= */
 :root {
     /* Shared console theme values */
-    --console-slate: 71, 85, 105; /* slate 600 */
-    --console-green: 22, 163, 74; /* green 600 */
+    --console-slate: 71, 85, 105;
+    /* slate 600 */
+    --console-green: 22, 163, 74;
+    /* green 600 */
     --console-green-strong: 22, 163, 74;
 }
 
@@ -13,7 +15,7 @@ body.dark-theme {
     --console-slate: 148, 163, 184;
     --console-green: 134, 239, 172;
     --console-green-strong: 34, 197, 94;
-    
+
     /* Override global style.css variables for dark mode */
     --bg-main: #090d16;
     --bg-card: #0f172a;
@@ -23,7 +25,8 @@ body.dark-theme {
     --border-color: rgba(255, 255, 255, 0.12);
     --text-primary: #0f172a;
     --text-secondary: #334155;
-    --text-muted: #64748b;;
+    --text-muted: #64748b;
+    ;
 }
 
 
@@ -40,8 +43,8 @@ body.dark-theme {
     background-color: var(--bg-main);
 }
 
-.ide-workspace > .col-12,
-.ide-workspace > .col-12 > .row {
+.ide-workspace>.col-12,
+.ide-workspace>.col-12>.row {
     height: 100%;
 }
 
@@ -258,7 +261,8 @@ body.dark-theme .custom-select option {
     color: var(--text-primary) !important;
     background: var(--bg-card) !important;
     border: 1px solid rgba(var(--console-green), 0.25) !important;
-    border-radius: 12px !important; /* Beautiful rounded border radius */
+    border-radius: 12px !important;
+    /* Beautiful rounded border radius */
     box-shadow: var(--shadow-sm) !important;
     cursor: pointer;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -328,18 +332,19 @@ body.dark-theme .custom-dropdown-chevron {
     list-style: none;
     background: var(--bg-card);
     border: 1px solid rgba(var(--console-green), 0.15);
-    border-radius: 12px; /* Border radius matching the button style */
+    border-radius: 12px;
+    /* Border radius matching the button style */
     box-shadow: var(--shadow-lg);
     z-index: 1050;
-    
+
     /* Animation scale-in & opacity transitions */
     opacity: 0;
     visibility: hidden;
     transform: translateY(-8px) scale(0.97);
     pointer-events: none;
-    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
-                transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-                visibility 0.2s;
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+        visibility 0.2s;
 }
 
 body.dark-theme .custom-dropdown-menu {
@@ -363,7 +368,8 @@ body.dark-theme .custom-dropdown-menu {
     font-size: 0.875rem;
     font-weight: 500;
     color: var(--text-secondary);
-    border-radius: 8px; /* Slightly smaller border radius for inner items */
+    border-radius: 8px;
+    /* Slightly smaller border radius for inner items */
     cursor: pointer;
     transition: background-color 0.15s ease, color 0.15s ease;
 }
@@ -493,24 +499,80 @@ body.dark-theme .editor-body .CodeMirror-cursor {
 }
 
 /* Light Theme CodeMirror Syntax Highlighting Colors */
-.editor-body .cm-s-default .cm-keyword { color: #7c3aed !important; font-weight: 600; }
-.editor-body .cm-s-default .cm-atom { color: #2563eb !important; }
-.editor-body .cm-s-default .cm-number { color: #ea580c !important; }
-.editor-body .cm-s-default .cm-def { color: #0284c7 !important; font-weight: 600; }
-.editor-body .cm-s-default .cm-variable { color: #0f172a !important; }
-.editor-body .cm-s-default .cm-variable-2 { color: #0f766e !important; }
-.editor-body .cm-s-default .cm-variable-3 { color: #b45309 !important; }
-.editor-body .cm-s-default .cm-property { color: #0f172a !important; }
-.editor-body .cm-s-default .cm-operator { color: #64748b !important; }
-.editor-body .cm-s-default .cm-comment { color: #94a3b8 !important; font-style: italic; }
-.editor-body .cm-s-default .cm-string { color: #16a34a !important; }
-.editor-body .cm-s-default .cm-meta { color: #475569 !important; }
-.editor-body .cm-s-default .cm-qualifier { color: #0284c7 !important; }
-.editor-body .cm-s-default .cm-builtin { color: #b45309 !important; }
-.editor-body .cm-s-default .cm-bracket { color: #64748b !important; }
-.editor-body .cm-s-default .cm-tag { color: #dc2626 !important; }
-.editor-body .cm-s-default .cm-attribute { color: #7c3aed !important; }
-.editor-body .cm-s-default .cm-header { color: #0284c7 !important; }
+.editor-body .cm-s-default .cm-keyword {
+    color: #7c3aed !important;
+    font-weight: 600;
+}
+
+.editor-body .cm-s-default .cm-atom {
+    color: #2563eb !important;
+}
+
+.editor-body .cm-s-default .cm-number {
+    color: #ea580c !important;
+}
+
+.editor-body .cm-s-default .cm-def {
+    color: #0284c7 !important;
+    font-weight: 600;
+}
+
+.editor-body .cm-s-default .cm-variable {
+    color: #0f172a !important;
+}
+
+.editor-body .cm-s-default .cm-variable-2 {
+    color: #0f766e !important;
+}
+
+.editor-body .cm-s-default .cm-variable-3 {
+    color: #b45309 !important;
+}
+
+.editor-body .cm-s-default .cm-property {
+    color: #0f172a !important;
+}
+
+.editor-body .cm-s-default .cm-operator {
+    color: #64748b !important;
+}
+
+.editor-body .cm-s-default .cm-comment {
+    color: #94a3b8 !important;
+    font-style: italic;
+}
+
+.editor-body .cm-s-default .cm-string {
+    color: #16a34a !important;
+}
+
+.editor-body .cm-s-default .cm-meta {
+    color: #475569 !important;
+}
+
+.editor-body .cm-s-default .cm-qualifier {
+    color: #0284c7 !important;
+}
+
+.editor-body .cm-s-default .cm-builtin {
+    color: #b45309 !important;
+}
+
+.editor-body .cm-s-default .cm-bracket {
+    color: #64748b !important;
+}
+
+.editor-body .cm-s-default .cm-tag {
+    color: #dc2626 !important;
+}
+
+.editor-body .cm-s-default .cm-attribute {
+    color: #7c3aed !important;
+}
+
+.editor-body .cm-s-default .cm-header {
+    color: #0284c7 !important;
+}
 
 /* Active line background highlights */
 .editor-body .CodeMirror-activeline-background {
@@ -790,12 +852,12 @@ body.dark-theme .console-stat-value {
         overflow-y: visible !important;
     }
 
-    .ide-workspace > .col-12,
-    .ide-workspace > .col-12 > .row {
+    .ide-workspace>.col-12,
+    .ide-workspace>.col-12>.row {
         height: auto !important;
     }
 
-    .ide-workspace > .col-12 > .row {
+    .ide-workspace>.col-12>.row {
         flex-direction: column;
     }
 

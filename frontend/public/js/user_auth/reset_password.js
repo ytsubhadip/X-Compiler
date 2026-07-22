@@ -9,7 +9,7 @@ document.getElementById("formForgotPasswordReset").addEventListener("submit", as
     const passVal = document.getElementById("Password").value;
     const confirmPassVal = document.getElementById("ConfirmPassword").value;
     const alertBox = document.getElementById("resetStatusAlertDisplay");
-    const submitBtn = document.getElementById("btnSubmitSignup");
+    const submitBtn = document.getElementById("btnSubmitForgotPassword");
 
     // Front-end sanity logic verification check
     if (passVal !== confirmPassVal) {
@@ -23,7 +23,13 @@ document.getElementById("formForgotPasswordReset").addEventListener("submit", as
     }
 
     try {
-        if (submitBtn) submitBtn.disabled = true;
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            const forgotLoader = document.getElementById("forgotLoader");
+            const forgotBtnText = document.getElementById("forgotBtnText");
+            if (forgotLoader) forgotLoader.classList.remove("d-none");
+            if (forgotBtnText) forgotBtnText.textContent = "Resetting Password...";
+        }
         showAlertMessage("Initiating identity verification check...", "text-warning");
 
         // 🟢 UPDATED FETCH PAYLOAD: Pushing email, rollNumber, and new password parameters to backend
@@ -37,6 +43,8 @@ document.getElementById("formForgotPasswordReset").addEventListener("submit", as
 
         if (response.ok && data.success === true) {
             showAlertMessage(data.message, "text-success");
+            const forgotBtnText = document.getElementById("forgotBtnText");
+            if (forgotBtnText) forgotBtnText.textContent = "Reset Success! Redirecting...";
 
             // Route user cleanly to login screen upon success parameters matching
             setTimeout(() => {
@@ -44,13 +52,25 @@ document.getElementById("formForgotPasswordReset").addEventListener("submit", as
             }, 1500);
         } else {
             showAlertMessage(data.error || "The server rejected this mutation call string.", "text-danger");
-            if (submitBtn) submitBtn.disabled = false;
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                const forgotLoader = document.getElementById("forgotLoader");
+                const forgotBtnText = document.getElementById("forgotBtnText");
+                if (forgotLoader) forgotLoader.classList.add("d-none");
+                if (forgotBtnText) forgotBtnText.innerHTML = `<i class="bi bi-arrow-clockwise me-1"></i> Reset Password`;
+            }
         }
 
     } catch (err) {
         console.error("Forgot password client breakdown fault:", err);
         showAlertMessage("Transmission Failure: Unable to handshake with cloud clusters.", "text-danger");
-        if (submitBtn) submitBtn.disabled = false;
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            const forgotLoader = document.getElementById("forgotLoader");
+            const forgotBtnText = document.getElementById("forgotBtnText");
+            if (forgotLoader) forgotLoader.classList.add("d-none");
+            if (forgotBtnText) forgotBtnText.innerHTML = `<i class="bi bi-arrow-clockwise me-1"></i> Reset Password`;
+        }
     }
 
     function showAlertMessage(msg, bootstrapTextColorClass) {

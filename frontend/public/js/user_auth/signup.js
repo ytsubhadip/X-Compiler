@@ -56,20 +56,16 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
                 console.log("Submitting payload context:", payload);
 
-                // 🟢 TRIGGER GLOBAL LOADER OVERLAY
-                if (pageLoader && loaderText) {
-                    loaderText.innerText = "Configuring Cloud Space Environment...";
-                    pageLoader.classList.add("active");
-                }
-
-                // Disable interface triggers
+                // Disable interface triggers and show loading spinner inside the button
                 if (submitBtn) {
                     submitBtn.disabled = true;
-                    submitBtn.innerText = "Creating...";
+                    const signupLoader = document.getElementById("signupLoader");
+                    const signupBtnText = document.getElementById("signupBtnText");
+                    if (signupLoader) signupLoader.classList.remove("d-none");
+                    if (signupBtnText) signupBtnText.textContent = "Creating Account...";
                 }
 
                 // Mutate DB and generate profile records in backend service
-                // 🟢 FIXED SYNTAX: Stray '|' character successfully removed
                 const response = await fetch("/signup", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -79,21 +75,28 @@ document.addEventListener("DOMContentLoaded", () => {
                 const data = await response.json();
                 if (!response.ok) throw new Error(data.error || "Registration rejected.");
 
-                // 🟢 UPDATE LOADER TEXT ON SUCCESS
-                if (loaderText) loaderText.innerText = "Account Created! Redirecting to Gateway...";
-                if (submitBtn) submitBtn.innerText = "Created";
+                // Store authentication tokens and user attributes locally
+                localStorage.setItem("authToken", data.token);
+                localStorage.setItem("userRole", data.role);
+                localStorage.setItem("userName", data.name);
 
-                // Redirect user to the login window to start sessions cleanly
-                setTimeout(() => window.location.href = "/signin", 900);
+                // Update loader text inside button on success
+                const signupBtnText = document.getElementById("signupBtnText");
+                if (signupBtnText) signupBtnText.textContent = "Success! Redirecting...";
+
+                // Redirect user to the appropriate dashboard
+                const roleAfter = (data.role || currentRole || '').toString().toLowerCase();
+                const dest = roleAfter === 'teacher' ? '/teacher/dashboard' : '/student-dash';
+                setTimeout(() => window.location.href = dest, 1200);
 
             } catch (err) {
-                // ❌ CLOSE OVERLAY INSTANTLY ON FAILURE
-                if (pageLoader) pageLoader.classList.remove("active");
-
                 // Restore submit triggers and alert user on failures
                 if (submitBtn) {
                     submitBtn.disabled = false;
-                    submitBtn.innerText = "Create Account";
+                    const signupLoader = document.getElementById("signupLoader");
+                    const signupBtnText = document.getElementById("signupBtnText");
+                    if (signupLoader) signupLoader.classList.add("d-none");
+                    if (signupBtnText) signupBtnText.innerHTML = `<i class="bi bi-person-plus-fill me-1"></i> Create Account`;
                 }
                 console.error("Signup error:", err);
                 alert(`Registration Failed: ${err.message}`);

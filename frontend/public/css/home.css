@@ -233,7 +233,7 @@ body {
 
 .compiler-info h4 {
     margin: 0;
-    font-size: 1.4rem;
+    font-size: 1.9rem;
     color: var(--text-primary);
 }
 
@@ -482,8 +482,8 @@ body {
     height: 100%;
     width: 100%;
     margin: 0 auto;
-    gap: 4rem;
-    padding: 4rem 1.5rem 5rem;
+    gap: 8rem;
+    padding: 4rem 9.5rem 5rem;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     
@@ -553,6 +553,7 @@ body {
     background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
     padding: 4rem 1.5rem 2rem;
     border-radius: 24px;
+    margin: 16px 16px;
 }
 
 .footer-top {

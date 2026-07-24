@@ -266,7 +266,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             try {
                 runBtn.disabled = true;
-                runBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin me-2"></i> Running...`;
+                runBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin me-sm-2"></i> <span>Running...</span>`;
 
                 const response = await fetch("/compiler", {
                     method: "POST",
@@ -319,7 +319,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 typeConsoleOutput(output, `Network Interrupt: ${err.message}`, 5);
             } finally {
                 runBtn.disabled = false;
-                runBtn.innerHTML = `<i class="bi bi-play-fill"></i> Run Code`;
+                runBtn.innerHTML = `<i class="bi bi-play-fill me-sm-2"></i> <span>Run Code</span>`;
             }
         }
         // 2️⃣ INTERCEPT SUBMIT EXAM BUTTON ACTION (RAISES BEAUTIFUL MODAL PROMPT)

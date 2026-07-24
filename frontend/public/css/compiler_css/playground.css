@@ -23,10 +23,9 @@ body.dark-theme {
     --bg-muted: #1e293b;
     --border-subtle: rgba(255, 255, 255, 0.08);
     --border-color: rgba(255, 255, 255, 0.12);
-    --text-primary: #0f172a;
-    --text-secondary: #334155;
+    --text-primary: #cbd5e1;
+    --text-secondary: #94a3b8;
     --text-muted: #64748b;
-    ;
 }
 
 
@@ -292,6 +291,14 @@ body.dark-theme .custom-dropdown-btn {
     display: flex;
     align-items: center;
     gap: 10px;
+    min-width: 0;
+    flex: 1;
+}
+
+.custom-dropdown-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .custom-dropdown-icon {
@@ -607,6 +614,7 @@ body.dark-theme .console-pane {
     padding: 0 16px;
     background: var(--bg-main);
     border-bottom: 1px solid var(--border-subtle);
+    gap: 12px;
 }
 
 body.dark-theme .console-header {
@@ -620,6 +628,7 @@ body.dark-theme .console-header {
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--text-primary);
+    white-space: nowrap;
 }
 
 body.dark-theme .console-header-title {
@@ -637,7 +646,7 @@ body.dark-theme .console-header-title {
     border: none;
     border-radius: 999px;
     transition: background 0.2s ease, transform 0.2s ease;
-    margin-left: 27px;
+    margin-left: auto;
 }
 
 .clear-console:hover {
@@ -863,60 +872,128 @@ body.dark-theme .console-stat-value {
 
     .editor-pane {
         min-height: 450px;
-        margin: 16px;
+        margin: 12px;
     }
 
+    /* Increased min-height to 480px to ensure console components display properly and don't get squished */
     .console-pane {
-        min-height: 350px;
-        margin: 0 16px 16px 16px;
+        min-height: 480px;
+        margin: 0 12px 12px 12px;
+    }
+
+    .console-panel.input-panel {
+        min-height: 100px; /* Reduced min-height on mobile to allocate more height for output area */
     }
 }
 
 @media (max-width: 768px) {
+    /* Retain single line row alignment for header elements on mobile & tablet viewports */
     .editor-header {
-        height: auto;
-        min-height: fit-content;
-        flex-direction: column;
-        align-items: stretch;
-        padding: 12px 16px;
-        gap: 12px;
+        height: 48px;
+        min-height: 48px;
+        display: flex;
+        flex-direction: row !important;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 8px;
+        gap: 6px;
     }
 
+    /* Smaller select wrapper on mobile/tablet to save space */
     .custom-select-wrapper {
-        width: 100%;
+        width: 150px;
+    }
+
+    .custom-dropdown-btn {
+        padding: 6px 8px !important;
+        font-size: 0.8rem !important;
+        border-radius: 8px !important;
+        gap: 4px;
+    }
+
+    .custom-dropdown-btn-content {
+        gap: 6px;
+    }
+
+    .custom-dropdown-chevron {
+        font-size: 0.65rem;
+    }
+
+    /* Smaller buttons on mobile/tablet */
+    .btn-action {
+        padding: 5px 8px !important;
+        font-size: 0.8rem !important;
+        border-radius: 6px !important;
+        gap: 4px;
     }
 
     .theme-toggle-btn {
-        width: 100%;
-        justify-content: center;
+        padding: 6px 8px;
+        font-size: 0.8rem;
+        border-radius: 8px;
+        gap: 4px;
     }
 
     .editor-actions-wrapper {
-        width: 100%;
-        gap: 12px;
+        gap: 6px;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Hide text on extremely small mobile viewports for compact styling and one line force */
+    .theme-toggle-btn span {
+        display: none !important;
     }
 
-    .editor-actions-wrapper .btn-action {
-        flex: 1;
+    .theme-toggle-btn {
+        width: 32px;
+        height: 32px;
+        padding: 0;
         justify-content: center;
+        border-radius: 50% !important;
+    }
+
+    .editor-header {
+        gap: 4px;
+        padding: 0 4px;
+    }
+
+    .custom-select-wrapper {
+        width: 130px;
+    }
+
+    .custom-dropdown-btn {
+        padding: 5px 6px !important;
+        font-size: 0.78rem !important;
+    }
+
+    .custom-dropdown-btn-content {
+        gap: 4px;
+    }
+
+    .btn-action span {
+        display: none !important; /* Hide button text ("Run", "Save") on extra small mobile screens for single line flow */
+    }
+
+    .btn-action {
+        padding: 6px !important;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50% !important;
+    }
+
+    .editor-actions-wrapper {
+        gap: 4px;
     }
 }
 
 @media (max-width: 480px) {
     .console-footer {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: row; /* Keep stats side-by-side on mobile if possible, or flex wrap */
+        flex-wrap: wrap;
+        align-items: center;
         gap: 8px;
         padding: 8px 4px;
-    }
-
-    .editor-actions-wrapper {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-    }
-
-    .editor-actions-wrapper .btn-action {
-        width: 100%;
     }
 }

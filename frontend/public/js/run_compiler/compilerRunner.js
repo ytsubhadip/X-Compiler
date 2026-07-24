@@ -49,8 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!pet.innerHTML) {
             pet.innerHTML = `
-              <span id="pet-avatar" style="font-size: 1.2rem; transition: transform 0.3s ease;">💤</span>
-              <span id="pet-status" style="font-size: 0.85rem; font-family: 'Outfit', sans-serif; font-weight: 500; min-width: 100px; color: #fff;"></span>
+              <span id="pet-avatar" style="font-size: 1.2rem; transition: transform 0.3s ease; white-space: nowrap;">💤</span>
+              <span id="pet-status" style="font-size: 0.85rem; font-family: 'Outfit', sans-serif; font-weight: 500; min-width: 100px; color: #fff; white-space: nowrap;"></span>
             `;
         }
 

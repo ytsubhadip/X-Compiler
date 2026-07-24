@@ -505,7 +505,156 @@ select.input-control option {
 
 #groupStudentDept.form-group-dynamic.active {
     max-height: 90px;
+    overflow: visible !important;
 }
+
+/* Custom Select Dropdown styles */
+.custom-select-container {
+    position: relative;
+    width: 100%;
+}
+
+.custom-select-trigger {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    outline: none;
+    border-bottom: 1.5px solid var(--border-color) !important;
+    min-height: 38px;
+}
+
+.custom-select-trigger .selected-value {
+    color: var(--text-dark-muted);
+    font-size: 0.95rem;
+    font-family: var(--font-sans);
+    transition: color 0.3s ease;
+}
+
+.custom-select-trigger .selected-value.has-value {
+    color: var(--text-primary);
+}
+
+.custom-select-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg), 0 0 0 1px rgba(22, 163, 74, 0.03), 0 10px 30px rgba(22, 163, 74, 0.06);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1), transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.22s;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    overflow: hidden;
+    padding: 6px;
+}
+
+.custom-select-container.open .custom-select-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.custom-select-container.open .input-wrapper.select-wrapper::after {
+    color: var(--accent-success) !important;
+    transform: rotate(180deg) !important;
+}
+
+.persona-selector-container.teacher-active ~ .auth-form-wrapper .custom-select-container.open .input-wrapper.select-wrapper::after {
+    color: #2563eb !important;
+}
+
+.visually-hidden-select {
+    position: absolute !important;
+    bottom: 0;
+    left: 0;
+    width: 100% !important;
+    height: 1px !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    z-index: -1;
+}
+
+.dropdown-option {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    margin-bottom: 2px;
+    outline: none;
+}
+
+.dropdown-option:last-child {
+    margin-bottom: 0;
+}
+
+.dropdown-option i.option-icon {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.dropdown-option:hover,
+.dropdown-option:focus-visible {
+    background: rgba(22, 163, 74, 0.08) !important;
+    color: var(--accent-success) !important;
+    padding-left: 18px;
+}
+
+.dropdown-option:hover i.option-icon,
+.dropdown-option:focus-visible i.option-icon {
+    color: var(--accent-success) !important;
+    transform: scale(1.1);
+}
+
+.dropdown-option.selected {
+    background: rgba(22, 163, 74, 0.12) !important;
+    color: var(--accent-success) !important;
+    font-weight: 600;
+}
+
+.dropdown-option.selected i.option-icon {
+    color: var(--accent-success) !important;
+}
+
+/* Teacher active state styling for custom select */
+.persona-selector-container.teacher-active ~ .auth-form-wrapper .custom-select-dropdown {
+    box-shadow: var(--shadow-lg), 0 0 0 1px rgba(37, 99, 235, 0.03), 0 10px 30px rgba(37, 99, 235, 0.06);
+}
+
+.persona-selector-container.teacher-active ~ .auth-form-wrapper .dropdown-option:hover,
+.persona-selector-container.teacher-active ~ .auth-form-wrapper .dropdown-option:focus-visible {
+    background: rgba(37, 99, 235, 0.08) !important;
+    color: #2563eb !important;
+}
+
+.persona-selector-container.teacher-active ~ .auth-form-wrapper .dropdown-option:hover i.option-icon,
+.persona-selector-container.teacher-active ~ .auth-form-wrapper .dropdown-option:focus-visible i.option-icon {
+    color: #2563eb !important;
+}
+
+.persona-selector-container.teacher-active ~ .auth-form-wrapper .dropdown-option.selected {
+    background: rgba(37, 99, 235, 0.12) !important;
+    color: #2563eb !important;
+}
+
+.persona-selector-container.teacher-active ~ .auth-form-wrapper .dropdown-option.selected i.option-icon {
+    color: #2563eb !important;
+}
+
 
 @media (hover: hover) {
     .cursor-glow {

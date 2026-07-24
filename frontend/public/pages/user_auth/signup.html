@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - ML compiler</title>
-    <link rel="icon" type="image/png" href="/asset/magento-brands-solid-full.svg">
+     <link rel="icon" type="image/png" href="/asset/logo.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
@@ -92,14 +92,30 @@
                             <div class="row gx-3">
                                 <div class="col-6">
                                     <label for="signupStudentDept">Department</label>
-                                    <div class="input-wrapper select-wrapper">
-                                        <i class="bi bi-mortarboard-fill input-icon"></i>
-                                        <select class="input-control" id="signupStudentDept" required>
+                                    <div class="custom-select-container" id="deptSelectContainer">
+                                        <div class="input-wrapper select-wrapper">
+                                            <i class="bi bi-mortarboard-fill input-icon"></i>
+                                            <div class="input-control custom-select-trigger" id="deptSelectTrigger" tabindex="0" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="deptDropdown">
+                                                <span class="selected-value">Select Dept</span>
+                                            </div>
+                                        </div>
+                                        <select class="visually-hidden-select" id="signupStudentDept" required>
                                             <option value="" disabled selected>Select Dept</option>
                                             <option value="data-science">Bsc Data Science</option>
                                             <option value="cyber-security">Bsc Cyber Security</option>
                                             <option value="bca">BCA</option>
                                         </select>
+                                        <div class="custom-select-dropdown" id="deptDropdown" role="listbox">
+                                            <div class="dropdown-option" data-value="data-science" role="option" tabindex="0">
+                                                <i class="bi bi-database-fill me-2 option-icon"></i>Bsc Data Science
+                                            </div>
+                                            <div class="dropdown-option" data-value="cyber-security" role="option" tabindex="0">
+                                                <i class="bi bi-shield-lock-fill me-2 option-icon"></i>Bsc Cyber Security
+                                            </div>
+                                            <div class="dropdown-option" data-value="bca" role="option" tabindex="0">
+                                                <i class="bi bi-code-slash me-2 option-icon"></i>BCA
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -215,6 +231,123 @@
                 }
             }
         }
+
+        // Custom Dropdown Menu logic for Select Department field
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("deptSelectContainer");
+            const trigger = document.getElementById("deptSelectTrigger");
+            const dropdown = document.getElementById("deptDropdown");
+            const select = document.getElementById("signupStudentDept");
+            const valueSpan = trigger.querySelector(".selected-value");
+
+            if (!container || !trigger || !dropdown || !select) return;
+
+            // Toggle dropdown on trigger click
+            trigger.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const isOpen = container.classList.toggle("open");
+                trigger.setAttribute("aria-expanded", isOpen ? "true" : "false");
+            });
+
+            // Option selection logic
+            const options = dropdown.querySelectorAll(".dropdown-option");
+            const optionsArray = Array.from(options);
+            let focusedOptionIndex = -1;
+
+            function setOptionFocus(index) {
+                if (index >= 0 && index < optionsArray.length) {
+                    focusedOptionIndex = index;
+                    optionsArray[index].focus();
+                }
+            }
+
+            options.forEach((option) => {
+                option.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    const value = option.getAttribute("data-value");
+                    const text = option.textContent.trim();
+
+                    // Update hidden select
+                    select.value = value;
+                    select.dispatchEvent(new Event("change"));
+
+                    // Update visible selected text
+                    valueSpan.textContent = text;
+                    valueSpan.classList.add("has-value");
+
+                    // Mark selected option
+                    options.forEach(opt => opt.classList.remove("selected"));
+                    option.classList.add("selected");
+
+                    // Close dropdown
+                    container.classList.remove("open");
+                    trigger.setAttribute("aria-expanded", "false");
+                    trigger.focus();
+                });
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener("click", (e) => {
+                if (!container.contains(e.target)) {
+                    container.classList.remove("open");
+                    trigger.setAttribute("aria-expanded", "false");
+                }
+            });
+
+            // Keyboard accessibility
+            trigger.addEventListener("keydown", (e) => {
+                if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    if (!container.classList.contains("open")) {
+                        container.classList.add("open");
+                        trigger.setAttribute("aria-expanded", "true");
+                    }
+                    const selectedIndex = optionsArray.findIndex(opt => opt.classList.contains("selected"));
+                    setOptionFocus(selectedIndex >= 0 ? selectedIndex : 0);
+                } else if (e.key === "Escape") {
+                    container.classList.remove("open");
+                    trigger.setAttribute("aria-expanded", "false");
+                }
+            });
+
+            optionsArray.forEach((option, index) => {
+                option.addEventListener("keydown", (e) => {
+                    if (e.key === "ArrowDown") {
+                        e.preventDefault();
+                        setOptionFocus((index + 1) % optionsArray.length);
+                    } else if (e.key === "ArrowUp") {
+                        e.preventDefault();
+                        setOptionFocus((index - 1 + optionsArray.length) % optionsArray.length);
+                    } else if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        option.click();
+                    } else if (e.key === "Escape") {
+                        e.preventDefault();
+                        container.classList.remove("open");
+                        trigger.setAttribute("aria-expanded", "false");
+                        trigger.focus();
+                    }
+                });
+            });
+
+            // Synchronize selection changes back to custom UI in case reset externally
+            select.addEventListener("change", () => {
+                const val = select.value;
+                if (!val) {
+                    valueSpan.textContent = "Select Dept";
+                    valueSpan.classList.remove("has-value");
+                    options.forEach(opt => opt.classList.remove("selected"));
+                } else {
+                    const correspondingOpt = dropdown.querySelector(`.dropdown-option[data-value="${val}"]`);
+                    if (correspondingOpt) {
+                        valueSpan.textContent = correspondingOpt.textContent.trim();
+                        valueSpan.classList.add("has-value");
+                        options.forEach(opt => opt.classList.remove("selected"));
+                        correspondingOpt.classList.add("selected");
+                    }
+                }
+            });
+        });
     </script>
 
    

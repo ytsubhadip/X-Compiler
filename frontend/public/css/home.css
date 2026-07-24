@@ -9,9 +9,7 @@
 body {
     margin: 0;
     background: linear-gradient(135deg, #ffffff 0%, #fff9fc 40%, #ffe8f1 70%, #f9cfe0 100%);
-    /* background:#FFFAFD; */
     min-height: 100%;
-    padding:20px 30px
 }
 
 .hero {
@@ -196,11 +194,10 @@ body {
 
 .compiler-image {
     width: 100%;
-    min-height: 320px;
+    aspect-ratio: 16 / 9;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
-    background-color: var(--bg-card);
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -551,26 +548,10 @@ body {
     box-shadow: 8px 8px 0 #111827;
 }
 
-@media (max-width: 768px) {
-    .hero-bottom-user-login {
-        grid-template-columns: 1fr;
-        padding: 3rem 1.25rem 4rem;
-        gap: 1.25rem;
-    }
-
-    .hero-bottom-user-login>div {
-        min-height: auto;
-        padding: 1.5rem;
-    }
-}
-
 /* footer css */
-
 .site-footer {
     background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-    /* color: #f8fafc; */
     padding: 4rem 1.5rem 2rem;
-    /* margin-top: 4rem; */
     border-radius: 24px;
 }
 
@@ -581,8 +562,6 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 2rem;
 }
-
-
 
 .footer-logo img {
     width: 50px;
@@ -595,18 +574,14 @@ body {
     align-items: center;
     display: flex;
     gap: 1rem;
-
-
 }
 
 .footer-title {
     font-size: 2rem;
-      color: var(--text-primary);
+    color: var(--text-primary);
     font-family: 'Outfit', sans-serif;
     font-weight: 700;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-
-
 }
 
 .footer-links h4,
@@ -656,54 +631,7 @@ body {
     border-radius: 100rem;
 }
 
-@media (max-width: 780px) {
-    .footer-top {
-        grid-template-columns: 1fr;
-    }
-
-    .footer-brand p {
-        max-width: none;
-    }
-}
-
-@media (max-width: 768px) {
-    .hero-student {
-        padding: 2rem 1rem 2.5rem;
-    }
-
-    .div-container {
-        grid-template-columns: 1fr;
-    }
-
-    .hero-student h2 {
-        text-align: center;
-    }
-
-    .hero-student .student-desc {
-        align-items: center;
-        text-align: center;
-    }
-
-    .hero-student .stundet-video {
-        min-height: 260px;
-    }
-}
-
-@media (max-width: 768px) {
-    .Manrope {
-        font-size: 2.5rem;
-    }
-
-    .hero-description {
-        font-size: 0.9rem;
-        padding: 0 1rem;
-    }
-
-    .hero-butn-group {
-        gap: 1rem;
-    }
-}
-
+/* loader css */
 .terminal-loader {
     position: fixed;
     inset: 0;
@@ -744,7 +672,6 @@ body {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     padding: 0 0.4em;
-
 }
 
 .terminal-controls {
@@ -796,19 +723,164 @@ body {
 }
 
 @keyframes typeAndDelete {
-
     0%,
     10% {
         width: 0;
     }
-
     45%,
     55% {
         width: 6.2em;
     }
-
     90%,
     100% {
         width: 0;
+    }
+}
+
+/* =========================================================================
+   MEDIA QUERIES (RESPONSIVENESS)
+   ========================================================================= */
+
+/* Tablet & Smaller Screens (max-width: 991px) */
+@media (max-width: 991px) {
+    .hero-bottom-user-login {
+        grid-template-columns: 1fr;
+        padding: 3rem 1.25rem;
+        gap: 2rem;
+    }
+    
+    .hero-bottom-user-login>div {
+        min-height: auto;
+        padding: 2rem;
+    }
+}
+
+/* Mobile & Small Tablet Screens (max-width: 768px) */
+@media (max-width: 768px) {
+    .hero-title-section {
+        margin-top: 100px;
+    }
+
+    .Manrope {
+        font-size: 2.5rem;
+    }
+
+    .hero-description {
+        font-size: 0.95rem;
+        padding: 0 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .hero-butn-group {
+        gap: 1.25rem;
+    }
+
+    .our-compiler {
+        padding: 3rem 1.25rem;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .compiler-container {
+        gap: 1.5rem;
+    }
+
+    .compiler-panel,
+    .compiler-info {
+        flex: 1 1 100%;
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .compiler-info {
+        align-items: center;
+    }
+
+    .support-language {
+        margin-top: 2.5rem;
+        padding: 1.5rem 1rem 2rem;
+    }
+
+    .languange-img {
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .img1 {
+        width: 90px;
+        height: 90px;
+        padding: 1rem;
+        border-radius: 16px;
+    }
+
+    .hero-student {
+        padding: 3rem 1.5rem;
+        gap: 4rem;
+        margin-top: 2rem;
+    }
+
+    .div-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 0;
+    }
+
+    /* Enforce consistent ordering: description text first, then video */
+    .div-container .student-desc {
+        order: 1;
+        align-items: center;
+        text-align: center;
+    }
+
+    .div-container .stundet-video {
+        order: 2;
+        min-height: auto;
+    }
+
+    .hero-student h2 {
+        text-align: center;
+    }
+
+    .hero-student .student-description {
+        text-align: center;
+    }
+
+    .lernmore-redirect {
+        align-self: center;
+    }
+
+    .footer-top {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .footer-brand p {
+        max-width: none;
+    }
+}
+
+/* Small Mobile Screens (max-width: 576px) */
+@media (max-width: 576px) {
+    .Manrope {
+        font-size: 2.1rem;
+    }
+
+    .hero-butn-group {
+        flex-direction: column;
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+
+    .hero-butn-group button {
+        width: 100%;
+    }
+
+    .hero-bottom-user-login>div {
+        padding: 1.5rem;
+    }
+
+    .hero-bottom-user-login h2 {
+        font-size: 1.5rem;
     }
 }

@@ -147,44 +147,42 @@ document.addEventListener("DOMContentLoaded", async () => {
             // Bind click handler for permanent database deletion
             const deleteBtn = cardCol.querySelector(".btn-delete-test");
             if (deleteBtn) {
-                deleteBtn.addEventListener("click", async () => {
-                    if (!confirm(`Are you sure you want to permanently delete "${test.title}"? This cannot be undone.`)) {
-                        return; // Stop execution if they cancel
-                    }
+                deleteBtn.addEventListener("click", () => {
+                    showCustomConfirm(`Are you sure you want to permanently delete "${test.title}"? This cannot be undone.`, async () => {
+                        try {
+                            // 1. Send DELETE request to Express backend
+                            const deleteResponse = await fetch(`/api/tests/${test._id}`, {
+                                method: "DELETE",
+                                headers: {
+                                    "Authorization": `Bearer ${token}`,
+                                    "Content-Type": "application/json"
+                                }
+                            });
 
-                    try {
-                        // 1. Send DELETE request to Express backend
-                        const deleteResponse = await fetch(`/api/tests/${test._id}`, {
-                            method: "DELETE",
-                            headers: {
-                                "Authorization": `Bearer ${token}`,
-                                "Content-Type": "application/json"
+                            const result = await deleteResponse.json();
+
+                            if (deleteResponse.ok && result.success) {
+                                // 2. Wipe card from DOM only after MongoDB confirms deletion
+                                cardCol.remove();
+                                // Remove from the local allTests array so it stays deleted during filters
+                                allTests = allTests.filter(t => t._id !== test._id);
+
+                                // Check if no cards are currently visible
+                                if (gridContainer.children.length === 0) {
+                                    gridContainer.innerHTML = `
+                                        <div class="col-12 text-center text-muted py-5 font-sans">
+                                            <i class="bi bi-search d-block h3 mb-2 opacity-50"></i>
+                                            No matching assessments discovered. Try adjusting your filters!
+                                        </div>`;
+                                }
+                            } else {
+                                alert(`Failed to delete: ${result.error || "Unknown server error."}`);
                             }
-                        });
-
-                        const result = await deleteResponse.json();
-
-                        if (deleteResponse.ok && result.success) {
-                            // 2. Wipe card from DOM only after MongoDB confirms deletion
-                            cardCol.remove();
-                            // Remove from the local allTests array so it stays deleted during filters
-                            allTests = allTests.filter(t => t._id !== test._id);
-
-                            // Check if no cards are currently visible
-                            if (gridContainer.children.length === 0) {
-                                gridContainer.innerHTML = `
-                                    <div class="col-12 text-center text-muted py-5 font-sans">
-                                        <i class="bi bi-search d-block h3 mb-2 opacity-50"></i>
-                                        No matching assessments discovered. Try adjusting your filters!
-                                    </div>`;
-                            }
-                        } else {
-                            alert(`Failed to delete: ${result.error || "Unknown server error."}`);
+                        } catch (err) {
+                            console.error("Delete operation failed:", err);
+                            alert("Network error: Could not reach server to delete the assessment.");
                         }
-                    } catch (err) {
-                        console.error("Delete operation failed:", err);
-                        alert("Network error: Could not reach server to delete the assessment.");
-                    }
+                    });
                 });
             }
         });

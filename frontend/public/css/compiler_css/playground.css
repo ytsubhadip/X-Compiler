@@ -20,12 +20,12 @@ body.dark-theme {
     --bg-main: #090d16;
     --bg-card: #0f172a;
     --bg-pre: #1e293b;
-    --bg-muted: #1e293b;
+    /* --bg-muted: #1e293b; */
     --border-subtle: rgba(255, 255, 255, 0.08);
     --border-color: rgba(255, 255, 255, 0.12);
-    --text-primary: #cbd5e1;
-    --text-secondary: #94a3b8;
-    --text-muted: #64748b;
+    /* --text-primary: #cbd5e1; */
+    /* --text-secondary: #94a3b8; */
+    /* --text-muted: #64748b; */
 }
 
 

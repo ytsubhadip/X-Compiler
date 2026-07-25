@@ -148,10 +148,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             const actionBtn = col.querySelector(".btn-exam-action");
             actionBtn.addEventListener("click", () => {
                 if (btnClass === "primary") {
-                    const confirmStart = confirm(`Are you ready to start "${test.title}"? Your timer of ${test.duration} minutes will begin immediately.`);
-                    if (confirmStart) {
+                    showCustomConfirm(`Are you ready to start "${test.title}"? Your timer of ${test.duration} minutes will begin immediately.`, () => {
                         launchSecureExam(test._id, test.testcode, test.duration);
-                    }
+                    });
                 } else if (btnClass === "secondary") {
                     alert(`Exam Details: "${test.title}"\nSubject Code: ${subjectCode}\nDepartment: ${test.department || 'N/A'}\nDuration: ${test.duration} Minutes\nStart Time: ${dateText}\n\nThis exam is scheduled. Return on the scheduled time to take the test.`);
                 } else if (btnClass === "disabled") {

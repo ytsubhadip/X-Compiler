@@ -506,6 +506,8 @@ select.input-control option {
 #groupStudentDept.form-group-dynamic.active {
     max-height: 90px;
     overflow: visible !important;
+    position: relative;
+    z-index: 20;
 }
 
 /* Custom Select Dropdown styles */
@@ -540,7 +542,7 @@ select.input-control option {
     top: calc(100% + 4px);
     left: 0;
     right: 0;
-    background: var(--bg-card);
+    background: #ffffff !important;
     border: 1px solid var(--border-subtle);
     border-radius: 12px;
     box-shadow: var(--shadow-lg), 0 0 0 1px rgba(22, 163, 74, 0.03), 0 10px 30px rgba(22, 163, 74, 0.06);
@@ -549,8 +551,6 @@ select.input-control option {
     visibility: hidden;
     transform: translateY(-8px);
     transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1), transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.22s;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     overflow: hidden;
     padding: 6px;
 }

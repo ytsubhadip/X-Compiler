@@ -1,5 +1,5 @@
 // Override window.alert with a beautiful custom modal dialog
-(function() {
+(function () {
     // Inject the CSS styles into the document head
     const style = document.createElement('style');
     style.innerHTML = `
@@ -133,7 +133,7 @@
     document.head.appendChild(style);
 
     // Global alert override
-    window.alert = function(message) {
+    window.alert = function (message) {
         const show = () => {
             let overlay = document.getElementById('customAlertOverlay');
             if (!overlay) {
@@ -158,7 +158,7 @@
 
             // Clean up classes
             iconContainer.className = 'custom-alert-icon-container';
-            
+
             // Convert message to string safely
             const msgStr = String(message);
 
@@ -204,72 +204,13 @@
             messageElement.textContent = msgStr;
 
             // Make button autofocusable/clickable
-            btn.onclick = function() {
+            btn.onclick = function () {
                 overlay.classList.remove('show');
             };
 
             // Show the alert
             overlay.classList.add('show');
             btn.focus();
-        };
-
-        if (document.body) {
-            show();
-        } else {
-            document.addEventListener('DOMContentLoaded', show);
-    };
-
-    // Global custom confirm dialog helper
-    window.showCustomConfirm = function(message, onConfirm, onCancel) {
-        const show = () => {
-            let overlay = document.getElementById('customConfirmOverlay');
-            if (!overlay) {
-                overlay = document.createElement('div');
-                overlay.id = 'customConfirmOverlay';
-                overlay.className = 'custom-alert-overlay';
-                overlay.innerHTML = `
-                    <div class="custom-alert-card">
-                        <div class="custom-alert-icon-container custom-alert-icon-info">
-                            <i class="bi bi-question-circle-fill"></i>
-                        </div>
-                        <div class="custom-alert-title" id="customConfirmTitle">Confirm Action</div>
-                        <div class="custom-alert-message" id="customConfirmMessage"></div>
-                        <div style="display: flex; gap: 12px; justify-content: center;">
-                            <button class="custom-alert-btn" id="customConfirmCancelBtn" style="background: rgba(255,255,255,0.08); color: #cbd5e1; box-shadow: none;">Cancel</button>
-                            <button class="custom-alert-btn" id="customConfirmOkBtn">Confirm</button>
-                        </div>
-                    </div>
-                `;
-                document.body.appendChild(overlay);
-                
-                // Add styling for secondary cancel hover
-                const style = document.createElement('style');
-                style.innerHTML = `
-                    #customConfirmCancelBtn:hover {
-                        background: rgba(255,255,255,0.15) !important;
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-
-            const messageElement = document.getElementById('customConfirmMessage');
-            const okBtn = document.getElementById('customConfirmOkBtn');
-            const cancelBtn = document.getElementById('customConfirmCancelBtn');
-
-            messageElement.textContent = String(message);
-
-            okBtn.onclick = function() {
-                overlay.classList.remove('show');
-                if (onConfirm) onConfirm();
-            };
-
-            cancelBtn.onclick = function() {
-                overlay.classList.remove('show');
-                if (onCancel) onCancel();
-            };
-
-            overlay.classList.add('show');
-            okBtn.focus();
         };
 
         if (document.body) {

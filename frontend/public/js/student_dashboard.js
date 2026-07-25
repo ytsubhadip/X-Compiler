@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 "Content-Type": "application/json"
             }
         });
-        
+
         if (testsResponse.ok) {
             const data = await testsResponse.json();
             availableTests = data.tests || [];
@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             let btnClass = "primary";
             let btnText = "Start Exam";
             let dateText = "Today, 2:00 PM";
-            
+
             const position = idx % 3;
             if (position === 1) {
                 badgeClass = "opening-soon";
@@ -148,9 +148,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             const actionBtn = col.querySelector(".btn-exam-action");
             actionBtn.addEventListener("click", () => {
                 if (btnClass === "primary") {
-                    showCustomConfirm(`Are you ready to start "${test.title}"? Your timer of ${test.duration} minutes will begin immediately.`, () => {
+                    const confirmStart = confirm(`Are you ready to start "${test.title}"? Your timer of ${test.duration} minutes will begin immediately.`);
+                    if (confirmStart) {
                         launchSecureExam(test._id, test.testcode, test.duration);
-                    });
+                    }
                 } else if (btnClass === "secondary") {
                     alert(`Exam Details: "${test.title}"\nSubject Code: ${subjectCode}\nDepartment: ${test.department || 'N/A'}\nDuration: ${test.duration} Minutes\nStart Time: ${dateText}\n\nThis exam is scheduled. Return on the scheduled time to take the test.`);
                 } else if (btnClass === "disabled") {
@@ -167,7 +168,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Hydrate local storage exactly like join_intercept.html does:
         localStorage.setItem("activeExamTestId", testId);
         localStorage.setItem("examTimeRemaining", duration);
-        
+
         // Redirect directly to secure exam environment portal
         window.location.href = "/exam-portal";
     }
@@ -207,7 +208,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             // Highlight border setting
             const highlightClass = exam.isHighlighted ? "highlighted" : "";
-            
+
             // Score color classification
             const scoreColorClass = exam.score >= 90 ? "teal" : "green";
 

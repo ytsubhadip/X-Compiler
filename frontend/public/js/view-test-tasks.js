@@ -140,20 +140,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Flow 2: Clone everything as an independent new draft string
     function executeCloneToTransientWorkspace(testObject) {
-        showCustomConfirm(`Are you sure you want to clone "${testObject.title}"? This creates a safe copy so you don't corrupt ongoing exam results.`, () => {
-            const clonedQuestionsArray = testObject.questions.map(q => ({
-                title: `${q.title} (Copy)`,
-                difficulty: q.difficulty,
-                tags: q.tags || [],
-                description: q.description,
-                examples: q.examples || []
-            }));
+        if (!confirm(`Are you sure you want to clone "${testObject.title}"? This creates a safe copy so you don't corrupt ongoing exam results.`)) return;
 
-            localStorage.setItem("currentDraftQuestions", JSON.stringify(clonedQuestionsArray));
-            // Remove editing token so it treats it as a brand new test submission
-            localStorage.removeItem("editingTestId");
+        const clonedQuestionsArray = testObject.questions.map(q => ({
+            title: `${q.title} (Copy)`,
+            difficulty: q.difficulty,
+            tags: q.tags || [],
+            description: q.description,
+            examples: q.examples || []
+        }));
 
-            window.location.href = "/teacher/add-question";
-        });
+        localStorage.setItem("currentDraftQuestions", JSON.stringify(clonedQuestionsArray));
+        // Remove editing token so it treats it as a brand new test submission
+        localStorage.removeItem("editingTestId");
+
+        window.location.href = "/teacher/add-question";
     }
 });

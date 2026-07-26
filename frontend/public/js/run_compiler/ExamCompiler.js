@@ -152,7 +152,56 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => modal.remove(), 300);
     }
 
- 
+    // =========================================================================
+    // 🟢 TICKING TIMER COUNTDOWN CLOCK ENGINE
+    // =========================================================================
+    function startGlobalExamCountdown() {
+        const complexityDisplay = document.getElementById("complexity");
+        if (!complexityDisplay) return;
+
+        // Create a styled block container context right over the complexity metadata slot
+        complexityDisplay.innerHTML = `<span id="examClockNode" class="text-success font-monospace fw-bold" style="letter-spacing: 1px; font-size: 0.95rem;"><i class="bi bi-stopwatch-fill me-1 fa-spin"></i> Syncing...</span>`;
+
+        let timeRemainingInMinutes = parseInt(localStorage.getItem("examTimeRemaining") || "60");
+        let totalSeconds = timeRemainingInMinutes * 60;
+
+        const clockInterval = setInterval(() => {
+            if (!localStorage.getItem("activeExamTestId")) {
+                clearInterval(clockInterval);
+                return;
+            }
+
+            if (totalSeconds <= 0) {
+                clearInterval(clockInterval);
+                document.getElementById("examClockNode").textContent = "00:00";
+                document.getElementById("examClockNode").className = "text-danger font-monospace fw-bold";
+
+                // 🚨 FORCE AUTOMATED RECOGNITION EXECUTOR
+                executeFinalSubmissionPipeline(true);
+                return;
+            }
+
+            totalSeconds--;
+
+            // Sync calculation units back to local cache storage rows
+            const ceilingMinutes = Math.ceil(totalSeconds / 60);
+            localStorage.setItem("examTimeRemaining", ceilingMinutes);
+
+            let displayMin = Math.floor(totalSeconds / 60);
+            let displaySec = totalSeconds % 60;
+
+            displayMin = displayMin < 10 ? "0" + displayMin : displayMin;
+            displaySec = displaySec < 10 ? "0" + displaySec : displaySec;
+
+            const clockNode = document.getElementById("examClockNode");
+            if (clockNode) {
+                clockNode.innerHTML = `<i class="bi bi-clock-history me-1 ${totalSeconds < 60 ? 'text-danger fa-beat' : 'text-success'}"></i> ${displayMin}:${displaySec}`;
+                if (totalSeconds < 60) {
+                    clockNode.className = "text-danger font-monospace fw-bold";
+                }
+            }
+        }, 1000);
+    }
 
     const clearConsoleBtn = document.querySelector('.clear-console');
     if (clearConsoleBtn) {
@@ -165,7 +214,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-  
+    // Mount initial idle pet state cleanly
+    updateConsolePet('idle');
+    if (localStorage.getItem("activeExamTestId")) {
+        startGlobalExamCountdown();
+    }
+
     // =========================================================================
     // 🟢 GLOBAL EVENT DELEGATION LISTENER BLOCK
     // =========================================================================

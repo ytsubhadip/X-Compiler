@@ -35,7 +35,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Table elements
     const studentRecordsTableBody = document.getElementById("studentRecordsTableBody");
     const studentPerformanceSearch = document.getElementById("studentPerformanceSearch");
-    const seeAllStudentsBtn = document.getElementById("seeAllStudentsBtn");
     
     // Pagination elements
     const paginationEntriesText = document.getElementById("paginationEntriesText");
@@ -52,6 +51,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let allTests = [];
     let studentSubmissions = [];
     let filteredSubmissions = [];
+    let scoreChart = null;
     
     // Pagination state
     let currentPage = 1;
@@ -192,28 +192,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         ];
     }
 
-    // Populate Filters dropdowns
-    function populateDropdowns() {
-        // Populate Tests Dropdown
-        allTests.forEach(test => {
-            const option = document.createElement("option");
-            option.value = test._id;
-            option.textContent = test.title;
-            testFilter.appendChild(option);
-        });
-
-        // Extract and populate unique departments
-        const depts = new Set();
-        allTests.forEach(t => { if (t.department) depts.add(t.department); });
-        depts.forEach(dept => {
-            const option = document.createElement("option");
-            option.value = dept;
-            option.textContent = dept;
-            deptFilter.appendChild(option);
-        });
-    }
-
-    populateDropdowns();
+  
 
     // Generate mock submissions based on the test list
     studentSubmissions = generateMockSubmissions(allTests);
@@ -221,11 +200,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Check if test ID is provided in URL params (from Results button click)
     const urlParams = new URLSearchParams(window.location.search);
     const preselectedTestId = urlParams.get("id");
-    if (preselectedTestId) {
+    if (preselectedTestId && testFilter) {
         testFilter.value = preselectedTestId;
         // Find corresponding department and trigger filter sync
         const selectedTestObj = allTests.find(t => t._id === preselectedTestId);
-        if (selectedTestObj && selectedTestObj.department) {
+        if (selectedTestObj && selectedTestObj.department && deptFilter) {
             deptFilter.value = selectedTestObj.department;
         }
     }
@@ -234,9 +213,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 5. FILTERING AND COMPUTATIONS ENGINE
     // =========================================================================
     function updateDashboard() {
-        const timeRangeVal = timeRangeFilter.value;
-        const selectedDept = deptFilter.value;
-        const selectedTestId = testFilter.value;
+        const timeRangeVal = timeRangeFilter ? timeRangeFilter.value : "all";
+        const selectedDept = deptFilter ? deptFilter.value : "";
+        const selectedTestId = testFilter ? testFilter.value : "";
         const searchQuery = studentPerformanceSearch.value.trim().toLowerCase();
 
         // 1. Apply Filtering Filters
@@ -308,12 +287,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         metricAvgTimeSpent.textContent = formatTimeSpent(avgTimeSpentSec);
 
         // Adjust trends dynamically
-        if (selectedDept || selectedTestId) {
-            trendTotalStudents.innerHTML = `<i class="bi bi-info-circle-fill"></i> Filtered results`;
-            trendTotalStudents.className = "metric-card-footer text-muted";
-        } else {
-            trendTotalStudents.innerHTML = `<i class="bi bi-arrow-up-short"></i> +5.2% from last month`;
-            trendTotalStudents.className = "metric-card-footer text-success";
+        if (trendTotalStudents) {
+            if (selectedDept || selectedTestId) {
+                trendTotalStudents.innerHTML = `<i class="bi bi-info-circle-fill"></i> Filtered results`;
+                trendTotalStudents.className = "metric-card-footer text-muted";
+            } else {
+                trendTotalStudents.innerHTML = `<i class="bi bi-arrow-up-short"></i> +5.2% from last month`;
+                trendTotalStudents.className = "metric-card-footer text-success";
+            }
         }
 
         // 4. Update Score Distribution Visual Bars
@@ -347,18 +328,100 @@ document.addEventListener("DOMContentLoaded", async () => {
         const p3 = total > 0 ? Math.round((range70to90 / total) * 100) : 0;
         const p4 = total > 0 ? Math.round((above90 / total) * 100) : 0;
 
-        // Apply heights and tooltips
-        document.getElementById("barFill1").style.height = `${p1 || 3}%`;
-        document.getElementById("barTooltip1").textContent = `${p1}%`;
-        
-        document.getElementById("barFill2").style.height = `${p2 || 3}%`;
-        document.getElementById("barTooltip2").textContent = `${p2}%`;
-        
-        document.getElementById("barFill3").style.height = `${p3 || 3}%`;
-        document.getElementById("barTooltip3").textContent = `${p3}%`;
-        
-        document.getElementById("barFill4").style.height = `${p4 || 3}%`;
-        document.getElementById("barTooltip4").textContent = `${p4}%`;
+        const dataValues = [p1, p2, p3, p4];
+        const labels = ["<50", "50-70", "70-90", "90+"];
+
+        const canvas = document.getElementById("scoreDistributionChart");
+        if (!canvas) return;
+
+        if (!scoreChart) {
+            const ctx = canvas.getContext("2d");
+            
+            // Create gradient fill
+            const gradient = ctx.createLinearGradient(0, 0, 0, 180);
+            gradient.addColorStop(0, "rgba(59, 130, 246, 0.4)");
+            gradient.addColorStop(1, "rgba(59, 130, 246, 0.0)");
+
+            scoreChart = new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: "Students",
+                        data: dataValues,
+                        borderColor: "#3b82f6",
+                        borderWidth: 2.5,
+                        backgroundColor: gradient,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: "#3b82f6",
+                        pointBorderColor: "#ffffff",
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ` ${context.parsed.y}% of students`;
+                                }
+                            },
+                            backgroundColor: "rgba(15, 23, 42, 0.9)",
+                            titleFont: { size: 12, family: "'Outfit', sans-serif", weight: "bold" },
+                            bodyFont: { size: 12, family: "'Outfit', sans-serif" },
+                            padding: 10,
+                            cornerRadius: 8,
+                            displayColors: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    family: "'Outfit', sans-serif",
+                                    size: 11,
+                                    weight: 600
+                                },
+                                color: "#94a3b8"
+                            }
+                        },
+                        y: {
+                            min: 0,
+                            max: 100,
+                            ticks: {
+                                stepSize: 25,
+                                font: {
+                                    family: "'Outfit', sans-serif",
+                                    size: 11
+                                },
+                                color: "#94a3b8",
+                                callback: function(value) {
+                                    return value + "%";
+                                }
+                            },
+                            grid: {
+                                color: "rgba(226, 232, 240, 0.6)",
+                                borderDash: [4, 4]
+                            }
+                        }
+                    }
+                }
+            });
+        } else {
+            scoreChart.data.datasets[0].data = dataValues;
+            scoreChart.update();
+        }
     }
 
     // Dynamic Top Performers panel renderer
@@ -478,43 +541,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 6. EVENT BINDING HANDLERS
     // =========================================================================
     // Filter controls change listeners
-    timeRangeFilter.addEventListener("change", () => {
-        currentPage = 1;
-        updateDashboard();
-    });
-
-    deptFilter.addEventListener("change", () => {
-        currentPage = 1;
-        updateDashboard();
-    });
-
-    testFilter.addEventListener("change", () => {
-        currentPage = 1;
-        // Auto match department if test is selected
-        const val = testFilter.value;
-        if (val) {
-            const matchingTest = allTests.find(t => t._id === val);
-            if (matchingTest && matchingTest.department) {
-                deptFilter.value = matchingTest.department;
-            }
-        }
-        updateDashboard();
-    });
+  
+   
+   
 
     studentPerformanceSearch.addEventListener("input", () => {
         currentPage = 1;
         updateDashboard();
     });
 
-    seeAllStudentsBtn.addEventListener("click", () => {
-        // Clear filters & search to see all student records
-        timeRangeFilter.value = "all";
-        deptFilter.value = "";
-        testFilter.value = "";
-        studentPerformanceSearch.value = "";
-        currentPage = 1;
-        updateDashboard();
-    });
+   
 
     // Pagination arrows navigation
     prevPageBtn.addEventListener("click", () => {

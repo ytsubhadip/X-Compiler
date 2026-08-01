@@ -51,40 +51,12 @@
             
             <!-- Filters & Export -->
             <div class="d-flex align-items-center gap-2 flex-wrap filter-controls-group">
-                <!-- Time Range Filter -->
-                <div class="glass-dropdown-wrapper">
-                    <select id="timeRangeFilter" class="glass-select-control">
-                        <option value="30">Last 30 Days</option>
-                        <option value="7">Last 7 Days</option>
-                        <option value="90">Last 90 Days</option>
-                        <option value="all">All Time</option>
-                    </select>
-                    <i class="bi bi-chevron-down dropdown-icon-indicator"></i>
-                </div>
-
-                <!-- Department Filter -->
-                <div class="glass-dropdown-wrapper">
-                    <select id="deptFilter" class="glass-select-control">
-                        <option value="">All Departments</option>
-                        <!-- Dynamic Options will be loaded here -->
-                    </select>
-                    <i class="bi bi-chevron-down dropdown-icon-indicator"></i>
-                </div>
-
-                <!-- Test Filter -->
-                <div class="glass-dropdown-wrapper">
-                    <select id="testFilter" class="glass-select-control">
-                        <option value="">All Tests</option>
-                        <!-- Dynamic Options will be loaded here -->
-                    </select>
-                    <i class="bi bi-chevron-down dropdown-icon-indicator"></i>
-                </div>
-
                 <!-- Export Button -->
                 <button id="exportReportBtn" class="btn-export-report">
                     <i class="bi bi-download"></i> Export Report
                 </button>
             </div>
+
         </div>
 
         <!-- Metrics Overview Cards -->
@@ -99,9 +71,6 @@
                         </div>
                     </div>
                     <div class="metric-card-value" id="metricTotalStudents">1,428</div>
-                    <div class="metric-card-footer text-success" id="trendTotalStudents">
-                        <i class="bi bi-arrow-up-short"></i> +5.2% from last month
-                    </div>
                 </div>
             </div>
 
@@ -171,7 +140,7 @@
                                 <i class="bi bi-search search-icon"></i>
                                 <input type="text" id="studentPerformanceSearch" placeholder="Search by name or ID..." class="search-control">
                             </div>
-                            <button id="seeAllStudentsBtn" class="btn-see-all-action">See All</button>
+                        
                         </div>
                     </div>
 
@@ -220,47 +189,11 @@
             <div class="col-12 col-xl-4 d-flex flex-column gap-4">
                 <!-- Score Distribution Card -->
                 <div class="dashboard-content-card flex-fill">
-                    <h2 class="section-card-title mb-4">SCORE DISTRIBUTION</h2>
+                    <h2 class="section-card-title mb-3">SCORE DISTRIBUTION</h2>
                     
-                    <!-- Vertical Custom Bar Chart -->
-                    <div class="score-distribution-chart-wrapper">
-                        <div class="chart-bars-container" id="chartBarsContainer">
-                            <!-- Bar 1 (<50) -->
-                            <div class="chart-bar-column">
-                                <div class="chart-bar-value-tooltip" id="barTooltip1">12%</div>
-                                <div class="chart-bar-track">
-                                    <div class="chart-bar-fill red" id="barFill1" style="height: 12%;"></div>
-                                </div>
-                                <span class="chart-bar-axis-label">&lt;50</span>
-                            </div>
-
-                            <!-- Bar 2 (50-70) -->
-                            <div class="chart-bar-column">
-                                <div class="chart-bar-value-tooltip" id="barTooltip2">28%</div>
-                                <div class="chart-bar-track">
-                                    <div class="chart-bar-fill orange" id="barFill2" style="height: 28%;"></div>
-                                </div>
-                                <span class="chart-bar-axis-label">50-70</span>
-                            </div>
-
-                            <!-- Bar 3 (70-90) -->
-                            <div class="chart-bar-column">
-                                <div class="chart-bar-value-tooltip" id="barTooltip3">45%</div>
-                                <div class="chart-bar-track">
-                                    <div class="chart-bar-fill blue" id="barFill3" style="height: 45%;"></div>
-                                </div>
-                                <span class="chart-bar-axis-label">70-90</span>
-                            </div>
-
-                            <!-- Bar 4 (90+) -->
-                            <div class="chart-bar-column">
-                                <div class="chart-bar-value-tooltip" id="barTooltip4">15%</div>
-                                <div class="chart-bar-track">
-                                    <div class="chart-bar-fill green" id="barFill4" style="height: 15%;"></div>
-                                </div>
-                                <span class="chart-bar-axis-label">90+</span>
-                            </div>
-                        </div>
+                    <!-- Area Chart Container -->
+                    <div class="score-distribution-chart-wrapper-canvas">
+                        <canvas id="scoreDistributionChart"></canvas>
                     </div>
                 </div>
 
@@ -279,8 +212,9 @@
     </div>
 
     <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/js/navbar.js"></script>
-    <script src="/js/inspect_off.js"></script>
+    <!-- <script src="/js/inspect_off.js"></script> -->
     <script src="/js/student_result.js"></script>
 </body>
 </html>

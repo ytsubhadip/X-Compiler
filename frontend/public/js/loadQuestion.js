@@ -135,7 +135,7 @@ window.renderDynamicQuestionPaginationHUD = function (totalQuestions, activeInde
     for (let i = 0; i < totalQuestions; i++) {
         const btn = document.createElement("button");
         btn.innerText = i + 1;
-        btn.className = (i === activeIndex) ? "btn btn-sm btn-success me-2 fw-bold" : "btn btn-sm btn-outline-secondary me-2";
+        btn.className = (i === activeIndex) ? "task-pill task-pill--active" : "task-pill";
         btn.onclick = () => window.navigateExamWorkspaceTaskIndex(i);
         wrapperContainer.appendChild(btn);
     }

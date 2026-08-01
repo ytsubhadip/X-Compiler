@@ -143,63 +143,63 @@ document.addEventListener("DOMContentLoaded", () => {
     // =========================================================================
     // 🟢 PRODUCTION-GRADE PROCTORING & ANTI-CHEAT PROTOCOL MATRIX
     // =========================================================================
-    // let tabViolationStrikes = 0;
-    // const MAX_VIOLATION_LIMIT = 2; // Strict limit: 3rd switch triggers force lockout auto-submit
+    let tabViolationStrikes = 0;
+    const MAX_VIOLATION_LIMIT = 2; // Strict limit: 3rd switch triggers force lockout auto-submit
 
-    // function activateProctorSecurityShield() {
-    //     console.log("🛡️ Proctoring Security Shield Active: Monitoring Workspace Activity Vectors...");
+    function activateProctorSecurityShield() {
+        console.log("🛡️ Proctoring Security Shield Active: Monitoring Workspace Activity Vectors...");
 
-    //     // 1️⃣ ANTI-INSPECT: Block Right-Click Context Menus
-    //     document.addEventListener("contextmenu", (e) => {
-    //         e.preventDefault();
-    //         alert("Security Restriction: Right-click inspection is strictly disabled during active assessment sessions.");
-    //     });
+        // 1️⃣ ANTI-INSPECT: Block Right-Click Context Menus
+        document.addEventListener("contextmenu", (e) => {
+            e.preventDefault();
+            alert("Security Restriction: Right-click inspection is strictly disabled during active assessment sessions.");
+        });
 
-    //     // 2️⃣ ANTI-INSPECT: Block Core Developer Tool Keyboard Combos (F12, Ctrl+Shift+I/J/C, Ctrl+U)
-    //     document.addEventListener("keydown", (e) => {
-    //         const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
-    //         const metaOrCtrl = isMac ? e.metaKey : e.ctrlKey;
+        // 2️⃣ ANTI-INSPECT: Block Core Developer Tool Keyboard Combos (F12, Ctrl+Shift+I/J/C, Ctrl+U)
+        document.addEventListener("keydown", (e) => {
+            const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+            const metaOrCtrl = isMac ? e.metaKey : e.ctrlKey;
 
-    //         if (
-    //             e.key === "F12" ||
-    //             (metaOrCtrl && e.shiftKey && (e.key === "I" || e.key === "i" || e.key === "J" || e.key === "j" || e.key === "C" || e.key === "c")) ||
-    //             (metaOrCtrl && (e.key === "U" || e.key === "u"))
-    //         ) {
-    //             e.preventDefault();
-    //             e.stopPropagation();
-    //             alert("Security Alert: Developer system tool hotkeys are strictly prohibited.");
-    //         }
-    //     });
+            if (
+                e.key === "F12" ||
+                (metaOrCtrl && e.shiftKey && (e.key === "I" || e.key === "i" || e.key === "J" || e.key === "j" || e.key === "C" || e.key === "c")) ||
+                (metaOrCtrl && (e.key === "U" || e.key === "u"))
+            ) {
+                e.preventDefault();
+                e.stopPropagation();
+                alert("Security Alert: Developer system tool hotkeys are strictly prohibited.");
+            }
+        });
 
-    //     // 3️⃣ ANTI-COPY/PASTE: Block Clipboard Vectors within Code Canvas Area
-    //     const workspaceContainer = document.getElementById("mainWorkspaceGridMatrix");
-    //     if (workspaceContainer) {
-    //         ["copy", "cut", "paste"].forEach(eventType => {
-    //             workspaceContainer.addEventListener(eventType, (e) => {
-    //                 e.preventDefault();
-    //                 e.stopPropagation();
-    //                 alert(`Security Restriction: Clipboard interactions (${eventType}) are permanently blocked inside the evaluation window.`);
-    //             });
-    //         });
-    //     }
+        // 3️⃣ ANTI-COPY/PASTE: Block Clipboard Vectors within Code Canvas Area
+        const workspaceContainer = document.getElementById("mainWorkspaceGridMatrix");
+        if (workspaceContainer) {
+            ["copy", "cut", "paste"].forEach(eventType => {
+                workspaceContainer.addEventListener(eventType, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    alert(`Security Restriction: Clipboard interactions (${eventType}) are permanently blocked inside the evaluation window.`);
+                });
+            });
+        }
 
-    //     // 4️⃣ ANTI-TAB-SWITCH: Monitor Window Visibility Focus Transitions
-    //     document.addEventListener("visibilitychange", () => {
-    //         if (document.visibilityState === "hidden") {
-    //             if (!localStorage.getItem("activeExamTestId")) return;
+        // 4️⃣ ANTI-TAB-SWITCH: Monitor Window Visibility Focus Transitions
+        document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState === "hidden") {
+                if (!localStorage.getItem("activeExamTestId")) return;
 
-    //             tabViolationStrikes++;
-    //             console.warn(`⚠️ Tab violation detected! Strike Count: ${tabViolationStrikes}/${MAX_VIOLATION_LIMIT + 1}`);
+                tabViolationStrikes++;
+                console.warn(`⚠️ Tab violation detected! Strike Count: ${tabViolationStrikes}/${MAX_VIOLATION_LIMIT + 1}`);
 
-    //             if (tabViolationStrikes <= MAX_VIOLATION_LIMIT) {
-    //                 const strikesRemaining = (MAX_VIOLATION_LIMIT + 1) - tabViolationStrikes;
-    //                 alert(`🚨 SECURITY VIOLATION DETECTED!\nYou have navigated away from the active examination portal environment. This infraction counts as a formal strike.\n\n⚠️ Warning: If you switch tabs, lose window focus, or minimize this screen ${strikesRemaining} more time(s), your session will be instantly terminated and force-submitted.`);
-    //             } else {
-    //                 executeEmergencyForceTermination();
-    //             }
-    //         }
-    //     });
-    // }
+                if (tabViolationStrikes <= MAX_VIOLATION_LIMIT) {
+                    const strikesRemaining = (MAX_VIOLATION_LIMIT + 1) - tabViolationStrikes;
+                    alert(`🚨 SECURITY VIOLATION DETECTED!\nYou have navigated away from the active examination portal environment. This infraction counts as a formal strike.\n\n⚠️ Warning: If you switch tabs, lose window focus, or minimize this screen ${strikesRemaining} more time(s), your session will be instantly terminated and force-submitted.`);
+                } else {
+                    executeEmergencyForceTermination();
+                }
+            }
+        });
+    }
 
     // 🚨 EMERGENCY FORCE TERMINATION TERMINATION SEQUENCE
     function executeEmergencyForceTermination() {

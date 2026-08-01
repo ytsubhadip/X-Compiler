@@ -105,13 +105,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const row = document.createElement("tr");
         row.innerHTML = `
-            <td class="font-monospace text-muted">${timeStr}</td>
+            <td class="font-monospace exam-cell-muted">${timeStr}</td>
             <td>
-                <span class="badge ${status === 'Accepted' ? 'bg-success-subtle text-success border border-success-subtle' : 'bg-danger-subtle text-danger border border-danger-subtle'}">
+                <span class="submission-result ${status === 'Accepted' ? 'submission-result--accepted' : 'submission-result--rejected'}">
                     ${status}
                 </span>
             </td>
-            <td class="font-monospace text-white">${time !== undefined && time !== null ? Math.round(time) + ' ms' : '-'}</td>
+            <td class="font-monospace">${time !== undefined && time !== null ? Math.round(time) + ' ms' : '-'}</td>
         `;
         tableBody.insertBefore(row, tableBody.firstChild);
     }
@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!complexityDisplay) return;
 
         // Create a styled block container context right over the complexity metadata slot
-        complexityDisplay.innerHTML = `<span id="examClockNode" class="text-success font-monospace fw-bold" style="letter-spacing: 1px; font-size: 0.95rem;"><i class="bi bi-stopwatch-fill me-1 fa-spin"></i> Syncing...</span>`;
+        complexityDisplay.innerHTML = `<span id="examClockNode" class="exam-clock"><i class="bi bi-stopwatch-fill"></i> Syncing...</span>`;
 
         let timeRemainingInMinutes = parseInt(localStorage.getItem("examTimeRemaining") || "60");
         let totalSeconds = timeRemainingInMinutes * 60;
@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (totalSeconds <= 0) {
                 clearInterval(clockInterval);
                 document.getElementById("examClockNode").textContent = "00:00";
-                document.getElementById("examClockNode").className = "text-danger font-monospace fw-bold";
+                document.getElementById("examClockNode").className = "exam-clock exam-clock--urgent";
 
                 // 🚨 FORCE AUTOMATED RECOGNITION EXECUTOR
                 executeFinalSubmissionPipeline(true);
@@ -195,10 +195,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const clockNode = document.getElementById("examClockNode");
             if (clockNode) {
-                clockNode.innerHTML = `<i class="bi bi-clock-history me-1 ${totalSeconds < 60 ? 'text-danger fa-beat' : 'text-success'}"></i> ${displayMin}:${displaySec}`;
-                if (totalSeconds < 60) {
-                    clockNode.className = "text-danger font-monospace fw-bold";
-                }
+                const urgent = totalSeconds < 60;
+                clockNode.className = urgent ? "exam-clock exam-clock--urgent" : "exam-clock";
+                clockNode.innerHTML = `<i class="bi bi-clock-history${urgent ? " fa-beat" : ""}"></i> ${displayMin}:${displaySec}`;
             }
         }, 1000);
     }

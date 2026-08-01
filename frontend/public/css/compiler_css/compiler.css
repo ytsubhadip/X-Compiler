@@ -15,7 +15,9 @@
     padding: 0;
     display: flex;
     background-color: var(--bg-main);
+    margin-top: 64px;
 }
+
 
 .left-column {
     height: 100%;

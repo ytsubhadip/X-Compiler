@@ -165,9 +165,25 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Secure Launch Exam Flow
     function launchSecureExam(testId, testCode, duration) {
-        // Hydrate local storage exactly like join_intercept.html does:
-        localStorage.setItem("activeExamTestId", testId);
-        localStorage.setItem("examTimeRemaining", duration);
+        // Clear any old/existing exam session data to ensure the room code auth screen shows up
+        localStorage.removeItem("activeExamTestId");
+        localStorage.removeItem("examTimeRemaining");
+        localStorage.removeItem("activeExamQuestionsList");
+        localStorage.removeItem("activeExamCurrentIndex");
+        
+        // Remove code draft caches from previous tests
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith("exam_code_draft_q_")) {
+                localStorage.removeItem(key);
+                i--; // adjust index since we removed an item
+            }
+        }
+
+        // Store the test code temporarily so the page can pre-fill it
+        if (testCode) {
+            localStorage.setItem("tempTestCode", testCode.replace(/-/g, "").toUpperCase());
+        }
 
         // Redirect directly to secure exam environment portal
         window.location.href = "/exam-portal";

@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
 
             if (activeDraftQuestions.length === 0) {
-                alert("Validation Exception: You cannot create an empty test assessment. Please add at least 1 question.");
+                alert("You cannot create an empty test assessment. Please add at least 1 question.");
                 return;
             }
 

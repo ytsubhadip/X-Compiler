@@ -53,7 +53,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const dropdownStructure = `
             <div class="user-profile-menu">
                 <div class="profile-avatar-trigger" id="profileTrigger">
-                    <div class="avatar-circle" style="${avatarStyle}">${savedAvatar ? '' : initialChar}</div>
+                    <div class="avatar-circle" style="${avatarStyle}">
+                        <i class="fa-solid fa-user" style="color: rgb(18, 17, 17); style="font-size: 1.50rem;"></i>
+                    </div>
                 </div>
                 <div class="profile-dropdown-card" id="profileDropdown">
                     <div class="dropdown-header">

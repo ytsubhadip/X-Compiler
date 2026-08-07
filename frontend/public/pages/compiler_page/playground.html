@@ -5,9 +5,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Playground - X Compiler</title>
-   <link rel="icon" type="image/png" href="/asset/logo.png">
+  <link rel="icon" type="image/png" href="/asset/logo.png">
 
-
+  <!-- cnd link  -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
@@ -30,10 +30,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
     integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- css file  -->
   <link rel="stylesheet" href="/css/navbar.css">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/compiler_css/playground.css">
-  <script src="/js/custom-alert.js"></script>
 </head>
 
 <body class="landing-page d-flex flex-column" style="height: 100vh; overflow: hidden;">
@@ -50,7 +51,8 @@
                 <label class="visually-hidden" for="inlineFormSelectPref">Language</label>
                 <div class="custom-select-shell">
                   <div class="custom-dropdown" id="customLanguageDropdown">
-                    <button type="button" class="custom-dropdown-btn" id="customDropdownBtn" aria-haspopup="listbox" aria-expanded="false">
+                    <button type="button" class="custom-dropdown-btn" id="customDropdownBtn" aria-haspopup="listbox"
+                      aria-expanded="false">
                       <span class="custom-dropdown-btn-content">
                         <i class="bi bi-code-slash custom-dropdown-icon" id="customDropdownIcon"></i>
                         <span class="custom-dropdown-label" id="customDropdownLabel">Choose Language</span>
@@ -80,7 +82,7 @@
                       </li>
                     </ul>
                   </div>
-                  
+
                   <select class="form-select custom-select" id="inlineFormSelectPref" style="display: none !important;">
                     <option selected value="noL">Choose Language</option>
                     <option value="python">Python</option>
@@ -140,8 +142,8 @@
                   <span><i class="bi bi-keyboard-fill me-2"></i>Input</span>
                   <span class="console-panel-badge subtle">stdin</span>
                 </div>
-               <textarea id="customInput" class="console-input" spellcheck="false"
-                placeholder="If your code requires input, type it here BEFORE clicking Run Code..."></textarea>
+                <textarea id="customInput" class="console-input" spellcheck="false"
+                  placeholder="If your code requires input, type it here BEFORE clicking Run Code..."></textarea>
               </div>
 
               <div class="console-footer">
@@ -176,7 +178,7 @@
 
     // Apply theme changes to DOM and CodeMirror instance
     var themeToggleBtn = document.getElementById('themeToggleBtn');
-    
+
     function applyTheme(theme) {
       if (theme === 'dark') {
         document.body.classList.add('dark-theme');
@@ -200,7 +202,7 @@
 
     // Set up toggle click event
     if (themeToggleBtn) {
-      themeToggleBtn.addEventListener('click', function() {
+      themeToggleBtn.addEventListener('click', function () {
         var currentTheme = localStorage.getItem('playground-theme') || 'light';
         var nextTheme = currentTheme === 'light' ? 'dark' : 'light';
         applyTheme(nextTheme);
@@ -211,7 +213,7 @@
   <script src="/js/navbar.js"></script>
   <script src="/js/run_compiler/compilerRunner.js"></script>
   <script src="/js/language.js"></script>
-   <script src="/js/inspect_off.js"></script> 
+  <script src="/js/inspect_off.js"></script>
 
 </body>
 

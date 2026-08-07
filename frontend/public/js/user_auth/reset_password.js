@@ -32,6 +32,7 @@ document.getElementById("formForgotPasswordReset").addEventListener("submit", as
         }
         showAlertMessage("Initiating identity verification check...", "text-warning");
 
+        
         // 🟢 UPDATED FETCH PAYLOAD: Pushing email, rollNumber, and new password parameters to backend
         const response = await fetch("/api/auth/reset-password", {
             method: "POST",

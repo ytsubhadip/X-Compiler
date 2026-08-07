@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In - X compiler</title>
-     <link rel="icon" type="image/png" href="/asset/logo.png">
+    <link rel="icon" type="image/png" href="/asset/logo.png">
+
+    <!-- cdn link  -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
@@ -18,13 +20,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- css file  -->
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/auth_css/signin.css">
     <link rel="stylesheet" href="/css/loder/loder.css">
-    <!-- <script src="/js/custom-alert.js"></script> -->
+    <script src="/js/custom-alert.js"></script>
 </head>
 
-<body class="landing-page d-flex flex-column">
+<body>
+
+    <!-- loder  -->
     <div class="login-loder">
 
         <div class="loader">
@@ -39,13 +45,14 @@
         </div>
     </div>
 
+    <!-- sign in div -->
     <main class="auth-wrapper" id="authWrapper">
         <div id="authContainer" class="auth-container" style="position: relative; z-index: 10;">
             <a href="/" class="back-to-home-link"><i class="bi bi-arrow-left"></i> Back to Home</a>
 
             <div class="auth-card">
                 <div class="auth-header">
-                     <img src="../asset/logo.png" class="fa-brands fa-magento brand-icon" alt="brand logo">
+                    <img src="../asset/logo.png" class="fa-brands fa-magento brand-icon" alt="brand logo">
                     <h2 id="authTitle">Welcome Back</h2>
                     <p id="authSubtitle">Log in to X Compiler to compile and run your solutions as a student.</p>
                 </div>
@@ -96,7 +103,8 @@
                         </div>
 
                         <button class="btn-auth-submit btn-signin-submit" type="submit" id="btnSubmitSignin">
-                            <span class="spinner-border spinner-border-sm me-2 d-none" id="signinLoader" role="status" aria-hidden="true"></span>
+                            <span class="spinner-border spinner-border-sm me-2 d-none" id="signinLoader" role="status"
+                                aria-hidden="true"></span>
                             <span id="signinBtnText"><i class="bi bi-box-arrow-in-right me-1"></i> Sign In</span>
                         </button>
 
@@ -120,7 +128,7 @@
         const btnSubmitSignin = document.getElementById('btnSubmitSignin');
         const authSubtitle = document.getElementById('authSubtitle');
 
-        let activeRole = 'student';
+        let activeRole = 'student'; 
 
         function selectStudentRole() {
             btnTabStudent.classList.add('active');
@@ -191,7 +199,7 @@
         });
 
     </script>
-   
+
 
     <script src="/js/user_auth/signin.js"></script>
     <script src="/js/loder.js"></script>

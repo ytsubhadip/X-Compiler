@@ -143,7 +143,9 @@ html, body {
   min-width: 120px;
   min-height: 36px;
 }
-
+#avatarInput{
+  display: none;
+}
 .badge-role {
   font-size: 0.7rem;
   font-weight: 700;

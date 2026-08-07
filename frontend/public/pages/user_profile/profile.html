@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>My Profile — X Compiler</title>
-  <meta name="description" content="View and manage your X-Compiler account profile, personal details, and academic information." />
+  <meta name="description"
+    content="View and manage your X-Compiler account profile, personal details, and academic information." />
   <link rel="icon" type="image/png" href="/asset/logo.png">
+
+  <!-- cdn link  -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
@@ -15,15 +19,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
+  <!-- css file -->
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/navbar.css">
   <link rel="stylesheet" href="/css/profile.css">
   <script src="/js/custom-alert.js"></script>
 </head>
-<body style="min-height: 100vh; overflow-y: auto;">
+
+<body>
   <nav class="custom-navbar"></nav>
-
-
 
   <main class="profile-main">
     <div class="profile-container">
@@ -36,34 +41,34 @@
             <i class="bi bi-camera"></i>
           </div>
         </div>
-        <input type="file" id="avatarInput" accept="image/*" style="display: none;">
-        <h1 id="profileName" class="skeleton skeleton-text" style="min-width:160px; min-height:32px;">
+        <input type="file" id="avatarInput" accept="image/*">
+        <h1 id="profileName" class="skeleton skeleton-text">
           &nbsp;
         </h1>
-        <span class="badge-role skeleton" id="profileRoleBadge" style="min-width:80px; min-height:20px;">&nbsp;</span>
-        
+        <span class="badge-role skeleton" id="profileRoleBadge">&nbsp;</span>
+
       </div>
 
       <!-- ── INFO DETAILS SECTION ── -->
       <div class="profile-details">
         <div class="detail-item">
           <label><i class="bi bi-envelope me-2"></i>Email Address</label>
-          <span id="profileEmail" class="skeleton skeleton-inline" style="min-width:180px;">&nbsp;</span>
+          <span id="profileEmail" class="skeleton skeleton-inline">&nbsp;</span>
         </div>
 
-        <div class="detail-item student-only" id="studentDeptGroup" style="display: none;">
+        <div class="detail-item student-only" id="studentDeptGroup">
           <label><i class="bi bi-building me-2"></i>Department</label>
-          <span id="profileDept" class="skeleton skeleton-inline" style="min-width:140px;">&nbsp;</span>
+          <span id="profileDept" class="skeleton skeleton-inline">&nbsp;</span>
         </div>
 
-        <div class="detail-item student-only" id="studentSemGroup" style="display: none;">
+        <div class="detail-item student-only" id="studentSemGroup">
           <label><i class="bi bi-mortarboard me-2"></i>Semester</label>
-          <span id="profileSem" class="skeleton skeleton-inline" style="min-width:60px;">&nbsp;</span>
+          <span id="profileSem" class="skeleton skeleton-inline">&nbsp;</span>
         </div>
 
-        <div class="detail-item student-only" id="studentRollGroup" style="display: none;">
+        <div class="detail-item student-only" id="studentRollGroup">
           <label><i class="bi bi-hash me-2"></i>Roll Number</label>
-          <span id="profileRoll" class="skeleton skeleton-inline" style="min-width:100px;">&nbsp;</span>
+          <span id="profileRoll" class="skeleton skeleton-inline">&nbsp;</span>
         </div>
       </div>
 
@@ -80,6 +85,7 @@
     </div>
   </main>
 
+  
   <!-- ══════════════════════════════════════════════════
        EDIT PROFILE MODAL
   ══════════════════════════════════════════════════ -->
@@ -101,14 +107,7 @@
           <label class="field-label" for="editName">Display Name</label>
           <div class="field-input-wrapper">
             <i class="bi bi-person field-icon"></i>
-            <input
-              type="text"
-              id="editName"
-              class="field-input"
-              placeholder="Your full name"
-              maxlength="60"
-              required
-            />
+            <input type="text" id="editName" class="field-input" placeholder="Your full name" maxlength="60" required />
           </div>
         </div>
 
@@ -116,14 +115,8 @@
           <label class="field-label" for="editDept">Department</label>
           <div class="field-input-wrapper">
             <i class="bi bi-building field-icon"></i>
-            <input
-              type="text"
-              id="editDept"
-              class="field-input"
-              placeholder="e.g. Bsc Data Science"
-              maxlength="80"
-              disabled
-            />
+            <input type="text" id="editDept" class="field-input" placeholder="e.g. Bsc Data Science" maxlength="80"
+              disabled />
           </div>
           <p class="field-hint">Contact your institution admin to change department</p>
         </div>
@@ -132,15 +125,7 @@
           <label class="field-label" for="editSem">Semester</label>
           <div class="field-input-wrapper">
             <i class="bi bi-mortarboard field-icon"></i>
-            <input
-              type="number"
-              id="editSem"
-              class="field-input"
-              placeholder="e.g. 4"
-              min="1"
-              max="12"
-              disabled
-            />
+            <input type="number" id="editSem" class="field-input" placeholder="e.g. 4" min="1" max="12" disabled />
           </div>
           <p class="field-hint">Contact your institution admin to change semester</p>
         </div>
@@ -157,5 +142,7 @@
 
   <script src="/js/navbar.js"></script>
   <script src="/js/profile/user_profile.js"></script>
+  <script src="/js/inspect_off.js"></script>
 </body>
+
 </html>

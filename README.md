@@ -1,7 +1,10 @@
+<div align="center">
 
+# ⚡ X-Compiler
+
+</div>
 
 <div align="center">
-# ⚡ X-Compiler
     
 ### 🚀 A Modern Online Code Compiler & Learning Platform
 

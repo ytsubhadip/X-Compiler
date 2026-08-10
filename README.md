@@ -661,6 +661,85 @@ It helps the project grow! 🚀
 
 **Write Code → Compile → Execute → Learn**
 
+# X-Compiler — Proprietary License
+
+**Copyright © 2026 Subhadip Bar. All Rights Reserved.**
+
+This repository, including its source code, documentation, design, assets, and related materials (collectively, the "Software"), is the exclusive intellectual property of **Subhadip Bar**.
+
+## 1. Permission
+
+No permission is granted to use, copy, modify, merge, publish, distribute, sublicense, sell, or create derivative works from this Software, except with explicit written permission from the copyright holder.
+
+The Software is made publicly available on GitHub for **viewing and evaluation purposes only**.
+
+## 2. Restrictions
+
+Without prior written permission from the copyright holder, you may **not**:
+
+* ❌ Copy the source code or substantial portions of it.
+* ❌ Reuse the source code in another project.
+* ❌ Modify or create derivative works.
+* ❌ Redistribute or republish the source code.
+* ❌ Upload the source code to another repository.
+* ❌ Use the source code in commercial products or services.
+* ❌ Use the source code in academic projects, assignments, or submissions.
+* ❌ Claim the Software or any substantial portion of it as your own.
+* ❌ Sell, sublicense, or otherwise transfer the Software.
+* ❌ Remove or alter copyright or ownership notices.
+
+## 3. Viewing the Repository
+
+You are permitted to view the publicly available repository and its source code on GitHub for personal evaluation and learning purposes.
+
+Viewing the code does **not** grant permission to copy, reuse, modify, distribute, or incorporate the code into another project.
+
+## 4. Third-Party Components
+
+Some dependencies, libraries, frameworks, icons, fonts, or other components used by this project may be distributed under their own licenses.
+
+Those third-party components remain subject to their respective licenses.
+
+This license applies only to the original work created by **Subhadip Bar**.
+
+## 5. Commercial Use
+
+Commercial use of this Software or any substantial portion of its source code is strictly prohibited without prior written permission from the copyright holder.
+
+## 6. Contributions
+
+Unless otherwise agreed in writing, contributions submitted to this repository are provided under the same proprietary terms and may be incorporated into the Software by the copyright holder.
+
+## 7. No Warranty
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
+
+THE COPYRIGHT HOLDER SHALL NOT BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE OF THE SOFTWARE.
+
+## 8. Permission Requests
+
+If you would like permission to use, modify, distribute, or incorporate any part of this Software into another project, please contact the copyright holder and obtain **explicit written permission** before doing so.
+
+## 9. Copyright
+
+All rights not expressly granted by this license are reserved.
+
+**Copyright © 2026 Subhadip Bar. All Rights Reserved.**
+
+---
+
+### Project
+
+**X-Compiler**
+
+Repository:
+https://github.com/ytsubhadip/X-Compiler
+
+**Author:** Subhadip Bar
+
+**License:** Proprietary — All Rights Reserved
+
+
 <br>
 
 ⭐ **Star the repository if you find it useful!**

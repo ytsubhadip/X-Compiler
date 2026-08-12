@@ -59,6 +59,7 @@ const User = mongoose.models.User || mongoose.model('User', UserSchema);
 // =========================================================================
 const TestSchema = new mongoose.Schema({
     testcode: { type: String, required: true, uppercase: true, trim: true },
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     title: { type: String, required: true },
     department: { type: String, required: true },
     semester: { type: Number, required: true },
@@ -344,8 +345,19 @@ app.get("/api/auth/me", async (req, res) => {
 // =========================================================================
 // REST ENDPOINT: SAVE ASSESSMENTS TO MONGODB 
 // =========================================================================
+// =========================================================================
+// REST ENDPOINT: SAVE ASSESSMENTS TO MONGODB 
+// =========================================================================
 app.post("/api/tests/create", async (req, res) => {
     try {
+        // 🟢 EXTRACT TEACHER ID FROM TOKEN
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({ success: false, error: "Missing authentication." });
+        }
+        const token = authHeader.split(" ")[1];
+        const teacherId = token.replace("session-auth-token-", "");
+
         let { title, department, semester, duration, questions, code } = req.body;
 
         if (!title || !department || !semester || !duration || !questions || questions.length === 0) {
@@ -366,6 +378,7 @@ app.post("/api/tests/create", async (req, res) => {
         const parsedSemester = parseInt(semester, 10);
         const parsedDuration = parseInt(duration, 10);
 
+        // 🟢 RESTORED: The logic that formats the questions safely!
         const sanitizedQuestions = questions.map(q => ({
             title: q.title || "Untitled Question",
             difficulty: q.difficulty || "Easy",
@@ -380,6 +393,7 @@ app.post("/api/tests/create", async (req, res) => {
 
         const newTestAssessment = await Test.create({
             testcode: finalTestRoomCode,
+            createdBy: new mongoose.Types.ObjectId(teacherId), // 🟢 SAVE TEACHER ID TO DB
             title: title.trim(),
             department: department,
             semester: parsedSemester,
@@ -410,7 +424,17 @@ app.post("/api/tests/create", async (req, res) => {
 // =========================================================================
 app.get("/api/tests/history", async (req, res) => {
     try {
-        const deployedTestLogHistory = await Test.find({}).sort({ createdAt: -1 });
+        // 🟢 EXTRACT TEACHER ID FROM SECURE TOKEN
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({ error: "Missing authentication credentials." });
+        }
+        const token = authHeader.split(" ")[1];
+        const teacherId = token.replace("session-auth-token-", "");
+
+        // 🟢 FILTER: ONLY FIND TESTS CREATED BY THIS SPECIFIC TEACHER
+        const deployedTestLogHistory = await Test.find({ createdBy: teacherId }).sort({ createdAt: -1 });
+        
         return res.status(200).json({
             status: "success",
             count: deployedTestLogHistory.length,

@@ -42,7 +42,7 @@ It provides a clean IDE-like experience with:
 * 👨‍🏫 Teacher functionality
 * 📤 Program output
 * 🔄 Language switching
-* ⚡ Fast API-based code execution
+
 
 The goal is simple:
 
@@ -58,11 +58,9 @@ The goal is simple:
 
 <!-- Add your screenshot here -->
 
-<img src="screenshots/editor.png" alt="X-Compiler Editor" width="900">
+<img src="asset/screenshort/compiler.png" alt="X-Compiler Editor" width="900">
 
 </div>
-
-> 📌 Replace `screenshots/editor.png` with your actual project screenshot.
 
 ---
 
@@ -245,72 +243,7 @@ X-Compiler/
 └── 📄 README.md
 ```
 
-> The exact structure may differ depending on the current version of the project.
 
----
-
-# 🚀 Getting Started
-
-## 1️⃣ Clone the Repository
-
-```bash
-git clone https://github.com/ytsubhadip/X-Compiler.git
-```
-
-Move into the project:
-
-```bash
-cd X-Compiler
-```
-
----
-
-## 2️⃣ Install Dependencies
-
-```bash
-npm install
-```
-
----
-
-## 3️⃣ Configure Environment Variables
-
-Create a `.env` file in the root directory:
-
-```env
-PORT=5000
-
-# Code Execution API
-JUDGE0_API_URL=your_api_url
-
-# Authentication / Database
-DATABASE_URL=your_database_url
-SECRET_KEY=your_secret_key
-```
-
-> ⚠️ Never upload your `.env` file to GitHub.
-
----
-
-## 4️⃣ Start the Server
-
-For development:
-
-```bash
-npm start
-```
-
-Or, if your project uses a development script:
-
-```bash
-npm run dev
-```
-
-Then open:
-
-```text
-http://localhost:5000
-```
 
 ---
 

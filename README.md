@@ -1,6 +1,7 @@
 <div align="center">
+<img src="frontend\public\asset\logo.png" alt="X-Compiler logo" width="50">
 
-# ⚡ X-Compiler
+# X Compiler
 
 </div>
 
@@ -56,7 +57,7 @@ The goal is simple:
 
 ### 💻 Online Code Editor
 
-<!-- Add your screenshot here -->
+
 
 <img src="asset/screenshort/compiler.png" alt="X-Compiler Editor" width="900">
 
@@ -291,13 +292,13 @@ The compiler architecture can support multiple languages through an execution AP
 | 🟪 C#         |   🔄   |
 | 🐘 PHP        |   🔄   |
 
-> Update this table according to the languages currently enabled in your project.
+
 
 ---
 
 # 👨‍🎓 Student Mode
 
-Students can use X-Compiler as a programming practice environment.
+Students can use X Compiler as a programming practice environment.
 
 ### Student workflow
 
@@ -383,16 +384,16 @@ The interface is designed around a modern developer experience.
 │ ⚡ X-Compiler             Dashboard   Profile   Logout│
 ├───────────────────────┬───────────────────────────────┤
 │                       │                               │
-│   📝 CODE EDITOR      │        📤 OUTPUT              │
+│   📝 CODE EDITOR      |         📤 OUTPUT            |
 │                       │                               │
-│   1  #include ...     │   Program started...         │
-│   2  int main()       │   Hello World!               │
+│   1  #include ...     │   Program started...          │
+│   2  int main()       │   Hello World!                │
 │   3  {                │                               │
 │   4      ...          │                               │
 │   5  }                │                               │
 │                       │                               │
 ├───────────────────────┴───────────────────────────────┤
-│ Language: C++                 ▶ RUN CODE              │
+│ Language: C++                 ▶ RUN CODE             |
 └───────────────────────────────────────────────────────┘
 ```
 
@@ -400,13 +401,12 @@ The interface is designed around a modern developer experience.
 
 # 📸 Screenshots
 
-Add screenshots of your actual application here.
 
 ### 🏠 Home Page
 
 <div align="center">
 
-<img src="screenshots/home.png" alt="Home Page" width="850">
+<img src="asset/screenshort/home.png" alt="Home Page" width="850">
 
 </div>
 
@@ -414,7 +414,7 @@ Add screenshots of your actual application here.
 
 <div align="center">
 
-<img src="screenshots/compiler.png" alt="Compiler" width="850">
+<img src="asset/screenshort/exam compiler.png" alt="exam Compiler" width="850">
 
 </div>
 
@@ -422,7 +422,7 @@ Add screenshots of your actual application here.
 
 <div align="center">
 
-<img src="screenshots/dashboard.png" alt="Dashboard" width="850">
+<img src="asset/screenshort/dashboard.png" alt="Dashboard" width="850">
 
 </div>
 
@@ -430,9 +430,9 @@ Add screenshots of your actual application here.
 
 <div align="center">
 
-<img src="screenshots/login.png" alt="Login" width="400">
+<img src="asset/screenshort/signin.png" alt="Login" width="400">
 
-<img src="screenshots/signup.png" alt="Signup" width="400">
+<img src="asset/screenshort/signup.png" alt="Signup" width="400">
 
 </div>
 
@@ -456,7 +456,7 @@ Compile
 Fix Configuration Issues 😵
 ```
 
-X-Compiler simplifies this:
+X Compiler simplifies this:
 
 ```text
 Open Browser
@@ -481,122 +481,21 @@ The project can be expanded with:
 * [ ] 🧠 AI-powered code explanation
 * [ ] 🤖 AI debugging assistant
 * [ ] 🧪 Custom test cases
-* [ ] 📊 Student performance analytics
 * [ ] 🏆 Leaderboard
 * [ ] 🥇 Coding contests
 * [ ] 💬 Discussion system
-* [ ] 📚 Problem categories
 * [ ] 🔥 Daily coding challenges
 * [ ] 📈 Progress tracking
 * [ ] 🌙 Dark / Light mode
-* [ ] 📱 Mobile responsive IDE
-* [ ] 🔒 Secure sandboxed execution
-* [ ] 📦 Docker-based code execution
 * [ ] 🧑‍💻 Collaborative coding
-
----
-
-# 🤝 Contributing
-
-Contributions are welcome! 🎉
-
-### Fork the repository
-
-```bash
-git fork https://github.com/ytsubhadip/X-Compiler
-```
-
-### Create a branch
-
-```bash
-git checkout -b feature/amazing-feature
-```
-
-### Commit your changes
-
-```bash
-git commit -m "Add amazing feature"
-```
-
-### Push the branch
-
-```bash
-git push origin feature/amazing-feature
-```
-
-Then open a Pull Request.
-
----
-
-# 🐛 Bug Reports
-
-Found a bug?
-
-Please open an issue and include:
-
-* 🖥️ Operating system
-* 🌐 Browser
-* 📋 Steps to reproduce
-* ❌ Error message
-* 📸 Screenshot if possible
-
----
-
-# 💡 Feature Requests
-
-Have an idea that could make X-Compiler better?
-
-Open a feature request and explain:
-
-```text
-What is the feature?
-        +
-Why is it useful?
-        +
-How could it work?
-```
 
 ---
 
 # 📜 License
 
-This project is open-source.
+# X Compiler — Proprietary License
 
-Add your preferred license here, such as **MIT License**, if that matches your repository.
-
----
-
-# 👨‍💻 Developer
-
-<div align="center">
-
-### Subhadip Bar
-
-💻 Developer | 🚀 Builder | 🤖 AI & ML Enthusiast
-
-<br>
-
-[![GitHub](https://img.shields.io/badge/GitHub-ytsubhadip-181717?style=for-the-badge\&logo=github)](https://github.com/ytsubhadip)
-
-</div>
-
----
-
-# ⭐ Support the Project
-
-If you like **X-Compiler**, consider giving the repository a ⭐ on GitHub.
-
-It helps the project grow! 🚀
-
-<div align="center">
-
-### ⚡ X-Compiler
-
-**Write Code → Compile → Execute → Learn**
-
-# X-Compiler — Proprietary License
-
-**Copyright © 2026 Subhadip Bar. All Rights Reserved.**
+**Copyright © 2026 X compiler. All Rights Reserved.**
 
 This repository, including its source code, documentation, design, assets, and related materials (collectively, the "Software"), is the exclusive intellectual property of **Subhadip Bar**.
 
@@ -639,16 +538,6 @@ This license applies only to the original work created by **Subhadip Bar**.
 
 Commercial use of this Software or any substantial portion of its source code is strictly prohibited without prior written permission from the copyright holder.
 
-## 6. Contributions
-
-Unless otherwise agreed in writing, contributions submitted to this repository are provided under the same proprietary terms and may be incorporated into the Software by the copyright holder.
-
-## 7. No Warranty
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
-
-THE COPYRIGHT HOLDER SHALL NOT BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE OF THE SOFTWARE.
-
 ## 8. Permission Requests
 
 If you would like permission to use, modify, distribute, or incorporate any part of this Software into another project, please contact the copyright holder and obtain **explicit written permission** before doing so.
@@ -657,18 +546,18 @@ If you would like permission to use, modify, distribute, or incorporate any part
 
 All rights not expressly granted by this license are reserved.
 
-**Copyright © 2026 Subhadip Bar. All Rights Reserved.**
+**Copyright © 2026 X compiler. All Rights Reserved.**
 
 ---
 
 ### Project
 
-**X-Compiler**
+**X Compiler**
 
 Repository:
 https://github.com/ytsubhadip/X-Compiler
 
-**Author:** Subhadip Bar
+**Author:** ILEAD
 
 **License:** Proprietary — All Rights Reserved
 

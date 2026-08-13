@@ -1,7 +1,7 @@
 const path = require('path');
 const mongoose = require('mongoose');
 const express = require("express");
-const nodemailer = require('nodemailer'); // 🟢 ADDED: Nodemailer for Headless Admin
+const { Resend } = require("resend"); // 🟢 ADDED: resend email library
 
 require('dotenv').config();
 
@@ -25,13 +25,25 @@ app.use(express.static(path.join(__dirname, "public")));
 // 🟢 NODEMAILER CONFIGURATION (ADMIN APPROVAL SYSTEM)
 // =========================================================================
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_APP_PASSWORD
+const resend = new Resend(process.env.RESEND_API);
+
+async function sendEmail({ to, subject, html }) {
+    try {
+        const result = await resend.emails.send({
+            from: "X-Compiler <onboarding@resend.dev>",
+            to: to,
+            subject: subject,
+            html: html
+        });
+
+        console.log("Email sent:", result);
+
+        return result;
+    } catch (error) {
+        console.error("Email sending failed:", error);
+        throw error;
     }
-});
+}
 
 // =========================================================================
 // MONGODB USER SCHEMA CONFIGURATION
@@ -41,11 +53,11 @@ const UserSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true, lowercase: true },
     password: { type: String, required: true },
     role: { type: String, enum: ['student', 'teacher'], default: 'student' },
-    
+
     // 🟢 ADDED: Admin Approval Fields
-    teacherId: { type: String, default: null }, 
+    teacherId: { type: String, default: null },
     status: { type: String, enum: ['Pending', 'Active', 'Rejected'], default: 'Active' },
-    
+
     rollnumber: { type: String, default: "N/A" },
     department: { type: String, default: "" },
     semester: { type: Number, default: null },
@@ -125,9 +137,9 @@ app.post("/api/tests/submit-evaluation", async (req, res) => {
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
             return res.status(401).json({ success: false, error: "Missing authentication credentials." });
         }
-        
+
         const token = authHeader.split(" ")[1];
-        const studentId = token.replace("session-auth-token-", ""); 
+        const studentId = token.replace("session-auth-token-", "");
 
         const { testId, submissions } = req.body;
         console.log("📦 [PAYLOAD RAW DATA]:", { testId, studentId, submissions });
@@ -171,7 +183,7 @@ app.use("/", compileRoutes);
 // =========================================================================
 // EXPRESS ROUTE CONTROLLERS (VIEW ENGINE INJECTIONS)
 // =========================================================================
-app.get("/", (req, res) => res.sendFile(path.join(__dirname, "public", "pages",  "index.html")));
+app.get("/", (req, res) => res.sendFile(path.join(__dirname, "public", "pages", "index.html")));
 app.get("/ide", (req, res) => res.sendFile(path.join(__dirname, "public", "pages", "student-dash", "coding-test.html")));
 app.get("/teacher/student-records", (req, res) => res.sendFile(path.join(__dirname, "public", "pages", "teacher-dash", "student_result.html")));
 app.get("/playground", (req, res) => res.sendFile(path.join(__dirname, "public", "pages", "compiler_page", "playground.html")));
@@ -214,7 +226,7 @@ app.post("/signup", async (req, res) => {
             email,
             password,
             role: role || 'student',
-            teacherId: null, 
+            teacherId: null,
             status: isTeacher ? 'Pending' : 'Active', // 🟢 Students bypass, Teachers wait
             rollnumber: rollnumber || "N/A",
             department: department || "",
@@ -240,10 +252,52 @@ app.post("/signup", async (req, res) => {
                     </div>
                 `
             };
-            
+
+            // try {
+            //     await transporter.sendMail(mailOptions);
+            //     console.log(`Admin alert email dispatched for ${email}`);
+            // } catch (mailErr) {
+            //     console.error("Failed to send admin email alert:", mailErr);
+            // }
             try {
-                await transporter.sendMail(mailOptions);
+                await sendEmail({
+                    to: process.env.ADMIN_EMAIL,
+                    subject: `🚨 New Teacher Request: ${name}`,
+                    html: `
+                        <div style="font-family: sans-serif; max-width: 600px;">
+                
+                            <h3>New X-Compiler Teacher Request</h3>
+
+                                <p>
+                                    <strong>Name:</strong> ${name}
+                                </p>
+
+                                <p>
+                                    <strong>Email:</strong> ${email}
+                                </p>
+
+                                <br>
+
+                                <a 
+                                    href="${process.env.BASE_URL}/admin/verify/${newUser._id}"
+                                    style="
+                                        background: #2ec866;
+                                        color: #111;
+                                        padding: 10px 20px;
+                                        text-decoration: none;
+                                        font-weight: bold;
+                                        border-radius: 5px;
+                                        display: inline-block;
+                                    "
+                                >
+                                    Review & Approve Application
+                                </a>
+
+                                 </div>`
+                });
+
                 console.log(`Admin alert email dispatched for ${email}`);
+
             } catch (mailErr) {
                 console.error("Failed to send admin email alert:", mailErr);
             }
@@ -407,7 +461,7 @@ app.post("/api/tests/create", async (req, res) => {
             success: true,
             message: "Assessment deployed live successfully!",
             testId: newTestAssessment._id,
-            code: finalTestRoomCode 
+            code: finalTestRoomCode
         });
 
     } catch (err) {
@@ -434,7 +488,7 @@ app.get("/api/tests/history", async (req, res) => {
 
         // 🟢 FILTER: ONLY FIND TESTS CREATED BY THIS SPECIFIC TEACHER
         const deployedTestLogHistory = await Test.find({ createdBy: teacherId }).sort({ createdAt: -1 });
-        
+
         return res.status(200).json({
             status: "success",
             count: deployedTestLogHistory.length,
@@ -668,7 +722,7 @@ app.get("/admin/verify/:id", async (req, res) => {
 app.post("/api/admin/approve-teacher/:id", async (req, res) => {
     try {
         const targetId = req.params.id;
-        
+
         // Generate the strict TCH- ID
         const randomNum = Math.floor(10000 + Math.random() * 90000);
         const generatedTeacherId = "TCH-" + randomNum;
@@ -684,29 +738,97 @@ app.post("/api/admin/approve-teacher/:id", async (req, res) => {
         }
 
         // Email the Teacher their credentials
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: updatedTeacher.email,
-            subject: `✅ Welcome to X-Compiler! Your Teacher Account is Approved`,
-            html: `
-                <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
-                    <h2>Welcome to the X-Compiler Platform, ${updatedTeacher.name}!</h2>
-                    <p>The Administrator has reviewed and verified your account request.</p>
-                    <div style="background: #f4f6f8; padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid #2ec866;">
-                        <p style="margin: 0; color: #555; font-size: 0.9rem; text-transform: uppercase; font-weight: bold;">Your Teacher Unique ID</p>
-                        <p style="margin: 5px 0 0 0; font-size: 1.8rem; color: #000; font-weight: 900; letter-spacing: 1px;">${generatedTeacherId}</p>
-                    </div>
-                    <p>You can now log in to the dashboard using your Email, Password, and this Unique ID.</p>
-                </div>
-            `
-        };
+        // const mailOptions = {
+        //     from: process.env.EMAIL_USER,
+        //     to: updatedTeacher.email,
+        //     subject: `✅ Welcome to X-Compiler! Your Teacher Account is Approved`,
+        //     html: `
+        //         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
+        //             <h2>Welcome to the X-Compiler Platform, ${updatedTeacher.name}!</h2>
+        //             <p>The Administrator has reviewed and verified your account request.</p>
+        //             <div style="background: #f4f6f8; padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid #2ec866;">
+        //                 <p style="margin: 0; color: #555; font-size: 0.9rem; text-transform: uppercase; font-weight: bold;">Your Teacher Unique ID</p>
+        //                 <p style="margin: 5px 0 0 0; font-size: 1.8rem; color: #000; font-weight: 900; letter-spacing: 1px;">${generatedTeacherId}</p>
+        //             </div>
+        //             <p>You can now log in to the dashboard using your Email, Password, and this Unique ID.</p>
+        //         </div>
+        //     `
+        // };
+
+        // try {
+        //     await transporter.sendMail(mailOptions);
+        // } catch (mailErr) {
+        //     console.error("Failed to send approval email to teacher:", mailErr);
+        // }
+
+        let emailSent = false;
+        console.log(updatedTeacher.email);
         
         try {
-            await transporter.sendMail(mailOptions);
+            const result = await sendEmail({
+                to: updatedTeacher.email,
+                subject: `✅ Welcome to X-Compiler! Your Teacher Account is Approved`,
+                html: `
+            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
+                <h2>
+                    Welcome to the X-Compiler Platform,
+                    ${updatedTeacher.name}!
+                </h2>
+
+                <p>
+                    The Administrator has reviewed and verified your account request.
+                </p>
+
+                <div style="
+                    background: #f4f6f8;
+                    padding: 20px;
+                    border-radius: 8px;
+                    margin: 25px 0;
+                    border-left: 4px solid #2ec866;
+                ">
+                    <p style="
+                        margin: 0;
+                        color: #555;
+                        font-size: 0.9rem;
+                        text-transform: uppercase;
+                        font-weight: bold;
+                    ">
+                        Your Teacher Unique ID
+                    </p>
+
+                    <p style="
+                        margin: 5px 0 0 0;
+                        font-size: 1.8rem;
+                        color: #000;
+                        font-weight: 900;
+                        letter-spacing: 1px;
+                    ">
+                        ${generatedTeacherId}
+                    </p>
+                </div>
+
+                <p>
+                    You can now log in to the dashboard using your
+                    Email, Password, and this Unique ID.
+                </p>
+            </div>
+        `
+            });
+
+            console.log("Resend response:", result);
+
+            emailSent = true;
+
         } catch (mailErr) {
-            console.error("Failed to send approval email to teacher:", mailErr);
+            console.error("Failed to send approval email:", mailErr);
         }
-        
+
+        if (!emailSent) {
+            return res.status(500).send(`
+        <h2>Teacher approved, but email could not be sent.</h2>
+        <p>Please check the server logs.</p>
+    `);
+        }
         res.send(`
             <body style="background: #0a0c10; color: #fff; font-family: 'Segoe UI', sans-serif; text-align: center; padding-top: 100px;">
                 <div style="background: #161b22; max-width: 450px; margin: 0 auto; padding: 40px; border-radius: 12px; border: 1px solid #30363d;">

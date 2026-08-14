@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             block.innerHTML = `
             <div class="d-flex justify-content-between mb-2">
-                <h6 class="text-white m-0 fw-bold">${index + 1}. ${q.title}</h6>
+                <h6 class="m-0 fw-bold">${index + 1}. ${q.title}</h6>
                 <span class="badge bg-difficulty-${q.difficulty.toLowerCase()}" style="border-radius:4px;">${q.difficulty}</span>
             </div>
             <p class="small text-muted mb-0" style="white-space: pre-wrap;">${q.description}</p>

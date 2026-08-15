@@ -480,7 +480,7 @@ app.get("/api/tests/history", async (req, res) => {
     try {
         // 🟢 EXTRACT TEACHER ID FROM SECURE TOKEN
         const authHeader = req.headers.authorization;
-        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        if (!authHeader || !authHeader.startsWith("Bearer")) {
             return res.status(401).json({ error: "Missing authentication credentials." });
         }
         const token = authHeader.split(" ")[1];

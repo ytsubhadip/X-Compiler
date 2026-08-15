@@ -72,8 +72,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (availableTests.length === 0) {
         availableTests = [
             { _id: "ds_final", title: "Data Structures Final", testcode: "CSE-381", duration: 90, department: "CSE" },
-            { _id: "algo_quiz", title: "Algorithms Quiz", testcode: "IT-204", duration: 45, department: "IT" },
-            { _id: "sys_lab", title: "Systems Programming Lab", testcode: "SYS-402", duration: 180, department: "SYS" }
+
         ];
     }
 

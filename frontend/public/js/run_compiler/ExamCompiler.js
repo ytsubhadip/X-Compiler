@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
             pet.id = 'ide-pet';
 
             // mark console pet background color
-            pet.style.cssText = `margin-left: auto; margin-right: 16px; display: flex; align-items: center; gap: 10px; padding: 6px 14px; border-radius: 12px; background: rgba(var(--console-slate), 0.1);; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.4s ease;`;
+            pet.style.cssText = `margin-left: auto; margin-right: 16px; display: flex; align-items: center; gap: 10px; padding: 3px 9px; border-radius: 12px; background: rgba(var(--console-slate), 0.1);; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.4s ease;`;
             const statusEl = document.getElementById('consoleStatus');
             consoleHeader.insertBefore(pet, statusEl);  
         }

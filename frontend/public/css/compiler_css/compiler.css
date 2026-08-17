@@ -49,8 +49,6 @@
     height: calc(100vh - 64px);
     min-height: 0;
     margin-top: 64px;
-    padding: var(--exam-space-md) var(--exam-space-lg);
-    gap: var(--exam-space-md);
     background-color: var(--bg-main);
 }
 
@@ -76,7 +74,6 @@
     overflow: hidden;
     background: var(--bg-card);
     border: 1px solid var(--border-subtle);
-    border-radius: var(--exam-radius-lg);
     box-shadow: var(--shadow-md);
 }
 
@@ -627,6 +624,7 @@
     color: var(--text-muted);
     background-color: var(--bg-muted);
     border-top: 1px solid var(--border-subtle);
+    justify-content: space-between;
 }
 
 .console-stat {
@@ -826,8 +824,7 @@
         grid-template-columns: 1fr;
         height: auto;
         min-height: calc(100vh - 64px);
-        padding: var(--exam-space-md);
-        gap: var(--exam-space-md);
+
     }
 
     .left-column,
@@ -855,8 +852,8 @@
 
 @media (max-width: 575px) {
     .ide-workspace {
-        padding: var(--exam-space-sm);
-        gap: var(--exam-space-sm);
+        /* padding: var(--exam-space-sm);
+        gap: var(--exam-space-sm); */
     }
 
     .left-pane .tab-content {

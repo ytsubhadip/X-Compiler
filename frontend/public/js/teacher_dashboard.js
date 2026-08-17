@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Re-route unauthorized traffic away from teacher panels instantly
     if (!token || role.trim().toLowerCase() !== "teacher") {
         console.warn("Unauthorized access trace blocked. Diverting credentials...");
-        window.location.href = "/playground";
+        window.location.href = "/signin";
         return;
     }
 

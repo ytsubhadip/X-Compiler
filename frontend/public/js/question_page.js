@@ -7,7 +7,7 @@ const role = localStorage.getItem("userRole") || "student";
 
 if (!token || role.trim().toLowerCase() !== "teacher") {
     console.warn("Unauthorized checkpoint access trace blocked. Re-routing...");
-    window.location.href = "/playground";
+    window.location.href = "/signin";
 }
 
 // Global Memory Collections
@@ -171,7 +171,7 @@ function addExampleBoxToDOM(idNumber, inputValue = "", outputValue = "", explana
     const explanationRow = document.createElement("div");
     explanationRow.className = "field-row";
     const explanationLabel = document.createElement("label");
-    explanationLabel.textContent = "Explanation (Optional)";
+    explanationLabel.textContent = "Explanation";
     const explanationArea = document.createElement("textarea");
     explanationArea.placeholder = "e.g. Because nums[0] + nums[1] == 9...";
     explanationArea.value = explanationValue;

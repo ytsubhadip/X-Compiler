@@ -71,7 +71,7 @@ function initializeLanguageWorkspaceEngine() {
         function syncCustomDropdown() {
             const val = optionL.value;
             const currentIcon = document.getElementById('customDropdownIcon');
-            
+
             let itemFound = false;
             dropdownItems.forEach(item => {
                 if (item.getAttribute('data-value') === val) {
@@ -89,7 +89,7 @@ function initializeLanguageWorkspaceEngine() {
                     item.classList.remove('selected');
                 }
             });
-            
+
             if (!itemFound || val === 'noL') {
                 customDropdownLabel.textContent = 'Choose Language';
                 const icon = document.createElement('i');
@@ -102,7 +102,7 @@ function initializeLanguageWorkspaceEngine() {
         }
 
         // Toggle dropdown open/close
-        customDropdownBtn.addEventListener('click', function(e) {
+        customDropdownBtn.addEventListener('click', function (e) {
             e.stopPropagation();
             const isOpen = customDropdown.classList.contains('open');
             if (isOpen) {
@@ -116,7 +116,7 @@ function initializeLanguageWorkspaceEngine() {
 
         // Handle item selection
         dropdownItems.forEach(item => {
-            item.addEventListener('click', function(e) {
+            item.addEventListener('click', function (e) {
                 e.stopPropagation();
                 const val = this.getAttribute('data-value');
                 optionL.value = val;
@@ -127,13 +127,13 @@ function initializeLanguageWorkspaceEngine() {
         });
 
         // Close on click outside
-        document.addEventListener('click', function() {
+        document.addEventListener('click', function () {
             customDropdown.classList.remove('open');
             customDropdownBtn.setAttribute('aria-expanded', 'false');
         });
 
         // Listen for native select change to keep custom UI in sync
-        optionL.addEventListener('change', function() {
+        optionL.addEventListener('change', function () {
             syncCustomDropdown();
         });
 
@@ -168,14 +168,77 @@ function initializeLanguageWorkspaceEngine() {
         // Dynamically adjust CodeMirror syntax highlighting options safely
         if (currentLang === 'python') {
             window.wpCodeEditorInstance.setOption("mode", "text/x-python");
+
+            editor.on("inputRead", function (cm, change) {
+
+                if (change.text[0] && change.text[0].match(/\w/)) {
+
+                    cm.showHint({
+                        hint: CodeMirror.hint.python,
+                        completeSingle: false
+                    });
+
+                }
+
+            });
         } else if (currentLang === 'cpp') {
             window.wpCodeEditorInstance.setOption("mode", "text/x-c++src");
+            editor.on("inputRead", function (cm, change) {
+
+                if (change.text[0] && change.text[0].match(/\w/)) {
+
+                    cm.showHint({
+                        hint: CodeMirror.hint.anyword,
+                        completeSingle: false
+                    });
+
+                }
+
+            });
+
         } else if (currentLang === 'c') {
             window.wpCodeEditorInstance.setOption("mode", "text/x-csrc");
+            editor.on("inputRead", function (cm, change) {
+
+                if (change.text[0] && change.text[0].match(/\w/)) {
+
+                    cm.showHint({
+                        hint: CodeMirror.hint.anyword,
+                        completeSingle: false
+                    });
+
+                }
+
+            });
         } else if (currentLang === 'java') {
             window.wpCodeEditorInstance.setOption("mode", "text/x-java");
+            editor.on("inputRead", function (cm, change) {
+
+                if (change.text[0] && change.text[0].match(/\w/)) {
+
+                    cm.showHint({
+                        hint: CodeMirror.hint.anyword,
+                        completeSingle: false
+                    });
+
+                }
+
+            });
         } else if (currentLang === 'javascript') {
             window.wpCodeEditorInstance.setOption("mode", "text/javascripts");
+
+            editor.on("inputRead", function (cm, change) {
+
+                if (change.text[0] && change.text[0].match(/\w/)) {
+
+                    cm.showHint({
+                        hint: CodeMirror.hint.javascript,
+                        completeSingle: false
+                    });
+
+                }
+
+            });
         }
 
         // Guard fallback: stream default configurations if cached data fields return empty rows

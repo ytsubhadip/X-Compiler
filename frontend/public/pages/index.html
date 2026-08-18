@@ -37,9 +37,24 @@
 
     <!-- hero section -->
     <div class="hero" >
-        <a href="#" class="chatbot-logo" aria-label="Chat bot assistant">
+        <a href="#" class="chatbot-logo" aria-label="Chat bot assistant" id="chatbotLogoBtn">
             <img src="asset/chatbot-logo.svg" alt="Chat bot logo">
         </a>
+        
+        <!-- Chatbot Window -->
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">
+                <h3>X Compiler Assistant</h3>
+                <button class="chatbot-close" id="chatbotCloseBtn" aria-label="Close Chat">&times;</button>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="chat-msg bot">Hi there! How can I help you today?</div>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="chatbotInput" placeholder="Type your message...">
+                <button type="button" id="chatbotSendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
         <div class="hero-title-section">
             <h1 class="Manrope">
                 code with <b><span id="element"></span></b><br>
@@ -231,7 +246,87 @@
     <script src="/js/home.js"></script>
     <script src="/js/inspect_off.js"></script>
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
-   
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    
+    <script>
+        // Web Audio API Sound Effect
+        function playPopSound() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const ctx = new AudioContext();
+                
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(600, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.05);
+                
+                gain.gain.setValueAtTime(0, ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.01);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+                
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + 0.1);
+            } catch(e) {
+                console.log('Audio playback failed', e);
+            }
+        }
+
+        // Chatbot Toggle Logic
+        const chatbotLogoBtn = document.getElementById('chatbotLogoBtn');
+        const chatbotWindow = document.getElementById('chatbotWindow');
+        const chatbotCloseBtn = document.getElementById('chatbotCloseBtn');
+        const chatbotInput = document.getElementById('chatbotInput');
+        const chatbotSendBtn = document.getElementById('chatbotSendBtn');
+        const chatbotMessages = document.getElementById('chatbotMessages');
+
+        if(chatbotLogoBtn && chatbotWindow && chatbotCloseBtn) {
+            chatbotLogoBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                playPopSound();
+                chatbotWindow.classList.toggle('open');
+            });
+            chatbotCloseBtn.addEventListener('click', () => {
+                chatbotWindow.classList.remove('open');
+            });
+        }
+        
+        function sendChatMessage() {
+            const text = chatbotInput.value.trim();
+            if(!text) return;
+            
+            // Add user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chat-msg user';
+            userMsg.textContent = text;
+            chatbotMessages.appendChild(userMsg);
+            chatbotInput.value = '';
+            
+            // Scroll to bottom
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            
+            // Simulate bot reply
+            setTimeout(() => {
+                const botMsg = document.createElement('div');
+                botMsg.className = 'chat-msg bot';
+                botMsg.textContent = "I'm a demo assistant! I'm here to help you navigate X Compiler.";
+                chatbotMessages.appendChild(botMsg);
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            }, 1000);
+        }
+
+        if(chatbotSendBtn && chatbotInput) {
+            chatbotSendBtn.addEventListener('click', sendChatMessage);
+            chatbotInput.addEventListener('keypress', (e) => {
+                if(e.key === 'Enter') sendChatMessage();
+            });
+        }
+    </script>
 </body>
 
 </html>

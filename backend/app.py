@@ -1,4 +1,5 @@
 import os
+import time
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -54,6 +55,11 @@ def test_email():
         "message":"Email send successfully"
     }
     
-
+@app.get("/status")
+def status_backend():
+    return {
+        "status":"ok",
+        "uptime": time.process_time()
+    }
 
 

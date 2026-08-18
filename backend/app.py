@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 import resend
+import uvicorn
 
 load_dotenv()
 
@@ -61,5 +62,6 @@ def status_backend():
         "status":"ok",
         "uptime": time.process_time()
     }
+
 
 

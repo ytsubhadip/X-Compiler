@@ -38,13 +38,30 @@
   <script src="/codemirror-5.65.21/mode/python/python.js"></script>
   <link rel="stylesheet" href="/codemirror-5.65.21/addon/hint/show-hint.css">
   <script src="/codemirror-5.65.21/addon/hint/show-hint.js"></script>
-
-
+  <script src="/codemirror-5.65.21/addon/hint/javascript-hint.js"></script>
+  <script src="/codemirror-5.65.21/addon/comment/comment.js"></script>
+  <script src="/codemirror-5.65.21/addon/edit/matchbrackets.js"></script>
+  <script src="/codemirror-5.65.21/addon/search/search.js"></script>
+  <script src="/codemirror-5.65.21/addon/search/searchcursor.js"></script>
+  <script src="/codemirror-5.65.2.1/addon/dialog/dialog.js"></script>
+  <link rel="stylesheet" href="/codemirror-5.65.2.1/addon/dialog/dialog.css">
+  <link rel="stylesheet" href="/codemirror-5.65.2.1/addon/lint/lint.css">
+  <script src="/codemirror-5.65.2.1/addon/lint/lint.js"></script>
 
   <!-- css file  -->
   <link rel="stylesheet" href="/css/navbar.css">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/compiler_css/playground.css">
+  <style>
+    /* Fullscreen Mode Styles */
+    body.fullscreen-mode .custom-navbar {
+      display: none !important;
+    }
+    body.fullscreen-mode .ide-workspace {
+      margin-top: 0 !important;
+      height: 100vh !important;
+    }
+  </style>
 </head>
 
 <body class="landing-page d-flex flex-column" style="height: 100vh; overflow: hidden;">
@@ -106,10 +123,19 @@
 
               <button type="button" class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle editor theme">
                 <i class="bi bi-moon-stars-fill"></i>
-                <span>Theme</span>
+                <span></span>
               </button>
 
               <div class="editor-actions-wrapper">
+                <div class="btn-group" role="group" aria-label="Font Size" style="gap: 9px;">
+                  <button type="button" class="btn btn-outline-secondary btn-action" id="fontSizeDecBtn" title="Decrease Font Size" style="padding: 4px 8px !important; font-size: 0.75rem !important;">
+                    <i class="bi bi-dash"></i> <span style="font-size: 0.7rem;">A</span>
+                  </button>
+                  <button type="button" class="btn btn-outline-secondary btn-action" id="fontSizeIncBtn" title="Increase Font Size" style="padding: 4px 8px !important; font-size: 0.75rem !important;">
+                    <i class="bi bi-plus"></i><span style="font-size: 0.9rem;">A</span>
+                  </button>
+                </div>
+                
                 <button type="button" class="btn btn-success btn-action" id="coderun">
                   <i class="bi bi-play-fill me-sm-2"></i> <span>Run Code</span>
                 </button>
@@ -129,8 +155,12 @@
         <div class="col-12 col-lg-6 d-flex">
           <div class="pane-card console-pane d-flex flex-column w-100">
             <div class="console-header">
-              <span class="console-header-title"><i class="bi bi-terminal-fill me-2"></i>Console</span>
+              <button type="button" class="btn btn-outline-secondary btn-action" id="fullScreenBtn" title="Toggle Fullscreen">
+                  <i class="bi bi-arrows-fullscreen"></i>
+                </button>
 
+              <span class="console-header-title"><i class="bi bi-terminal-fill me-2"></i>Console</span>
+              
               <button type="button" class="clear-console">
                 <i class="bi bi-trash3"></i>
                 <span>Clear</span>
@@ -138,15 +168,6 @@
             </div>
 
             <div class="console-body flex-grow-1 d-flex flex-column" style="min-height:0">
-              <div class="console-panel">
-                <div class="console-panel-header">
-                  <span><i class="bi bi-box-arrow-right me-2"></i>Output</span>
-                  <span class="console-panel-badge">Live</span>
-                </div>
-                <textarea class="console-output" id="output" readonly
-                  placeholder="Output will appear here after compiling..."></textarea>
-              </div>
-
               <div class="console-panel input-panel">
                 <div class="console-panel-header">
                   <span><i class="bi bi-keyboard-fill me-2"></i>Input</span>
@@ -154,6 +175,15 @@
                 </div>
                 <textarea id="customInput" class="console-input" spellcheck="false"
                   placeholder="If your code requires input, type it here BEFORE clicking Run Code..."></textarea>
+              </div>
+
+              <div class="console-panel">
+                <div class="console-panel-header">
+                  <span><i class="bi bi-box-arrow-right me-2"></i>Output</span>
+                  <span class="console-panel-badge">Live</span>
+                </div>
+                <textarea class="console-output" id="output" readonly
+                  placeholder="Output will appear here after compiling..."></textarea>
               </div>
 
               <div class="console-footer">
@@ -174,6 +204,9 @@
   </div>
 
   <script>
+
+
+
     // Initialize theme state from localStorage (default is light theme)
     var preferredTheme = localStorage.getItem('playground-theme') || 'light';
     var editorTheme = preferredTheme === 'dark' ? 'night' : 'default';
@@ -182,8 +215,28 @@
       mode: "javascript",
       theme: "night",
       lineNumbers: true,
-      autoCloseBrackets: true
+      autoCloseBrackets: true,
+      extraKeys: {
+        "Ctrl-/": "toggleComment"
+      },
+      matchBrackets: true,
+
+      extraKeys: {
+        "Ctrl-F": "find",
+        "Ctrl-H": "replace"
+      },
+
+      gutters: [
+        "CodeMirror-linenumbers",
+        "CodeMirror-lint-markers"
+      ]
+
+
     });
+
+
+
+
 
     editor.on("inputRead", function (cm, change) {
 
@@ -207,14 +260,14 @@
         document.body.classList.add('dark-theme');
         editor.setOption('theme', 'night');
         if (themeToggleBtn) {
-          themeToggleBtn.innerHTML = '<i class="bi bi-sun-fill"></i> <span>Light Theme</span>';
+          themeToggleBtn.innerHTML = '<i class="bi bi-sun-fill"></i>';
         }
         localStorage.setItem('playground-theme', 'dark');
       } else {
         document.body.classList.remove('dark-theme');
         editor.setOption('theme', 'default');
         if (themeToggleBtn) {
-          themeToggleBtn.innerHTML = '<i class="bi bi-moon-stars-fill"></i> <span>Dark Theme</span>';
+          themeToggleBtn.innerHTML = '<i class="bi bi-moon-stars-fill"></i>';
         }
         localStorage.setItem('playground-theme', 'light');
       }
@@ -231,12 +284,70 @@
         applyTheme(nextTheme);
       });
     }
+
+    // Fullscreen / Zen Mode Toggle
+    const fullScreenBtn = document.getElementById('fullScreenBtn');
+    if (fullScreenBtn) {
+      fullScreenBtn.addEventListener('click', function() {
+        document.body.classList.toggle('fullscreen-mode');
+        const isFullscreen = document.body.classList.contains('fullscreen-mode');
+        if (isFullscreen) {
+          fullScreenBtn.innerHTML = '<i class="bi bi-fullscreen-exit"></i>';
+        } else {
+          fullScreenBtn.innerHTML = '<i class="bi bi-arrows-fullscreen"></i>';
+        }
+        
+        // Refresh CodeMirror layout to ensure it resizes correctly
+        setTimeout(() => {
+          if (editor) editor.refresh();
+        }, 100);
+      });
+    }
+
+    // Font Size Controls
+    let currentFontSize = parseInt(localStorage.getItem('playground-font-size')) || 14;
+    const fontSizeDecBtn = document.getElementById('fontSizeDecBtn');
+    const fontSizeIncBtn = document.getElementById('fontSizeIncBtn');
+    const minFontSize = 10;
+    const maxFontSize = 32;
+
+    function applyFontSize() {
+      const cmWrapper = document.querySelector('.CodeMirror');
+      if (cmWrapper) {
+        cmWrapper.style.fontSize = currentFontSize + 'px';
+        if (editor) editor.refresh();
+        localStorage.setItem('playground-font-size', currentFontSize);
+      }
+    }
+
+    if (fontSizeDecBtn) {
+      fontSizeDecBtn.addEventListener('click', () => {
+        if (currentFontSize > minFontSize) {
+          currentFontSize -= 1;
+          applyFontSize();
+        }
+      });
+    }
+
+    if (fontSizeIncBtn) {
+      fontSizeIncBtn.addEventListener('click', () => {
+        if (currentFontSize < maxFontSize) {
+          currentFontSize += 1;
+          applyFontSize();
+        }
+      });
+    }
+
+    // Apply saved font size on load
+    if (currentFontSize !== 14) {
+      setTimeout(applyFontSize, 100);
+    }
   </script>
 
   <script src="/js/navbar.js"></script>
   <script src="/js/run_compiler/compilerRunner.js"></script>
   <script src="/js/language.js"></script>
-  <script src="/js/inspect_off.js"></script>
+  <!-- <script src="/js/inspect_off.js"></script> -->
 
 </body>
 

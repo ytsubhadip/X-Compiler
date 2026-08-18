@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // mark console pet background color
             pet.style.cssText = `margin-left: auto; margin-right: 16px; display: flex; align-items: center; gap: 10px; padding: 6px 14px; border-radius: 12px; background: rgba(var(--console-slate), 0.1);; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.4s ease;`;
             const statusEl = document.getElementById('consoleStatus');
-            consoleHeader.insertBefore(pet, statusEl);  
+            consoleHeader.insertBefore(pet, statusEl);
         }
 
         if (!pet.innerHTML) {
@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => modal.remove(), 300);
     }
 
- 
+
 
     const clearConsoleBtn = document.querySelector('.clear-console');
     if (clearConsoleBtn) {
@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-  
+
     // =========================================================================
     // 🟢 GLOBAL EVENT DELEGATION LISTENER BLOCK
     // =========================================================================
@@ -237,7 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     output.classList.add("console-error-text");
                     if (statusEl) { statusEl.textContent = "Rejected"; statusEl.className = "badge-status badge-status-rejected"; }
                     updateConsolePet('error');
-                    
+
                     // 🟢 CUSTOM EOF ERROR INTERCEPTOR
                     if (con.error.includes("EOFError: EOF when reading a line") || con.error.includes("EOFError")) {
                         const friendlyMessage = "Error: Your code is waiting for input!\n\nPlease type your input in the bottom 'INPUT (STDIN)' box BEFORE clicking Run Code.";
@@ -248,7 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         typeConsoleOutput(output, con.error, 4);
                         showModernToast("Execution halted: Structural bugs discovered.", false);
                     }
-                    
+
                     addSubmissionToHistoryTable('Rejected', con.time);
                 } else {
                     output.classList.remove("console-error-text");

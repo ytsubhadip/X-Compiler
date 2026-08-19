@@ -7,8 +7,10 @@ from dotenv import load_dotenv
 import resend
 import uvicorn
 
-load_dotenv()
+from routes.chatbot_route import route
 
+load_dotenv()
+BASE_URL = os.getenv("BASE_URL")
 app = FastAPI()
 
 resend.api_key = os.getenv("RESEND_API")
@@ -22,6 +24,7 @@ app.add_middleware(
 
 )
 
+app.include_router(route)
 
 @app.get("/")
 async def root():

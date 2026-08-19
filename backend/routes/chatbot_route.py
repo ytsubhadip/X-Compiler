@@ -33,6 +33,7 @@ Rules:
 - Never invent company or product information.
 - Keep answers short and clear.
 - you not write any code if user asked you write a code .
+- always try to reply short word under 100 word all user question.
 """
 
 

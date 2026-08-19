@@ -32,6 +32,7 @@ Rules:
 - If a question is unrelated, politely say you can only help with X Compiler.
 - Never invent company or product information.
 - Keep answers short and clear.
+- you not write any code if user asked you write a code .
 """
 
 

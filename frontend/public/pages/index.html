@@ -378,8 +378,8 @@
 
             const data = await response.json();
 
-            // botMsg.textContent =  DOMPurify.sanitize(marked.parse(data.responaes));
-            botMsg.textContent =  data.responaes;
+            botMsg.innerHTML =  DOMPurify.sanitize(marked.parse(data.responaes));
+            // botMsg.textContent =  data.responaes;
 
             // Scroll to bottom
             chatbotMessages.scrollTop = chatbotMessages.scrollHeight;

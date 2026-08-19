@@ -24,10 +24,51 @@
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
     <!-- all connect css file links  -->
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/navbar.css">
+    <style>
+        .chat-msg.thinking {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .thinking-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: thinking-bounce 1.2s infinite ease-in-out;
+        }
+
+        .thinking-dot:nth-child(2) {
+            animation-delay: 0.15s;
+        }
+
+        .thinking-dot:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes thinking-bounce {
+
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+                opacity: 0.45;
+            }
+
+            30% {
+                transform: translateY(-4px);
+                opacity: 1;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -36,11 +77,11 @@
     <nav class="custom-navbar"></nav>
 
     <!-- hero section -->
-    <div class="hero" >
+    <div class="hero">
         <a href="#" class="chatbot-logo" aria-label="Chat bot assistant" id="chatbotLogoBtn">
             <img src="asset/chatbot-logo.svg" alt="Chat bot logo">
         </a>
-        
+
         <!-- Chatbot Window -->
         <div class="chatbot-window" id="chatbotWindow">
             <div class="chatbot-header">
@@ -134,7 +175,7 @@
                 </p>
                 <a href="/student-dash" class="lernmore-redirect">Learn more <i class="fa-solid fa-arrow-right"></i></a>
             </div>
-            <div class="stundet-video" >
+            <div class="stundet-video">
                 <video src="../asset/video.mp4" autoplay loop muted></video>
             </div>
         </div>
@@ -145,7 +186,7 @@
                 <video src="../asset/video.mp4" autoplay loop muted></video>
             </div>
 
-            <div class="student-desc" >
+            <div class="student-desc">
                 <div class="student-desc-logo">
                     <p>Teacher Community</p>
                 </div>
@@ -221,14 +262,15 @@
             <div class="footer-social">
                 <h4>Follow Us</h4>
                 <div class="social-icons">
-                     <a href="https://www.instagram.com/support.xcompiler/?hl=en" aria-label="Instagram" target="_blank"><i class="fab fa-instagram"></i></a> 
+                    <a href="https://www.instagram.com/support.xcompiler/?hl=en" aria-label="Instagram"
+                        target="_blank"><i class="fab fa-instagram"></i></a>
                     <a href="https://www.linkedin.com/in/x-compiler/" aria-label="LinkedIn" target="_blank"><i
                             class="fab fa-linkedin-in"></i></a>
                     <a href="https://x.com/Xcompiler2026" aria-label="X" target="_blank"><i
                             class="fab fa-square-x-twitter"></i></a>
                 </div>
                 <div class="contact-emial" style="margin-top: 10px;">
-                    
+
                     support.xcompiler@gmail.com
                 </div>
             </div>
@@ -247,7 +289,7 @@
     <script src="/js/inspect_off.js"></script>
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
-    
+
     <script>
         // Web Audio API Sound Effect
         function playPopSound() {
@@ -255,24 +297,24 @@
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
                 if (!AudioContext) return;
                 const ctx = new AudioContext();
-                
+
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
-                
+
                 osc.connect(gain);
                 gain.connect(ctx.destination);
-                
+
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(600, ctx.currentTime);
                 osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.05);
-                
+
                 gain.gain.setValueAtTime(0, ctx.currentTime);
                 gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.01);
                 gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
-                
+
                 osc.start(ctx.currentTime);
                 osc.stop(ctx.currentTime + 0.1);
-            } catch(e) {
+            } catch (e) {
                 console.log('Audio playback failed', e);
             }
         }
@@ -285,7 +327,7 @@
         const chatbotSendBtn = document.getElementById('chatbotSendBtn');
         const chatbotMessages = document.getElementById('chatbotMessages');
 
-        if(chatbotLogoBtn && chatbotWindow && chatbotCloseBtn) {
+        if (chatbotLogoBtn && chatbotWindow && chatbotCloseBtn) {
             chatbotLogoBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 playPopSound();
@@ -295,35 +337,59 @@
                 chatbotWindow.classList.remove('open');
             });
         }
-        
-        function sendChatMessage() {
+
+        async function sendChatMessage() {
             const text = chatbotInput.value.trim();
-            if(!text) return;
-            
+            if (!text) return;
+
             // Add user message
             const userMsg = document.createElement('div');
             userMsg.className = 'chat-msg user';
             userMsg.textContent = text;
             chatbotMessages.appendChild(userMsg);
             chatbotInput.value = '';
-            
+
+
+            // Simulate bot reply
+
+            const botMsg = document.createElement('div');
+            botMsg.className = 'chat-msg bot thinking';
+            botMsg.setAttribute('aria-label', 'Model is thinking');
+            botMsg.innerHTML = 'Thinking<span class="thinking-dot"></span><span class="thinking-dot"></span><span class="thinking-dot"></span>';
+            chatbotMessages.appendChild(botMsg);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+
+
+
+            // fetch user query
+            response = await fetch("https://x-compiler-fastapi-backend.onrender.com/api/chat/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    message: text
+                })
+            })
+
+            if (!response.ok) {
+                throw new Error("API request failed");
+            }
+
+            const data = await response.json();
+
+            // botMsg.textContent =  DOMPurify.sanitize(marked.parse(data.responaes));
+            botMsg.textContent =  data.responaes;
+
             // Scroll to bottom
             chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-            
-            // Simulate bot reply
-            setTimeout(() => {
-                const botMsg = document.createElement('div');
-                botMsg.className = 'chat-msg bot';
-                botMsg.textContent = "I'm a demo assistant! I'm here to help you navigate X Compiler.";
-                chatbotMessages.appendChild(botMsg);
-                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-            }, 1000);
+
         }
 
-        if(chatbotSendBtn && chatbotInput) {
+        if (chatbotSendBtn && chatbotInput) {
             chatbotSendBtn.addEventListener('click', sendChatMessage);
             chatbotInput.addEventListener('keypress', (e) => {
-                if(e.key === 'Enter') sendChatMessage();
+                if (e.key === 'Enter') sendChatMessage();
             });
         }
     </script>

@@ -268,6 +268,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 runBtn.innerHTML = `<i class="bi bi-play-fill me-sm-2"></i> <span>Run Code</span>`;
             }
         }
+        
         // 2️⃣ INTERCEPT SUBMIT EXAM BUTTON ACTION (RAISES BEAUTIFUL MODAL PROMPT)
         if (target && (target.id === "codesubmit" || target.closest("#codesubmit"))) {
             event.preventDefault();

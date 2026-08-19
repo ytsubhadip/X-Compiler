@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-from langchain_core.messages import HumanMessage, AIMessage
+from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 
 from services.llm_service import Mistral_model
 
@@ -10,7 +10,36 @@ route = APIRouter(
     tags=["chat"]
     )
 
-chat_history = []
+PRODUCT_INFO = """
+X Compiler is an online coding platform.
+
+Features:
+- Online code editor
+- Code execution
+- Supports Python, C, C++, Java and JavaScript
+- provied Online editor
+- Coding questions and test cases
+- Student and teacher functionality
+"""
+
+SYSTEM_PROMPT = f"""
+You are the official AI assistant for X Compiler.
+
+PRODUCT:{PRODUCT_INFO}
+
+Rules:
+- Answer only questions about X Compiler, its features, usage, pricing, supported languages, and services.
+- If a question is unrelated, politely say you can only help with X Compiler.
+- Never invent company or product information.
+- Keep answers short and clear.
+"""
+
+
+
+
+chat_history = [
+    SystemMessage(content=SYSTEM_PROMPT)
+]
 
 class UserPrompt(BaseModel):
     message:str

@@ -500,6 +500,119 @@ app.get("/api/tests/history", async (req, res) => {
     }
 });
 
+app.get("/api/tests/available", async (req, res) => {
+    try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({ error: "Missing authentication credentials." });
+        }
+
+        const userId = authHeader.split(" ")[1].replace("session-auth-token-", "");
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(401).json({ error: "Invalid user identity." });
+        }
+
+        const student = await User.findById(userId).select("department semester").lean();
+        if (!student) {
+            return res.status(404).json({ error: "Student profile not found." });
+        }
+
+        const normalizeDepartment = value => {
+            const normalized = String(value || "")
+                .toLowerCase()
+                .replace(/[^a-z0-9]/g, "");
+
+            return normalized
+                .replace(/^bsc/, "")
+                .replace(/^bachelorofscience/, "");
+        };
+        const studentDepartment = normalizeDepartment(student.department);
+        const tests = await Test.find().sort({ createdAt: -1 }).lean();
+        const availableTests = studentDepartment
+            ? tests.filter(test => {
+                const testDepartment = normalizeDepartment(test.department);
+                return testDepartment === studentDepartment ||
+                    testDepartment.includes(studentDepartment) ||
+                    studentDepartment.includes(testDepartment);
+            })
+            : tests;
+
+        return res.status(200).json({
+            status: "success",
+            department: student.department || "",
+            tests: availableTests
+        });
+    } catch (err) {
+        console.error("Available student tests fetch failure:", err);
+        return res.status(500).json({ error: "Unable to retrieve available exams." });
+    }
+});
+
+// =========================================================================
+// REST ENDPOINT: RETRIEVE THE AUTHENTICATED STUDENT'S EXAM RESULTS
+// =========================================================================
+app.get("/api/tests/student-results", async (req, res) => {
+    try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({ error: "Missing authentication credentials." });
+        }
+
+        const studentId = authHeader.split(" ")[1].replace("session-auth-token-", "");
+        if (!mongoose.Types.ObjectId.isValid(studentId)) {
+            return res.status(401).json({ error: "Invalid student identity." });
+        }
+
+        const results = await Submission.find({ studentId })
+            .populate("testId", "title testcode department")
+            .sort({ submittedAt: -1 });
+
+        return res.status(200).json({
+            status: "success",
+            results
+        });
+    } catch (err) {
+        console.error("Student results fetch failure:", err);
+        return res.status(500).json({ error: "Unable to retrieve student exam results." });
+    }
+});
+
+// =========================================================================
+// REST ENDPOINT: RETRIEVE SUBMISSIONS FOR THE AUTHENTICATED TEACHER'S TESTS
+// =========================================================================
+app.get("/api/tests/submissions", async (req, res) => {
+    try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({ error: "Missing authentication credentials." });
+        }
+
+        const teacherId = authHeader.split(" ")[1].replace("session-auth-token-", "");
+        if (!mongoose.Types.ObjectId.isValid(teacherId)) {
+            return res.status(401).json({ error: "Invalid teacher identity." });
+        }
+
+        const teacherTests = await Test.find({ createdBy: teacherId })
+            .select("title testcode department semester duration createdAt")
+            .lean();
+        const testIds = teacherTests.map(test => test._id);
+        const submissions = await Submission.find({ testId: { $in: testIds } })
+            .populate("studentId", "name email rollnumber department semester")
+            .populate("testId", "title testcode department semester duration")
+            .sort({ submittedAt: -1 })
+            .lean();
+
+        return res.status(200).json({
+            status: "success",
+            tests: teacherTests,
+            submissions
+        });
+    } catch (err) {
+        console.error("Teacher submissions fetch failure:", err);
+        return res.status(500).json({ error: "Unable to retrieve student submissions." });
+    }
+});
+
 // =========================================================================
 // REST ENDPOINT: RETRIEVE SINGLE TEST DETAILS
 // =========================================================================
@@ -763,7 +876,7 @@ app.post("/api/admin/approve-teacher/:id", async (req, res) => {
 
         let emailSent = false;
         console.log(updatedTeacher.email);
-        
+
         try {
             const result = await sendEmail({
                 to: updatedTeacher.email,

@@ -360,8 +360,8 @@
             chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
 
 
-            url = "https://x-compiler-fastapi-backend.onrender.com/api/chat/"
-            // const url = "http://127.0.0.1:5000/api/chat/"
+            // url = "https://x-compiler-fastapi-backend.onrender.com/api/chat/"
+            const url = "http://127.0.0.1:5000/api/chat/"
             // fetch user query
             response = await fetch(url, {
                 method: "POST",
@@ -380,7 +380,7 @@
             const data = await response.json();
 
             // botMsg.innerHTML =  DOMPurify.sanitize(marked.parse(data.responaes));
-            botMsg.innerHTML = (data.responaes);
+            botMsg.innerHTML = marked.parse(data.responaes);
 
             // Scroll to bottom
             chatbotMessages.scrollTop = chatbotMessages.scrollHeight;

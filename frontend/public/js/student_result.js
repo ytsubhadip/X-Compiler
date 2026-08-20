@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const chartBarsContainer = document.getElementById("chartBarsContainer");
 
     // =========================================================================
-    // 3. STATE AND MOCK DATA STORE
+    // 3. STATE AND DATA STORE
     // =========================================================================
     let allTests = [];
     let studentSubmissions = [];
@@ -56,102 +56,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Pagination state
     let currentPage = 1;
     const pageSize = 4; // Display exactly 4 rows to match the reference image default look
-
-    // Seed list of mock names for dynamic generation
-    const firstNames = [
-        "Alex", "Sarah", "James", "Emma", "Maya", "David", "Li", "John", "Sophia", "Michael", 
-        "Olivia", "William", "Daniel", "Emily", "Lucas", "Ava", "Alexander", "Isabella", 
-        "Ethan", "Mia", "Benjamin", "Charlotte", "Henry", "Amelia", "Joseph", "Harper"
-    ];
-    const lastNames = [
-        "Rivera", "Miller", "Lee", "Wong", "Kapoor", "Smith", "Chen", "Davis", "Johnson", 
-        "Rodriguez", "Martinez", "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", 
-        "Martin", "Lee", "Perez", "Thompson", "White", "Harris", "Sanchez", "Clark", "Ramirez"
-    ];
-    const mockDepartments = ["Bsc Data Science", "Bsc Cyber Security", "BCA", "Eng - Year 3", "Design - Year 2", "Eng - Year 4"];
-
-    // Dynamic generation of deterministic mock dataset
-    function generateMockSubmissions(tests) {
-        const dataset = [];
-        // Base seed data matching the image exactly
-        const exactMatches = [
-            { name: "Alex Rivera", initials: "AR", id: "ID-2024-001", score: 94, status: "Graded", timeSpentSec: 2535, dept: "Bsc Data Science" },
-            { name: "Sarah Miller", initials: "SM", id: "ID-2024-042", score: 72, status: "Graded", timeSpentSec: 2430, dept: "Bsc Cyber Security" },
-            { name: "James Lee", initials: "JL", id: "ID-2024-015", score: 48, status: "Pending", timeSpentSec: 2940, dept: "BCA" },
-            { name: "Emma Wong", initials: "EW", id: "ID-2024-089", score: 88, status: "Graded", timeSpentSec: 2115, dept: "Bsc Data Science" },
-            { name: "Maya Kapoor", initials: "MK", id: "ID-2024-112", score: 99, status: "Graded", timeSpentSec: 1845, dept: "Eng - Year 3" },
-            { name: "David Smith", initials: "DS", id: "ID-2024-203", score: 97, status: "Graded", timeSpentSec: 2010, dept: "Design - Year 2" },
-            { name: "Li Chen", initials: "LC", id: "ID-2024-150", score: 96, status: "Graded", timeSpentSec: 1995, dept: "Eng - Year 4" }
-        ];
-
-        // Add exact matches first to guarantee their presence
-        exactMatches.forEach((m, idx) => {
-            const testIndex = idx % (tests.length || 1);
-            const associatedTest = tests[testIndex] || { _id: "default_id", title: "General Coding Test", department: m.dept };
-            dataset.push({
-                name: m.name,
-                initials: m.initials,
-                id: m.id,
-                score: m.score,
-                status: m.status,
-                timeSpentSec: m.timeSpentSec,
-                department: associatedTest.department || m.dept,
-                testId: associatedTest._id,
-                testTitle: associatedTest.title,
-                createdAt: new Date(Date.now() - (idx * 24 * 3600 * 1000)) // staggered dates
-            });
-        });
-
-        // Seed up to 1428 entries total to match the total count in the mockup
-        const targetTotal = 1428;
-        const remainingCount = targetTotal - dataset.length;
-
-        for (let i = 0; i < remainingCount; i++) {
-            // Determine name
-            const fnIdx = (i + 13) % firstNames.length;
-            const lnIdx = (i + 37) % lastNames.length;
-            const name = `${firstNames[fnIdx]} ${lastNames[lnIdx]}`;
-            const initials = firstNames[fnIdx].charAt(0) + lastNames[lnIdx].charAt(0);
-            
-            // Structured details
-            const idNumber = String(100 + i).padStart(3, "0");
-            const id = `ID-2024-${idNumber}`;
-            
-            // Score distribution logic: average score around 78%
-            let score;
-            const r = Math.random();
-            if (r < 0.12) {
-                score = Math.floor(Math.random() * 20) + 30; // Failures: 30-50 (12%)
-            } else if (r < 0.40) {
-                score = Math.floor(Math.random() * 20) + 50; // Average low: 50-70 (28%)
-            } else if (r < 0.85) {
-                score = Math.floor(Math.random() * 20) + 70; // Average high: 70-90 (45%)
-            } else {
-                score = Math.floor(Math.random() * 11) + 90; // High performers: 90-100 (15%)
-            }
-            
-            const status = score < 50 && Math.random() > 0.5 ? "Pending" : "Graded";
-            const timeSpentSec = Math.floor(Math.random() * 1800) + 1200; // 20m to 50m
-            
-            const testIndex = i % (tests.length || 1);
-            const associatedTest = tests[testIndex] || { _id: "default_id", title: "General Programming Assessment", department: mockDepartments[i % mockDepartments.length] };
-
-            dataset.push({
-                name,
-                initials,
-                id,
-                score,
-                status,
-                timeSpentSec,
-                department: associatedTest.department,
-                testId: associatedTest._id,
-                testTitle: associatedTest.title,
-                createdAt: new Date(Date.now() - (Math.floor(Math.random() * 45) * 24 * 3600 * 1000)) // up to 45 days ago
-            });
-        }
-
-        return dataset;
-    }
 
     // Convert seconds to human readable format: e.g. 42m 15s
     function formatTimeSpent(totalSeconds) {
@@ -164,8 +68,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 4. SYNCHRONIZE DATA WITH CLOUD INSTANCE
     // =========================================================================
     try {
-        // Fetch active test history configuration
-        const testResponse = await fetch("/api/tests/history", {
+        const submissionsResponse = await fetch("/api/tests/submissions", {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -173,29 +76,39 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
         });
 
-        if (testResponse.ok) {
-            const testData = await testResponse.json();
-            allTests = testData.tests || [];
+        if (submissionsResponse.ok) {
+            const submissionData = await submissionsResponse.json();
+            allTests = submissionData.tests || [];
+            studentSubmissions = (submissionData.submissions || []).map(submission => {
+                const student = submission.studentId || {};
+                const test = submission.testId || {};
+                const studentName = student.name || "Unknown student";
+
+                return {
+                    name: studentName,
+                    initials: studentName.split(/\s+/).map(part => part.charAt(0)).join("").slice(0, 2).toUpperCase(),
+                    id: student.rollnumber || String(student._id || "Unknown"),
+                    email: student.email || "",
+                    score: Number(submission.score) || 0,
+                    status: submission.status || "Pending",
+                    timeSpentSec: Math.max(0, Number(submission.timeSpentMins) || 0) * 60,
+                    department: student.department || test.department || "Not specified",
+                    semester: student.semester || test.semester || "Not specified",
+                    testId: String(test._id || submission.testId || ""),
+                    testTitle: test.title || "Unknown assessment",
+                    testCode: test.testcode || "",
+                    submittedAt: submission.submittedAt ? new Date(submission.submittedAt) : new Date(),
+                    createdAt: submission.submittedAt ? new Date(submission.submittedAt) : new Date(),
+                    answers: Array.isArray(submission.submissions) ? submission.submissions : []
+                };
+            });
         } else {
-            console.error("Test metadata download failed, falling back to dummy tests mapping.");
+            const errorData = await submissionsResponse.json().catch(() => ({}));
+            throw new Error(errorData.error || `Submissions request failed (${submissionsResponse.status})`);
         }
     } catch (fetchError) {
-        console.error("Network endpoint check breakdown:", fetchError);
+        console.error("Student submissions fetch failed:", fetchError);
     }
-
-    // Fallback tests if none created yet
-    if (allTests.length === 0) {
-        allTests = [
-            { _id: "test1", title: "Python Fundamentals Midterm", department: "Bsc Data Science", semester: 2, duration: 45 },
-            { _id: "test2", title: "Introduction to Cyber Defense", department: "Bsc Cyber Security", semester: 4, duration: 60 },
-            { _id: "test3", title: "Data Structures & Lab Test", department: "BCA", semester: 3, duration: 90 }
-        ];
-    }
-
-  
-
-    // Generate mock submissions based on the test list
-    studentSubmissions = generateMockSubmissions(allTests);
 
     // Check if test ID is provided in URL params (from Results button click)
     const urlParams = new URLSearchParams(window.location.search);
@@ -471,7 +384,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (filteredSubmissions.length === 0) {
             studentRecordsTableBody.innerHTML = `
                 <tr>
-                    <td colspan="5" class="text-center text-muted py-5">
+                    <td colspan="8" class="text-center text-muted py-5">
                         <i class="bi bi-search d-block h4 mb-2 opacity-50"></i>
                         No matching student records discovered.
                     </td>
@@ -512,10 +425,16 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <span class="student-name-text">${student.name}</span>
                 </td>
                 <td style="font-weight: 500;">${student.id}</td>
+                <td>
+                    <div>${student.testTitle}</div>
+                    <small class="text-muted">${student.testCode}</small>
+                </td>
+                <td>${student.department}</td>
                 <td class="student-score-text ${scoreColor}">${student.score}%</td>
                 <td>
                     <span class="status-pill-badge ${statusClass}">${student.status}</span>
                 </td>
+                <td>${student.submittedAt.toLocaleString("en-IN")}</td>
                 <td class="text-end">
                     <a href="#" class="btn-student-action" data-student-id="${student.id}">${actionText}</a>
                 </td>
@@ -525,7 +444,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             const actionBtn = tr.querySelector(".btn-student-action");
             actionBtn.addEventListener("click", (e) => {
                 e.preventDefault();
-                alert(`Redirecting to examine code submission history of ${student.name} (${student.id}) for assessment "${student.testTitle}"...`);
+                const answerDetails = student.answers.length > 0
+                    ? student.answers.map((answer, index) => `Question ${index + 1} (${answer.questionId})\n${answer.submittedCode || "No code submitted"}`).join("\n\n")
+                    : "No submitted answers found.";
+                alert(`Student: ${student.name}\nEmail: ${student.email || "N/A"}\nRoll Number: ${student.id}\nDepartment: ${student.department}\nSemester: ${student.semester}\nAssessment: ${student.testTitle}\nScore: ${student.score}/100\nStatus: ${student.status}\nSubmitted: ${student.submittedAt.toLocaleString("en-IN")}\n\n${answerDetails}`);
             });
 
             studentRecordsTableBody.appendChild(tr);

@@ -396,7 +396,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const response = await fetch("/api/tests/submit-evaluation", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("authToken") || ""}`
+                },
                 body: JSON.stringify({
                     testId: activeExamId,
                     submissions: answersPayload

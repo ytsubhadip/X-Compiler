@@ -51,8 +51,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 4. FETCH ASSESSMENT LIST METRICS & RENDER UPCOMING EXAMS
     // =========================================================================
     let availableTests = [];
+    let testsLoadFailed = false;
     try {
-        const testsResponse = await fetch("/api/tests/history", {
+        const testsResponse = await fetch("/api/tests/available", {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -63,22 +64,32 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (testsResponse.ok) {
             const data = await testsResponse.json();
             availableTests = data.tests || [];
+        } else {
+            const errorData = await testsResponse.json().catch(() => ({}));
+            throw new Error(errorData.error || `Exam request failed (${testsResponse.status})`);
         }
     } catch (err) {
+        testsLoadFailed = true;
         console.error("Test fetch collapsed:", err);
-    }
-
-    // Default Fallback assessments if DB is empty
-    if (availableTests.length === 0) {
-        availableTests = [
-            { _id: "ds_final", title: "Data Structures Final", testcode: "CSE-381", duration: 90, department: "CSE" },
-
-        ];
+        upcomingExamsContainer.innerHTML = `
+            <div class="col-12 text-center text-danger py-4">
+                Unable to load department exams. Please sign in again and retry.
+            </div>
+        `;
     }
 
     // Render Upcoming Exams Section
     function renderUpcomingExams(tests) {
         upcomingExamsContainer.innerHTML = "";
+
+        if (tests.length === 0) {
+            upcomingExamsContainer.innerHTML = `
+                <div class="col-12 text-center text-muted py-4">
+                    No exams are available for your department.
+                </div>
+            `;
+            return;
+        }
 
         tests.forEach((test, idx) => {
             const col = document.createElement("div");
@@ -126,6 +137,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                         <h3 class="exam-title-text">${test.title}</h3>
                         <div class="exam-meta-details">
                             <div class="meta-detail-row">
+                                <i class="bi bi-building"></i>
+                                <span>${test.department || "Department not set"}</span>
+                            </div>
+                            <div class="meta-detail-row">
                                 <i class="bi bi-stopwatch"></i>
                                 <span>${test.duration} mins duration</span>
                             </div>
@@ -169,7 +184,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         localStorage.removeItem("examTimeRemaining");
         localStorage.removeItem("activeExamQuestionsList");
         localStorage.removeItem("activeExamCurrentIndex");
-        
+
         // Remove code draft caches from previous tests
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
@@ -188,34 +203,48 @@ document.addEventListener("DOMContentLoaded", async () => {
         window.location.href = "/exam-portal";
     }
 
-    renderUpcomingExams(availableTests);
+    if (!testsLoadFailed) {
+        renderUpcomingExams(availableTests);
+    }
 
     // =========================================================================
-    // 5. RENDER RECENTLY ATTENDED EXAMS (MATCHING THE REFERENCE MOCKUPS)
+    // 5. FETCH AND RENDER RECENTLY ATTENDED EXAMS
     // =========================================================================
-    const recentlyAttendedExams = [
-        {
-            title: "Database Systems Midterm",
-            code: "DB-101",
-            score: 85,
-            isHighlighted: true
-        },
-        {
-            title: "Operating Systems Quiz",
-            code: "OS-202",
-            score: 92,
-            isHighlighted: false
-        },
-        {
-            title: "Networking Fundamentals",
-            code: "NET-305",
-            score: 78,
-            isHighlighted: false
+    let recentlyAttendedExams = [];
+    try {
+        const resultsResponse = await fetch("/api/tests/student-results", {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (resultsResponse.ok) {
+            const resultData = await resultsResponse.json();
+            recentlyAttendedExams = (resultData.results || []).map((result, index) => ({
+                title: result.testId?.title || "Exam result",
+                code: result.testId?.testcode || "EXAM",
+                score: Number(result.score) || 0,
+                isHighlighted: index === 0,
+                status: result.status || "Pending"
+            }));
         }
-    ];
+    } catch (err) {
+        console.error("Student results fetch failed:", err);
+    }
 
     function renderRecentlyAttended(exams) {
         recentlyAttendedContainer.innerHTML = "";
+
+        if (exams.length === 0) {
+            recentlyAttendedContainer.innerHTML = `
+                <div class="col-12 text-center text-muted py-4">
+                    No exam results available yet.
+                </div>
+            `;
+            return;
+        }
 
         exams.forEach(exam => {
             const col = document.createElement("div");
@@ -231,7 +260,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <div class="completed-exam-card ${highlightClass}">
                     <div>
                         <div class="exam-card-header">
-                            <span class="exam-badge completed">COMPLETED</span>
+                            <span class="exam-badge completed">${exam.status.toUpperCase()}</span>
                             <span class="course-code-text">${exam.code}</span>
                         </div>
                         <h3 class="exam-title-text">${exam.title}</h3>

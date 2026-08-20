@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
+
+  
   // -------------------------------------------------------------------------
   // HELPER: show/hide skeleton loaders
   // -------------------------------------------------------------------------

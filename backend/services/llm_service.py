@@ -8,8 +8,8 @@ load_dotenv()
 #configer LL model 
 Mistral_model = ChatMistralAI(
     model="mistral-small-latest",
-    temperature=0.5,
+    temperature=0.7,
     api_key= os.getenv("MISTRAL_API"),
-    max_tokens=100
+    max_tokens = 30
 )
 

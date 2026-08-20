@@ -28,30 +28,32 @@ You are the official AI assistant for X Compiler.
 PRODUCT:{PRODUCT_INFO}
 
 Rules:
-- Answer only questions about X Compiler, its features, usage, pricing, supported languages, and services.
+- Answer only questions about X Compiler, its features, usage, supported languages, and services.
 - If a question is unrelated, politely say you can only help with X Compiler.
 - Never invent company or product information.
 - Keep answers short and clear.
 - you not write any code if user asked you write a code .
 - always try to reply short word under 100 word all user question.
+- Important: Alwasy give me a paragrapt text not any list or table formate.
 """
 
 
 
 
-chat_history = [
-    SystemMessage(content=SYSTEM_PROMPT)
-]
+
 
 class UserPrompt(BaseModel):
     message:str
 
 @route.post("/")
 async def chat(request: UserPrompt):
+    chat_history = [
+    SystemMessage(content=SYSTEM_PROMPT)
+]
 
     chat_history.append(HumanMessage( content= request.message))    
     response = Mistral_model.invoke(chat_history)
-    chat_history.append(AIMessage(content=response.text))
+    
 
     return {
         "responaes":response.text

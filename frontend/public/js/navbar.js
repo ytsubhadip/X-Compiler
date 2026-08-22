@@ -66,9 +66,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     <button class="dropdown-profile-btn" id="btnProfileAction">
                         <i class="bi bi-person-circle"></i> View Profile
                     </button>
-                    <button class="dropdown-logout-btn" id="btnLogoutAction">
-                        <i class="bi bi-box-arrow-left"></i> Log Out
-                    </button>
                 </div>
             </div>
         `;
@@ -166,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // Check session log out trigger matching
+            // Check session logout trigger matching
             const logoutBtn = e.target.closest(".dropdown-logout-btn");
             if (logoutBtn) {
                 e.stopPropagation();

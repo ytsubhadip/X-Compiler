@@ -380,14 +380,17 @@ app.get("/api/auth/me", async (req, res) => {
         if (!userProfileInstance) {
             return res.status(404).json({ error: "User session details not found." });
         }
-
+      
         return res.status(200).json({
             name: userProfileInstance.name,
             email: userProfileInstance.email,
             role: userProfileInstance.role,
-            rollnumber: userProfileInstance.rollnumber || "N/A",
-            department: userProfileInstance.department || "",
+            teacherId: userProfileInstance.teacherId,
+            rollnumber: userProfileInstance.rollnumber || null,
+            department: userProfileInstance.department || "null",
             semester: userProfileInstance.semester || null
+           
+           
         });
 
     } catch (err) {

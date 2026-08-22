@@ -367,6 +367,16 @@
         margin-top: 40px;
     }
 
+    .nav-actions-mobile .user-profile-menu {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .nav-actions-mobile .profile-avatar-trigger {
+        align-self: center;
+    }
+
     .nav-actions-mobile .btn-signin,
     .nav-actions-mobile .btn-signup {
         width: 100%;
@@ -380,6 +390,7 @@
         top: 0;
         right: 0;
         width: 100%;
+        box-sizing: border-box;
         box-shadow: none;
         background: transparent;
         border: none;

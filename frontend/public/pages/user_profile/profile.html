@@ -1,149 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>My Profile — X Compiler</title>
-  <meta name="description"
-    content="View and manage your X-Compiler account profile, personal details, and academic information." />
-  <link rel="icon" type="image/png" href="/asset/logo.png">
-
-  <!-- cdn link  -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-    integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
-
-  <!-- css file -->
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/css/navbar.css">
-  <link rel="stylesheet" href="/css/profile.css">
-  <script src="/js/custom-alert.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="css/profile.css">
 </head>
-
-
 <body>
-  <nav class="custom-navbar"></nav>
 
-  <main class="profile-main">
-    <div class="profile-container">
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark"></span> X compiler ID</div>
 
-      <!-- ── AVATAR & IDENTITY SECTION ── -->
-      <div class="avatar-section">
-        <div class="profile-avatar-circle" id="avatarCircle">
-          <span id="avatarInitials">U</span>
-          <div class="avatar-overlay">
-            <i class="bi bi-camera"></i>
+    <nav class="nav">
+      <div class="nav-eyebrow">Menu</div>
+
+      <div class="nav-item active" data-view="profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"/></svg>
+        Profile
+      </div>
+
+      <div class="nav-item" data-view="history">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 3"/></svg>
+        History
+        <span class="badge">4</span>
+      </div>
+      <div class="nav-item" data-view="account">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
+        Account
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="status-pill"><span class="status-dot"></span> Session active</div>
+      <div class="logout-btn" id="logoutBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+        Log out
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- PROFILE VIEW -->
+    <section class="view active" id="view-profile">
+      <div class="profile-head">
+        <div class="avatar-wrap">
+          <div class="avatar" id="avatarCircle">
+            <i class="fa-solid fa-user" style="color: rgb(18, 17, 17);"></i>
+          </div>
+          <div class="avatar-edit" title="Change photo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
           </div>
         </div>
-        <input type="file" id="avatarInput" accept="image/*">
-        <h1 id="profileName" class="skeleton skeleton-text">
-          &nbsp;
-        </h1>
-        <span class="badge-role skeleton" id="profileRoleBadge">&nbsp;</span>
-
-      </div>
-
-      <!-- ── INFO DETAILS SECTION ── -->
-      <div class="profile-details">
-        <div class="detail-item">
-          <label><i class="bi bi-envelope me-2"></i>Email Address</label>
-          <span id="profileEmail" class="skeleton skeleton-inline">&nbsp;</span>
-        </div>
-
-        <div class="detail-item student-only" id="studentDeptGroup">
-          <label><i class="bi bi-building me-2"></i>Department</label>
-          <span id="profileDept" class="skeleton skeleton-inline">&nbsp;</span>
-        </div>
-
-        <div class="detail-item student-only" id="studentSemGroup">
-          <label><i class="bi bi-mortarboard me-2"></i>Semester</label>
-          <span id="profileSem" class="skeleton skeleton-inline">&nbsp;</span>
-        </div>
-
-        <div class="detail-item student-only" id="studentRollGroup">
-          <label><i class="bi bi-hash me-2"></i>Roll Number</label>
-          <span id="profileRoll" class="skeleton skeleton-inline">&nbsp;</span>
+        <div class="head-text">
+          <h1 id="nameDisplay"></h1>
+          <div class="tag-row">
+            <span class="tag" id="userRole"></span>
+           
+          </div>
         </div>
       </div>
 
-      <!-- ── ACTION BUTTONS ── -->
-      <div class="profile-actions">
-        <button type="button" class="action-btn secondary-btn" id="btnBackHome">
-          <i class="bi bi-arrow-left"></i> Home
-        </button>
-        <button type="button" class="action-btn primary-btn" id="btnEditProfile">
-          <i class="bi bi-pencil-square"></i> Edit Profile
-        </button>
+      <p class="section-title">Contact & Academic Info</p>
+      <div class="detail-card">
+        <div class="detail-row">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div>
+          <div class="detail-label">Email Address</div>
+          <div class="detail-value" data-field="email" id="userEmail"></div>
+        </div>
+        <div class="detail-row" id="departmentRow">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V7l9-4 9 4v14"/><path d="M9 21v-6h6v6"/></svg></div>
+          <div class="detail-label">Department</div>
+          <div class="detail-value" data-field="dept" id="userDepartment"></div>
+        </div>
+        <div class="detail-row" id="semesterRow">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></div>
+          <div class="detail-label">Semester</div>
+          <div class="detail-value" data-field="sem" id="userSemester"></div>
+        </div>
+        <div class="detail-row">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"/></svg></div>
+          <div class="detail-label">Unique ID</div>
+          <div class="detail-value" data-field="roll" id="userRollnumber"></div>
+        </div>
       </div>
 
-    </div>
+      <div class="actions-row">
+        <div class="btn ghost" id="homeBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 10 9-7 9 7"/><path d="M5 9v11h14V9"/></svg>
+          Home
+        </div>
+        <div class="btn primary" id="editBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          Edit Profile
+        </div>
+      </div>
+    </section>
+
+
+    <!-- HISTORY VIEW -->
+    <section class="view" id="view-history">
+      <p class="section-title">Recent Activity</p>
+      <div class="history-list">
+        <div class="history-item">
+          <div class="history-dot"></div>
+          <div class="history-body">
+            <div class="history-title">Profile details updated</div>
+            <div class="history-meta">21 AUG 2026 &middot; 10:42 AM</div>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-dot"></div>
+          <div class="history-body">
+            <div class="history-title">Semester marked as 4th</div>
+            <div class="history-meta">18 AUG 2026 &middot; 6:05 PM</div>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-dot"></div>
+          <div class="history-body">
+            <div class="history-title">Logged in from new device</div>
+            <div class="history-meta">15 AUG 2026 &middot; 8:57 AM</div>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-dot"></div>
+          <div class="history-body">
+            <div class="history-title">Account created</div>
+            <div class="history-meta">02 JUL 2026 &middot; 11:20 AM</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACCOUNT VIEW -->
+    <section class="view" id="view-account">
+      <p class="section-title">Preferences</p>
+
+      <div class="toggle-row">
+        <div class="toggle-copy">
+          <div class="t-title">Email notifications</div>
+          <div class="t-sub">Get notified about notice-board updates</div>
+        </div>
+        <div class="switch on" data-toggle></div>
+      </div>
+      
+      <div class="danger-zone">
+        <div class="t-title">Delete account</div>
+        <div class="t-sub">This permanently removes your profile and data.</div>
+        <div class="actions-row" style="margin-top:10px;">
+          <div class="btn" style="border-color:#eac9c1; color:var(--danger);" id="deleteBtn">Delete account</div>
+        </div>
+      </div>
+    </section>
+
   </main>
+</div>
 
-  
-  <!-- ══════════════════════════════════════════════════
-       EDIT PROFILE MODAL
-  ══════════════════════════════════════════════════ -->
-  <div id="editProfileModal" class="edit-modal-backdrop" role="dialog" aria-modal="true" aria-label="Edit Profile">
-    <div id="modalOverlay" class="modal-overlay"></div>
-    <div class="edit-modal-card">
-      <div class="modal-header-row">
-        <div>
-          <h2 class="modal-title">Edit Profile</h2>
-          <p class="modal-subtitle">Update your display name and details</p>
-        </div>
-        <button class="modal-close-btn" id="modalClose" aria-label="Close modal">
-          <i class="bi bi-x-lg"></i>
-        </button>
-      </div>
+<div class="toast" id="toast">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+  <span id="toastMsg">Saved</span>
+</div>
 
-      <form id="editProfileForm" autocomplete="off" novalidate>
-        <div class="form-field-group">
-          <label class="field-label" for="editName">Display Name</label>
-          <div class="field-input-wrapper">
-            <i class="bi bi-person field-icon"></i>
-            <input type="text" id="editName" class="field-input" placeholder="Your full name" maxlength="60" required />
-          </div>
-        </div>
-
-        <div class="form-field-group student-only" style="display: none;">
-          <label class="field-label" for="editDept">Department</label>
-          <div class="field-input-wrapper">
-            <i class="bi bi-building field-icon"></i>
-            <input type="text" id="editDept" class="field-input" placeholder="e.g. Bsc Data Science" maxlength="80"
-              disabled />
-          </div>
-          <p class="field-hint">Contact your institution admin to change department</p>
-        </div>
-
-        <div class="form-field-group student-only" style="display: none;">
-          <label class="field-label" for="editSem">Semester</label>
-          <div class="field-input-wrapper">
-            <i class="bi bi-mortarboard field-icon"></i>
-            <input type="number" id="editSem" class="field-input" placeholder="e.g. 4" min="1" max="12" disabled />
-          </div>
-          <p class="field-hint">Contact your institution admin to change semester</p>
-        </div>
-
-        <div class="modal-actions">
-          <button type="button" class="action-btn secondary-btn" id="cancelEditBtn">Cancel</button>
-          <button type="submit" class="action-btn primary-btn" id="saveProfileBtn">
-            <i class="bi bi-check-lg"></i> Save Changes
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <script src="/js/navbar.js"></script>
-  <script src="/js/profile/user_profile.js"></script>
-  <script src="/js/inspect_off.js"></script>
+<script src="js/profile/user_profile.js"></script>
 </body>
-
 </html>

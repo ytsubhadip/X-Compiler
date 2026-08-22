@@ -268,6 +268,9 @@
                             class="fab fa-linkedin-in"></i></a>
                     <a href="https://x.com/Xcompiler2026" aria-label="X" target="_blank"><i
                             class="fab fa-square-x-twitter"></i></a>
+                    <a href="https://discord.gg/Sz4QefMdz" aria-label="discord" target="_blank">
+                        <i class="fa-brands fa-discord" ></i>
+                    </a>
                 </div>
                 <div class="contact-emial" style="margin-top: 10px;">
 
@@ -360,8 +363,9 @@
             chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
 
 
-            // url = "https://x-compiler-fastapi-backend.onrender.com/api/chat/"
-            const url = "http://127.0.0.1:5000/api/chat/"
+            url = "https://x-compiler-fastapi-backend.onrender.com/api/chat/"
+            
+            // const url = "http://127.0.0.1:5000/api/chat/"
             // fetch user query
             response = await fetch(url, {
                 method: "POST",

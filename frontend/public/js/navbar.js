@@ -38,6 +38,8 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             // Students see the interactive exam entry portal path (Spelling fixed!)
             centerLinks += `<li><a href="/student-dash" class="nav-link ${currentPath === '/student-dash' ? 'active' : ''}">Exam Dashboard</a></li>`;
+
+             centerLinks += `<li><a href="/coding-contest" class="nav-link ${currentPath === '/coding-contest' ? 'active' : ''}">Coding Contest</a></li>`;
         }
     }
 

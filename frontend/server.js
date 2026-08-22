@@ -202,6 +202,7 @@ app.get('/favicon.ico', (req, res) => res.status(204).end());
 app.get("/forgot-password", (req, res) => res.sendFile(path.join(__dirname, "public", "pages", "auth", "formate.html")));
 app.get("/student-dash", (req, res) => res.sendFile(path.join(__dirname, "public", "pages", "student-dash", "dashboard.html")));
 app.get("/status", (req, res) => res.json({ status: "ok", uptime: process.uptime() }));
+app.get('/coding-contest',(req, res) =>res.sendFile(path.join(__dirname, "public", "pages", "student-dash", "coding-contest.html")) );
 
 // =========================================================================
 // REST ENDPOINT: USER REGISTRATION LIFECYCLE (UPDATED FOR HEADLESS ADMIN)

@@ -89,6 +89,9 @@
 
 
 async function loadUserProfile() {
+
+  const loader = document.getElementById("profileLoader");
+  const loaderStartTime = Date.now();
     try {
         const token = localStorage.getItem("authToken");
         const response = await fetch("/api/auth/me", {
@@ -136,6 +139,12 @@ async function loadUserProfile() {
 
     } catch (error) {
         console.error("Profile loading error:", error);
+    } finally {
+      const remainingTime = 2000 - (Date.now() - loaderStartTime);
+      if (remainingTime > 0) {
+        await new Promise(resolve => setTimeout(resolve, remainingTime));
+      }
+      loader.hidden = true;
     }
 }
 

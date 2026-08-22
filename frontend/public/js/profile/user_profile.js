@@ -105,7 +105,7 @@ async function loadUserProfile() {
         if (!response.ok) {
             throw new Error(data.error || "Failed to fetch user profile");
         }
-        console.table(data)
+      
        // Common information
 
         document.getElementById("userRole").innerText = data.role
@@ -122,7 +122,7 @@ async function loadUserProfile() {
 
             document.getElementById("departmentRow").style.display = "none";
             document.getElementById("semesterRow").style.display = "none";
-            document.getElementById("userRollnumber").textContent =data.teacherCode;
+            document.getElementById("userRollnumber").textContent =data.teacherId;
 
         } else {
 

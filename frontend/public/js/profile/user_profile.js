@@ -26,7 +26,32 @@
   const editBtn = document.getElementById('editBtn');
   const editableFields = document.querySelectorAll('.detail-value[data-field]');
   const nameDisplay = document.getElementById('nameDisplay');
+  const avatarCircle = document.getElementById('avatarCircle');
+  const avatarImage = document.getElementById('avatarImage');
+  const avatarEdit = document.getElementById('avatarEdit');
+  const profileImageInput = document.getElementById('profileImageInput');
   let editing = false;
+
+  function setAvatarInitials(name) {
+    const parts = name.trim().split(/\s+/);
+    const initials = (parts[0]?.[0] || '') + (parts[1]?.[0] || '');
+    avatarCircle.textContent = initials.toUpperCase();
+    avatarCircle.appendChild(avatarImage);
+    avatarImage.style.display = 'none';
+  }
+
+  function setAvatarImage(imageUrl, name) {
+    setAvatarInitials(name);
+    if (!imageUrl) return;
+
+    avatarImage.onload = () => {
+      avatarCircle.textContent = '';
+      avatarCircle.appendChild(avatarImage);
+      avatarImage.style.display = 'block';
+    };
+    avatarImage.onerror = () => setAvatarInitials(name);
+    avatarImage.src = imageUrl;
+  }
 
   editBtn.addEventListener('click', () => {
     editing = !editing;
@@ -38,10 +63,10 @@
     } else {
       editBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg> Edit Profile`;
       showToast('Profile updated');
-      // sync avatar initials if name changed
-      const parts = nameDisplay.textContent.trim().split(/\s+/);
-      const initials = (parts[0]?.[0] || '') + (parts[1]?.[0] || '');
-      document.getElementById('avatarCircle').textContent = initials.toUpperCase();
+      // Keep the existing photo while updating the fallback initials.
+      if (avatarImage.style.display !== 'block') {
+        setAvatarInitials(nameDisplay.textContent);
+      }
     }
   });
 
@@ -50,9 +75,52 @@
     showToast('Heading home…');
   });
 
-  // ---- Avatar click ----
-  document.querySelector('.avatar-edit').addEventListener('click', () => {
-    showToast('Photo upload coming soon');
+  // ---- Avatar upload ----
+  avatarEdit.addEventListener('click', () => profileImageInput.click());
+  avatarEdit.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      profileImageInput.click();
+    }
+  });
+
+  profileImageInput.addEventListener('change', async () => {
+    const file = profileImageInput.files[0];
+    const email = localStorage.getItem('userEmail');
+    if (!file) return;
+    if (!email) {
+      showToast('Your email could not be found');
+      return;
+    }
+    if (!['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
+      showToast('Choose a JPG or PNG image');
+      profileImageInput.value = '';
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('file', file);
+
+    try {
+      avatarEdit.classList.add('uploading');
+      const response = await fetch('http://localhost:5000/api/profile/upload', {
+        method: 'POST',
+        body: formData
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.detail || result.error || 'Upload failed');
+
+      localStorage.setItem('userAvatar', result.image_url);
+      setAvatarImage(result.image_url, nameDisplay.textContent || 'User');
+      showToast('Profile photo updated');
+    } catch (error) {
+      console.error('Profile image upload error:', error);
+      showToast(error.message || 'Could not upload photo');
+    } finally {
+      avatarEdit.classList.remove('uploading');
+      profileImageInput.value = '';
+    }
   });
 
   // ---- Toggles ----
@@ -75,9 +143,17 @@
 
   // home button add
   document.getElementById("homeBtn").addEventListener('click', function(e){
-    window.location.href = "/student-dash"
-
+   
+    if (localStorage.getItem("userRole") == 'student'){
+         window.location.href = "/student-dash"
+    }
+    else{
+      window.location.href = "/teacher/dashboard"
+    }
+   
   })
+  
+
 
   // logout button
   document.getElementById('logoutBtn').addEventListener('click',function(e){
@@ -110,11 +186,16 @@ async function loadUserProfile() {
         }
       
        // Common information
+       console.log(data)
+        
+          const image_url = data.profile_pic || data.image_url;
 
         document.getElementById("userRole").innerText = data.role
         document.getElementById('nameDisplay').innerText = data.name
+          setAvatarImage(image_url, data.name || 'User');
         document.getElementById("userEmail").textContent =
             data.email || "N/A";
+        if (data.email) localStorage.setItem('userEmail', data.email);
 
         document.getElementById("userRollnumber").textContent =
             data.rollnumber;
@@ -149,3 +230,5 @@ async function loadUserProfile() {
 }
 
 loadUserProfile();
+
+console.log(localStorage)

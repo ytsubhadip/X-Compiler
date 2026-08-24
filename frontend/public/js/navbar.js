@@ -49,14 +49,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (token) {
         // Create gorgeous uppercase avatar characters based on profile metadata
-        const savedAvatar = localStorage.getItem("userAvatar");
         const initialChar = name.trim().charAt(0).toUpperCase();
-        const avatarStyle = savedAvatar ? `background-image: url('${savedAvatar}'); background-size: cover; background-position: center; color: transparent;` : '';
         const dropdownStructure = `
             <div class="user-profile-menu">
                 <div class="profile-avatar-trigger" id="profileTrigger">
-                    <div class="avatar-circle" style="${avatarStyle}">
-                        <i class="fa-solid fa-user" style="color: rgb(18, 17, 17); style="font-size: 1.50rem;"></i>
+                    <div class="avatar-circle">
+                        <span>${initialChar}</span>
                     </div>
                 </div>
                 <div class="profile-dropdown-card" id="profileDropdown">
@@ -103,6 +101,14 @@ document.addEventListener("DOMContentLoaded", () => {
             </button>
         </div>
     `;
+
+    const savedAvatar = localStorage.getItem("userAvatar");
+    if (savedAvatar) {
+        navbarTarget.querySelectorAll('.avatar-circle').forEach((avatar) => {
+            avatar.style.backgroundImage = `url("${savedAvatar}")`;
+            avatar.classList.add('has-image');
+        });
+    }
 
     // Initialize responsive hamburger mobile drawer layouts
     const navToggle = document.getElementById("navToggle");

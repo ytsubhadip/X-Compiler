@@ -53,6 +53,7 @@ const UserSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true, lowercase: true },
     password: { type: String, required: true },
     role: { type: String, enum: ['student', 'teacher'], default: 'student' },
+    profile_image_url: { type: String, default: null },
 
     // 🟢 ADDED: Admin Approval Fields
     teacherId: { type: String, default: null },
@@ -350,6 +351,7 @@ app.post("/signin", async (req, res) => {
                 return res.status(401).json({ error: "Invalid Teacher Unique ID." });
             }
         }
+        console.log("Profile image URL:", userProfile.profile_image_url || "No profile image set");
 
         return res.status(200).json({
             message: "Authentication successful.",
@@ -383,14 +385,15 @@ app.get("/api/auth/me", async (req, res) => {
         }
       
         return res.status(200).json({
+            
             name: userProfileInstance.name,
             email: userProfileInstance.email,
             role: userProfileInstance.role,
             teacherId: userProfileInstance.teacherId,
             rollnumber: userProfileInstance.rollnumber || null,
             department: userProfileInstance.department || "null",
-            semester: userProfileInstance.semester || null
-           
+            semester: userProfileInstance.semester || null,
+            profile_pic: userProfileInstance.profile_image_url || null
            
         });
 

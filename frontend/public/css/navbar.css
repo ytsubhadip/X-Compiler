@@ -146,6 +146,12 @@
     font-family: var(--font-sans);
 }
 
+.avatar-circle.has-image {
+    background-size: cover;
+    background-position: center;
+    color: transparent;
+}
+
 .profile-dropdown-card {
     position: absolute;
     top: calc(100% + 8px);

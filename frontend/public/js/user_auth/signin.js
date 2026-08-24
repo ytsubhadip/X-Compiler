@@ -73,6 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 localStorage.setItem("authToken", data.token);
                 localStorage.setItem("userRole", data.role);
                 localStorage.setItem("userName", data.name);
+        
 
                 // Update loader statement text on success
                 const signinBtnText = document.getElementById("signinBtnText");

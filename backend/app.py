@@ -7,7 +7,8 @@ from dotenv import load_dotenv
 import resend
 import uvicorn
 
-from routes.chatbot_route import route
+from routes.chatbot_route import route as chatbot
+from routes.profileUpload_route import route as uploadprofile
 
 load_dotenv()
 BASE_URL = os.getenv("BASE_URL")
@@ -24,7 +25,8 @@ app.add_middleware(
 
 )
 
-app.include_router(route)
+app.include_router(chatbot)
+app.include_router(uploadprofile)
 
 @app.get("/")
 async def root():

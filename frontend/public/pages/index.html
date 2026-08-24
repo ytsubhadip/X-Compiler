@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/navbar.css">
-    <style>
+    <style> 
         .chat-msg.thinking {
             display: inline-flex;
             align-items: center;
@@ -363,9 +363,9 @@
             chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
 
 
-            url = "https://x-compiler-fastapi-backend.onrender.com/api/chat/"
+            // url = "https://x-compiler-fastapi-backend.onrender.com/api/chat/"
             
-            // const url = "http://127.0.0.1:5000/api/chat/"
+            const url = "http://127.0.0.1:5000/api/chat/"
             // fetch user query
             response = await fetch(url, {
                 method: "POST",

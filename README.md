@@ -208,46 +208,6 @@ Browser Console
 
 ---
 
-# 📂 Project Structure
-
-A typical project structure looks like:
-
-```text
-X-Compiler/
-│
-├── 📁 public/
-│   ├── 📁 css/
-│   ├── 📁 js/
-│   └── 📁 images/
-│
-├── 📁 views/
-│   ├── index.html
-│   ├── login.html
-│   ├── signup.html
-│   ├── dashboard.html
-│   └── compiler.html
-│
-├── 📁 routes/
-│   ├── auth.js
-│   ├── compiler.js
-│   └── user.js
-│
-├── 📁 controllers/
-│
-├── 📁 models/
-│
-├── 📄 server.js
-├── 📄 package.json
-├── 📄 package-lock.json
-├── 📄 .env
-├── 📄 .gitignore
-└── 📄 README.md
-```
-
-
-
----
-
 # 💻 Example
 
 ### Write Code

@@ -12,13 +12,17 @@ from routes.profileUpload_route import route as uploadprofile
 
 load_dotenv()
 BASE_URL = os.getenv("BASE_URL")
-app = FastAPI()
+app = FastAPI(
+    docs_url=None,
+    redoc_url=None,
+    openapi_url=None
+)
 
 resend.api_key = os.getenv("RESEND_API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["https://byte-the-storm.onrender.com", "http://localhost:8000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]

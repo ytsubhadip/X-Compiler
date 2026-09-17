@@ -104,7 +104,7 @@
 
     try {
       avatarEdit.classList.add('uploading');
-      const response = await fetch('http://localhost:5000/api/profile/upload', {
+      const response = await fetch('https://x-compiler-fastapi-backend.onrender.com/api/profile/upload', {
         method: 'POST',
         body: formData
       });

@@ -45,13 +45,14 @@ class UserPrompt(BaseModel):
 
 @route.post("/")
 async def chat(request: UserPrompt):
-    chat_history = [
-    SystemMessage(content=SYSTEM_PROMPT)]
+    chat_history = [SystemMessage(content=SYSTEM_PROMPT)]
+    try:
+     chat_history.append(HumanMessage( content= request.message))    
+     response = Mistral_model.invoke(chat_history)
 
-    chat_history.append(HumanMessage( content= request.message))    
-    response = Mistral_model.invoke(chat_history)
+     return {"responaes":response.text}
+
+    except :
+       return{"responaes": "llm model not response"}
+
     
-
-    return {
-        "responaes":response.text
-    }
